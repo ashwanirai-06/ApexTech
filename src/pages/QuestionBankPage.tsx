@@ -185,21 +185,10 @@ export const QuestionBankPage: React.FC<QuestionBankPageProps> = ({
   };
 
   const handleRunTestCases = () => {
-    setTestResult({
-      executed: true,
-      passed: true,
-      message: `All Test Cases Executed in ${selectedLanguage} & Passed! ✅`,
-      details: currentQuestion.testCases.map((tc, idx) => ({
-        id: idx + 1,
-        input: tc.input,
-        expected: tc.expectedOutput,
-        actual: tc.expectedOutput,
-        passed: true,
-        runtime: `${Math.floor(Math.random() * 6) + 2}ms`,
-        memory: `${(Math.random() * 2 + 6).toFixed(1)}MB`
-      }))
-    });
-    setActiveTab('testcases');
+    const workspaceEl = document.getElementById('code-practice-workspace');
+    if (workspaceEl) {
+      workspaceEl.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   const handleResetFilters = () => {
@@ -715,21 +704,23 @@ export const QuestionBankPage: React.FC<QuestionBankPageProps> = ({
             </div>
 
             {/* Practice-First Workspace Component */}
-            <CodePracticeWorkspace
-              problemTitle={currentQuestion.title}
-              problemDescription={currentQuestion.description}
-              inputExample={currentQuestion.inputExample}
-              outputExample={currentQuestion.outputExample}
-              hints={currentQuestion.hints}
-              testCases={currentQuestion.testCases}
-              solutions={currentQuestion.solutions}
-              onVideoClick={() => setPlayingVideo({
-                title: currentQuestion.title,
-                youtubeId: currentQuestion.youtubeId,
-                query: currentQuestion.videoQuery || `${currentQuestion.title} ${currentQuestion.platform} solution`,
-                educator: currentQuestion.platform
-              })}
-            />
+            <div id="code-practice-workspace">
+              <CodePracticeWorkspace
+                problemTitle={currentQuestion.title}
+                problemDescription={currentQuestion.description}
+                inputExample={currentQuestion.inputExample}
+                outputExample={currentQuestion.outputExample}
+                hints={currentQuestion.hints}
+                testCases={currentQuestion.testCases}
+                solutions={currentQuestion.solutions}
+                onVideoClick={() => setPlayingVideo({
+                  title: currentQuestion.title,
+                  youtubeId: currentQuestion.youtubeId,
+                  query: currentQuestion.videoQuery || `${currentQuestion.title} ${currentQuestion.platform} solution`,
+                  educator: currentQuestion.platform
+                })}
+              />
+            </div>
 
           </div>
         </div>

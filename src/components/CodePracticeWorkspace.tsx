@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Code, Terminal, Play, CheckCircle2, XCircle, Lightbulb, ChevronDown, ChevronUp, Lock, Unlock, RotateCcw, Copy, Check, Cpu, FileCode2, Sparkles } from 'lucide-react';
+import { Code, Terminal, Play, CheckCircle2, XCircle, Lightbulb, ChevronDown, ChevronUp, Lock, Unlock, RotateCcw, Copy, Check, Cpu, FileCode2, Sparkles, FileCode } from 'lucide-react';
+import { evaluateUserCode } from '../utils/codeEvaluator';
 
 export interface TestCaseItem {
   input: string;
@@ -112,36 +113,22 @@ public class Solution {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const handleLoadSolution = () => {
+    setUserCode(getReferenceSolution());
+    setTestResult(null);
+  };
+
   const handleRunCode = () => {
-    // Check if student wrote code
-    const isDefault = userCode.includes('TODO: Start coding here') || userCode.trim().length < 40;
+    const result = evaluateUserCode(
+      userCode,
+      selectedLanguage,
+      testCases,
+      solutions,
+      problemTitle,
+      problemDescription
+    );
 
-    const details = testCases.map((tc, idx) => ({
-      id: idx + 1,
-      input: tc.input,
-      expected: tc.expectedOutput,
-      actual: isDefault ? 'No output generated (Empty implementation)' : tc.expectedOutput,
-      passed: !isDefault,
-      runtime: `${Math.floor(Math.random() * 6) + 2}ms`,
-      memory: `${(Math.random() * 2 + 8).toFixed(1)}MB`
-    }));
-
-    if (isDefault) {
-      setTestResult({
-        executed: true,
-        passed: false,
-        message: '⚠️ Code Submission Incomplete: Please write your algorithm logic inside solveProblem() before running tests!',
-        details
-      });
-    } else {
-      setTestResult({
-        executed: true,
-        passed: true,
-        message: '🎉 All Test Cases Executed & Passed Successfully!',
-        details
-      });
-    }
-
+    setTestResult(result);
     setActiveTab('testcases');
   };
 
@@ -232,7 +219,16 @@ public class Solution {
                 </span>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-wrap">
+                <button
+                  onClick={handleLoadSolution}
+                  className="flex items-center gap-1 px-2.5 py-1 rounded-lg border border-amber-500/40 bg-amber-950/60 text-[11px] text-amber-300 hover:text-white transition-all cursor-pointer font-bold"
+                  title="Load official reference solution into practice editor"
+                >
+                  <FileCode className="h-3 w-3" />
+                  <span>Load Official Code</span>
+                </button>
+
                 <button
                   onClick={handleResetUserCode}
                   className="flex items-center gap-1 px-2.5 py-1 rounded-lg border border-slate-700 bg-slate-800 text-[11px] text-slate-300 hover:text-white transition-all cursor-pointer"

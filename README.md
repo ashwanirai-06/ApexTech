@@ -16,7 +16,7 @@ A modern platform for DSA, AI-powered interview preparation, technical learning,
 
 ---
 
-# 📖 Overview
+# # 📖
 
 📖 Overview
 
