@@ -1,37 +1,29 @@
-<!-- <div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+<div align="center">
 
-# Run and deploy your AI Studio app
-
-This contains everything you need to run your app locally.
-
-View your app in AI Studio: https://ai.studio/apps/b8fe3c06-25cc-4caa-94b0-8a9738e85824
-
-## Run Locally
-
-**Prerequisites:**  Node.js
-
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev` -->
 # 🚀 ApexTech
 
-> AI-Powered Tech Career Engineering Platform for Engineering Students & Developers.
+### AI-Powered Tech Career Engineering Platform
 
-ApexTech is a modern web application that centralizes technical interview preparation, DSA practice, AI-powered learning, interview question banks, domain roadmaps, and performance analytics into a single platform.
+A modern platform that helps engineering students and aspiring software developers prepare for technical interviews through AI-powered learning, DSA practice, interview question banks, domain roadmaps, and performance analytics.
 
-🌐 **Live Demo:** https://radiant-licorice-8bf51b.netlify.app/
+### 🌐 Live Demo
+
+👉 https://radiant-licorice-8bf51b.netlify.app/
+
+</div>
 
 ---
 
-## ✨ Features
+# 📖 Overview
 
-- 🔐 Secure Authentication System
-- 📊 Personalized Dashboard
+ApexTech is a centralized platform designed to simplify technical interview preparation. It brings together DSA practice, AI-powered learning tools, interview question banks, structured roadmaps, and developer analytics into a single application.
+
+---
+
+# ✨ Features
+
+- 🔐 Secure Authentication
+- 📊 Personalized Developer Dashboard
 - 📚 3000+ Technical Interview Question Bank
 - 💻 Curated DSA Sheets
 - 🤖 AI Code Reviewer
@@ -40,25 +32,28 @@ ApexTech is a modern web application that centralizes technical interview prepar
 - 📈 Performance Analytics
 - 🎯 Weak Topic Detection
 - 🎥 Learning Resources
-- 👤 Developer Profile & Settings
+- 👤 Developer Profile
+- ⚙️ Theme & Settings
 
 ---
 
-## 🛠️ Tech Stack
+# 🛠️ Tech Stack
 
-| Category | Technologies |
-|----------|--------------|
-| Frontend | React, TypeScript, Vite, Tailwind CSS |
+| Category | Technology |
+|----------|------------|
+| Frontend | React, TypeScript, Vite |
+| Styling | Tailwind CSS |
 | Backend | Node.js, Express.js |
 | AI | Google Gemini API |
 | Database | SQL.js |
 
 ---
 
-## 📂 Project Structure
+# 📂 Project Structure
 
 ```text
 ApexTech
+│
 ├── assets/
 ├── src/
 │   ├── components/
@@ -68,49 +63,42 @@ ApexTech
 │   ├── utils/
 │   ├── App.tsx
 │   └── main.tsx
-├── server.ts
+│
+├── .env.example
 ├── package.json
+├── server.ts
 ├── vite.config.ts
-├── tsconfig.json
 └── README.md
 ```
 
 ---
 
-## 🚀 Getting Started
+# 🚀 Getting Started
 
-### Prerequisites
+## Prerequisites
 
 - Node.js
 - npm
 
-### Installation
-
-Clone the repository
+## Installation
 
 ```bash
-git clone https://github.com/your-username/ApexTech.git
-```
+git clone https://github.com/ashwanirai-06/ApexTech.git
 
-Navigate to the project directory
-
-```bash
 cd ApexTech
-```
 
-Install dependencies
-
-```bash
 npm install
 ```
 
-Create a `.env` (or `.env.local`) file and add your Gemini API key:
+## Environment Variables
+
+Create a `.env.local` file and add your Gemini API key.
 
 ```env
 GEMINI_API_KEY=YOUR_GEMINI_API_KEY
 ```
 
-Start the development server
+## Run the Project
 
 ```bash
 npm run dev
@@ -120,18 +108,6 @@ After the server starts, open the **Local** URL displayed in your terminal.
 
 ---
 
-## 🌍 Live Demo
+# 📄 License
 
-https://radiant-licorice-8bf51b.netlify.app/
-
----
-
-## 📌 Overview
-
-ApexTech provides a unified workspace for technical interview preparation by combining DSA practice, interview questions, AI-powered learning tools, domain roadmaps, and progress tracking into one modern developer platform.
-
----
-
-## 📄 License
-
-This project is intended for educational and learning purposes.
+This project is developed for educational and portfolio purposes.
