@@ -4,7 +4,7 @@
 
 # 🚀 ApexTech
 
-### AI-Powered Tech Career Engineering Platform
+### AI-Powered Learning and Interview Preparation Platform
 
 A modern platform for DSA, AI-powered interview preparation, technical learning, roadmaps, and performance analytics.
 
@@ -26,16 +26,16 @@ ApexTech is a centralized platform designed to simplify technical interview prep
 
 - 🔐 Secure Authentication
 - 📊 Personalized Developer Dashboard
-- 📚 3000+ Technical Interview Question Bank
+- 📚 Technical Interview Question Bank
 - 💻 Curated DSA Sheets
 - 🤖 AI Code Reviewer
 - 🎤 AI Technical Interviewer
 - 🛣️ Domain Roadmaps
 - 📈 Performance Analytics
-- 🎯 Weak Topic Detection
+- 🎯 Weak Topic Analysis
 - 🎥 Learning Resources
 - 👤 Developer Profile
-- ⚙️ Theme & Settings
+- ⚙️ Settings Management
 
 ---
 
@@ -141,11 +141,3 @@ Feel free to fork the repository and submit a pull request.
 # ⭐ Support
 
 If you found this project helpful, consider giving it a star.
-
----
-
-<div align="center">
-
-Made with ❤️ by the team.
-
-</div>
