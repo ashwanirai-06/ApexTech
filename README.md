@@ -1,14 +1,16 @@
 <div align="center">
 
+<img src="assets/banner.png" alt="ApexTech Banner" width="100%"/>
+
 # 🚀 ApexTech
 
 ### AI-Powered Tech Career Engineering Platform
 
-A modern platform that helps engineering students and aspiring software developers prepare for technical interviews through AI-powered learning, DSA practice, interview question banks, domain roadmaps, and performance analytics.
+A modern platform for DSA, AI-powered interview preparation, technical learning, roadmaps, and performance analytics.
 
-### 🌐 Live Demo
+🌐 **Live Demo**
 
-👉 https://radiant-licorice-8bf51b.netlify.app/
+https://radiant-licorice-8bf51b.netlify.app/
 
 </div>
 
