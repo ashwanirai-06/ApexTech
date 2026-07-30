@@ -108,12 +108,44 @@ npm run dev
 
 After the server starts, open the **Local** URL displayed in your terminal.
 
+# 👨‍💻 Team Members
+
+| Name           | Role                                                             |
+| -------------- | ---------------------------------------------------------------- |
+| Ashwani Rai    | Project Lead, Full-Stack Development, AI Integration, Deployment |
+| Abhinav Gupta  | UI Design, Testing, Documentation                                |
+| Aditya Gangwar | Research, Content Management, Question Bank Management           |
+| Abhishek Kumar | Quality Assurance, Resource Management, Presentation             |
+
 ---
 
-## 🤝 Contributing
+# 🤖 AI Integration
 
-Contributions, suggestions, and feedback are always welcome. Feel free to fork the repository and submit a pull request.
+This project utilizes Google Gemini to provide intelligent features, including:
+
+* AI-powered code review
+* AI-based viva sessions
+* Personalized recommendations
+* Smart learning assistance
 
 ---
 
-⭐ If you found this project useful, consider giving it a star.
+# 🤝 Contributions
+
+Contributions, suggestions, and feedback are always welcome.
+
+Feel free to fork the repository and submit a pull request.
+
+---
+
+# ⭐ Support
+
+If you found this project helpful, consider giving it a star.
+
+---
+
+<div align="center">
+
+Made with ❤️ by the team.
+
+</div>
