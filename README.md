@@ -18,7 +18,9 @@ A modern platform for DSA, AI-powered interview preparation, technical learning,
 
 # 📖 Overview
 
-ApexTech is a centralized platform designed to simplify technical interview preparation. It brings together DSA practice, AI-powered learning tools, interview question banks, structured roadmaps, and developer analytics into a single application.
+📖 Overview
+
+ApexTech is a centralized platform designed to simplify technical learning, DSA practice, interview preparation, and career development. It combines AI-powered tools, structured roadmaps, performance analytics, and learning resources into a single ecosystem.
 
 ---
 
@@ -127,6 +129,7 @@ This project utilizes Google Gemini to provide intelligent features, including:
 * AI-based viva sessions
 * Personalized recommendations
 * Smart learning assistance
+* Intelligent performance analysis
 
 ---
 
