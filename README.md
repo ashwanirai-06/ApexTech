@@ -26,26 +26,48 @@ It combines AI-powered tools, structured learning roadmaps, performance analytic
 
 ---
 
-✨ Features
-🔐 User Experience
-Secure Authentication
-Personalized Developer Dashboard
-Developer Profile
-Settings Management
-💻 Learning & Practice
-Technical Interview Question Bank
-Curated DSA Sheets
-Domain-Based Roadmaps
-Learning Resources
-🤖 AI-Powered Features
-AI Code Reviewer
-AI Technical Interviewer
-Smart Learning Assistance
-Personalized Recommendations
-📊 Analytics & Growth
-Performance Analytics
-Weak Topic Analysis
-Learning Progress Tracking
+# ✨ Features
+
+## 🔐 User Experience
+
+- 🔒 Secure Authentication
+
+- 📊 Personalized Developer Dashboard
+
+- 👤 Developer Profile Management
+
+- ⚙️ Settings Management
+
+
+## 💻 Learning & Practice
+
+- 📚 Technical Interview Question Bank
+
+- 🧩 Curated DSA Sheets
+
+- 🛣️ Domain-Based Learning Roadmaps
+
+- 🎥 Technical Learning Resources
+
+
+## 🤖 AI-Powered Features
+
+- 🧠 AI Code Reviewer
+
+- 🎤 AI Technical Interviewer
+
+- 💡 Smart Learning Assistance
+
+- 🎯 Personalized Learning Recommendations
+
+
+## 📊 Analytics & Growth
+
+- 📈 Performance Analytics
+
+- 🔍 Weak Topic Analysis
+
+- 🚀 Learning Progress Tracking
 ---
 
 # 🛠️ Tech Stack
