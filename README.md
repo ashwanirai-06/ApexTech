@@ -8,9 +8,9 @@
 
 A modern platform for DSA, AI-powered interview preparation, technical learning, roadmaps, and performance analytics.
 
-🌐 **Live Demo**
+### 🌐 Live Demo
 
-https://radiant-licorice-8bf51b.netlify.app/
+🚀 **Try ApexTech:** https://radiant-licorice-8bf51b.netlify.app/
 
 </div>
 
@@ -110,6 +110,10 @@ After the server starts, open the **Local** URL displayed in your terminal.
 
 ---
 
-# 📄 License
+## 🤝 Contributing
 
-This project is developed for educational and portfolio purposes.
+Contributions, suggestions, and feedback are always welcome. Feel free to fork the repository and submit a pull request.
+
+---
+
+⭐ If you found this project useful, consider giving it a star.
