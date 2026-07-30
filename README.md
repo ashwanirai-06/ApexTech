@@ -10,7 +10,7 @@ A modern platform for DSA, AI-powered interview preparation, technical learning,
 
 ### 🌐 Live Demo
 
-🚀 **Try ApexTech:** https://radiant-licorice-8bf51b.netlify.app/
+🚀 **Try ApexTech:** https://apextechh.onrender.com
 
 </div>
 
@@ -20,25 +20,32 @@ A modern platform for DSA, AI-powered interview preparation, technical learning,
 
 📖 Overview
 
-ApexTech is a centralized platform designed to simplify technical learning, DSA practice, interview preparation, and career development. It combines AI-powered tools, structured roadmaps, performance analytics, and learning resources into a single ecosystem.
+ApexTech is a centralized platform designed to simplify technical learning, DSA practice, interview preparation, and career development.
+
+It combines AI-powered tools, structured learning roadmaps, performance analytics, and technical resources into a single ecosystem to help developers improve their skills and prepare for real-world opportunities.
 
 ---
 
-# ✨ Features
-
-- 🔐 Secure Authentication
-- 📊 Personalized Developer Dashboard
-- 📚 Technical Interview Question Bank
-- 💻 Curated DSA Sheets
-- 🤖 AI Code Reviewer
-- 🎤 AI Technical Interviewer
-- 🛣️ Domain Roadmaps
-- 📈 Performance Analytics
-- 🎯 Weak Topic Analysis
-- 🎥 Learning Resources
-- 👤 Developer Profile
-- ⚙️ Settings Management
-
+✨ Features
+🔐 User Experience
+Secure Authentication
+Personalized Developer Dashboard
+Developer Profile
+Settings Management
+💻 Learning & Practice
+Technical Interview Question Bank
+Curated DSA Sheets
+Domain-Based Roadmaps
+Learning Resources
+🤖 AI-Powered Features
+AI Code Reviewer
+AI Technical Interviewer
+Smart Learning Assistance
+Personalized Recommendations
+📊 Analytics & Growth
+Performance Analytics
+Weak Topic Analysis
+Learning Progress Tracking
 ---
 
 # 🛠️ Tech Stack
@@ -102,13 +109,13 @@ Create a `.env.local` file and add your Gemini API key.
 GEMINI_API_KEY=YOUR_GEMINI_API_KEY
 ```
 
-## Run the Project
+## Run the Project`
 
-```bash
+Start the development server:
+
 npm run dev
-```
 
-After the server starts, open the **Local** URL displayed in your terminal.
+After the server starts, open the local URL displayed in your terminal.
 
 # 👨‍💻 Team Members
 
