@@ -10,15 +10,13 @@ A modern platform for DSA, AI-powered interview preparation, technical learning,
 
 ### 🌐 Live Demo
 
-🚀 **Try ApexTech:** https://apextechh.onrender.com
+🚀 **Try ApexTech:** https://apextech-6x6f.onrender.com
 
 </div>
 
 ---
 
-# # 📖
-
-📖 Overview
+# 📖 Overview
 
 ApexTech is a centralized platform designed to simplify technical learning, DSA practice, interview preparation, and career development.
 
@@ -30,7 +28,7 @@ It combines AI-powered tools, structured learning roadmaps, performance analytic
 
 ## 🔐 User Experience
 
-- 🔒 Secure Authentication
+- 🔐 User Authentication
 
 - 📊 Personalized Developer Dashboard
 
@@ -72,13 +70,13 @@ It combines AI-powered tools, structured learning roadmaps, performance analytic
 
 # 🛠️ Tech Stack
 
-| Category | Technology |
-|----------|------------|
 | Frontend | React, TypeScript, Vite |
 | Styling | Tailwind CSS |
 | Backend | Node.js, Express.js |
-| AI | Google Gemini API |
+| AI Integration | Google Gemini API |
 | Database | SQL.js |
+| Deployment | Render |
+| Version Control | Git & GitHub |
 
 ---
 
@@ -138,6 +136,20 @@ Start the development server:
 npm run dev
 
 After the server starts, open the local URL displayed in your terminal.
+
+---
+
+# 🤖 AI Integration
+
+This project utilizes Google Gemini to provide intelligent features, including:
+
+* AI-powered code review
+* AI-based viva sessions
+* Personalized recommendations
+* Smart learning assistance
+* Intelligent performance analysis
+
+---
 
 # 👨‍💻 Team Members
 
