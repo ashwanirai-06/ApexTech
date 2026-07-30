@@ -70,6 +70,8 @@ It combines AI-powered tools, structured learning roadmaps, performance analytic
 
 # 🛠️ Tech Stack
 
+| Category | Technology |
+|----------|------------|
 | Frontend | React, TypeScript, Vite |
 | Styling | Tailwind CSS |
 | Backend | Node.js, Express.js |
