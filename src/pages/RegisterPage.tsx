@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Mail, Lock, Eye, EyeOff, ShieldCheck, Sparkles, KeyRound, Copy, Check, RefreshCw, User, Code2, BookOpen, Cpu, ArrowRight } from 'lucide-react';
 import { motion } from 'motion/react';
 import { HuskyExaminerAvatar } from '../components/HuskyExaminerAvatar';
-import { ParticleBackground } from '../components/particleBackground';
+import { ParticleBackground } from '../components/ParticleBackground';
 
 interface RegisterPageProps {
   onRegisterSuccess: (userData: any) => void;
