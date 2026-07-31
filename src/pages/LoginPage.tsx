@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Mail, Lock, Eye, EyeOff, LogIn, Sparkles, Code2, BookOpen, Cpu, ShieldCheck, CheckCircle2, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { HuskyExaminerAvatar } from '../components/HuskyExaminerAvatar';
-import { ParticleBackground } from '../components/ParticleBackground';
+import { ParticleBackground } from '../components/particleBackground';
 
 interface LoginPageProps {
   onLoginSuccess: (userData: any) => void;
