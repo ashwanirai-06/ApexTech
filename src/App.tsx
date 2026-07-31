@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { User } from './types';
 import { openTopicVideo } from './utils/videoUtils';
 import { DBService } from './db/dbService';
@@ -109,10 +110,16 @@ export default function App() {
     );
   }
 
-  const bgThemeClass = currentTheme === 'emerald'
+  const bgThemeClass = currentTheme === 'yellow'
+    ? 'bg-[#181402]'
+    : currentTheme === 'emerald'
     ? 'bg-[#02120b]'
     : currentTheme === 'purple'
     ? 'bg-[#0c061a]'
+    : currentTheme === 'rose'
+    ? 'bg-[#1a0510]'
+    : currentTheme === 'neon'
+    ? 'bg-[#031c17]'
     : currentTheme === 'amber'
     ? 'bg-[#18040a]'
     : currentTheme === 'oled'
@@ -139,88 +146,99 @@ export default function App() {
       />
 
       {/* Main Container */}
-      {activeTab === 'landing' ? (
-        <LandingPage
-          onStart={() => setActiveTab(user ? 'dashboard' : 'register')}
-          onLogin={() => setActiveTab('login')}
-        />
-      ) : activeTab === 'login' ? (
-        <LoginPage
-          onLoginSuccess={handleLoginSuccess}
-          onGoToRegister={() => setActiveTab('register')}
-        />
-      ) : activeTab === 'register' ? (
-        <RegisterPage
-          onRegisterSuccess={handleLoginSuccess}
-          onGoToLogin={() => setActiveTab('login')}
-        />
-      ) : (
-        <div className="flex flex-1">
-          {/* Sidebar */}
-          <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activeTab}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -12 }}
+          transition={{ duration: 0.25, ease: 'easeOut' }}
+          className="flex-1 flex flex-col w-full"
+        >
+          {activeTab === 'landing' ? (
+            <LandingPage
+              onStart={() => setActiveTab(user ? 'dashboard' : 'register')}
+              onLogin={() => setActiveTab('login')}
+            />
+          ) : activeTab === 'login' ? (
+            <LoginPage
+              onLoginSuccess={handleLoginSuccess}
+              onGoToRegister={() => setActiveTab('register')}
+            />
+          ) : activeTab === 'register' ? (
+            <RegisterPage
+              onRegisterSuccess={handleLoginSuccess}
+              onGoToLogin={() => setActiveTab('login')}
+            />
+          ) : (
+            <div className="flex flex-1">
+              {/* Sidebar */}
+              <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
 
-          {/* Page Views */}
-          <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full overflow-y-auto">
-            {activeTab === 'dashboard' && user && (
-              <DashboardPage
-                user={user}
-                setActiveTab={setActiveTab}
-                onSelectSubjectForViva={handleSelectSubjectForRoadmap}
-              />
-            )}
+              {/* Page Views */}
+              <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full overflow-y-auto">
+                {activeTab === 'dashboard' && user && (
+                  <DashboardPage
+                    user={user}
+                    setActiveTab={setActiveTab}
+                    onSelectSubjectForViva={handleSelectSubjectForRoadmap}
+                  />
+                )}
 
-            {activeTab === 'domains' && (
-              <DomainRoadmapsPage onStartViva={handleSelectSubjectForRoadmap} />
-            )}
+                {activeTab === 'domains' && (
+                  <DomainRoadmapsPage onStartViva={handleSelectSubjectForRoadmap} />
+                )}
 
-         {activeTab === 'questionbank' && (
-  <QuestionBankPage
-    initialTopic={resourceTopic}
-    onSelectTopicForPractice={handleSelectSubjectForRoadmap}
-  />
-)}
+                {activeTab === 'questionbank' && (
+                  <QuestionBankPage
+                    initialTopic={resourceTopic}
+                    onSelectTopicForPractice={handleSelectSubjectForRoadmap}
+                  />
+                )}
 
-            {activeTab === 'dsa' && (
-              <DSAMasteryPage onStartVivaForTopic={handleSelectSubjectForRoadmap} />
-            )}
+                {activeTab === 'dsa' && (
+                  <DSAMasteryPage onStartVivaForTopic={handleSelectSubjectForRoadmap} />
+                )}
 
-            {activeTab === 'planner' && <StudyPlannerPage />}
+                {activeTab === 'planner' && <StudyPlannerPage />}
 
-            {activeTab === 'resources' && (
-              <ResourcesPage initialTopic={resourceTopic} />
-            )}
+                {activeTab === 'resources' && (
+                  <ResourcesPage initialTopic={resourceTopic} />
+                )}
 
-            {activeTab === 'code' && <CodeReviewerPage />}
+                {activeTab === 'code' && <CodeReviewerPage />}
 
-            {activeTab === 'weaks' && user && (
-              <WeakTopicsPage
-                userId={user.id}
-                onPracticeTopic={handleSelectSubjectForRoadmap}
-              />
-            )}
+                {activeTab === 'weaks' && user && (
+                  <WeakTopicsPage
+                    userId={user.id}
+                    onPracticeTopic={handleSelectSubjectForRoadmap}
+                  />
+                )}
 
-            {activeTab === 'analytics' && user && (
-              <AnalyticsPage userId={user.id} />
-            )}
+                {activeTab === 'analytics' && user && (
+                  <AnalyticsPage userId={user.id} />
+                )}
 
-            {activeTab === 'recommendations' && (
-              <RecommendationsPage onStartViva={handleSelectSubjectForRoadmap} />
-            )}
+                {activeTab === 'recommendations' && (
+                  <RecommendationsPage onStartViva={handleSelectSubjectForRoadmap} />
+                )}
 
-            {activeTab === 'profile' && user && <ProfilePage user={user} onLogout={handleLogout} />}
+                {activeTab === 'profile' && user && <ProfilePage user={user} onLogout={handleLogout} />}
 
-            {activeTab === 'settings' && (
-              <SettingsPage
-                demoMode={demoMode}
-                setDemoMode={setDemoMode}
-                currentTheme={currentTheme}
-                onThemeChange={handleThemeChange}
-                onLogout={handleLogout}
-              />
-            )}
-          </main>
-        </div>
-      )}
+                {activeTab === 'settings' && (
+                  <SettingsPage
+                    demoMode={demoMode}
+                    setDemoMode={setDemoMode}
+                    currentTheme={currentTheme}
+                    onThemeChange={handleThemeChange}
+                    onLogout={handleLogout}
+                  />
+                )}
+              </main>
+            </div>
+          )}
+        </motion.div>
+      </AnimatePresence>
 
     </div>
   );

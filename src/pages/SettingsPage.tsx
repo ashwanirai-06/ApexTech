@@ -24,8 +24,11 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({ demoMode, setDemoMod
 
   const THEMES = [
     { id: 'cyan', name: 'Cyberpunk Cyan (Default)', bg: 'bg-[#020204]', accent: 'from-cyan-500 to-indigo-600', border: 'border-cyan-500/50' },
+    { id: 'yellow', name: 'Cyber Gold & Yellow ⚡', bg: 'bg-[#181402]', accent: 'from-yellow-400 to-amber-500', border: 'border-yellow-500/50' },
     { id: 'emerald', name: 'Emerald Academic', bg: 'bg-[#02120b]', accent: 'from-emerald-500 to-teal-600', border: 'border-emerald-500/50' },
     { id: 'purple', name: 'Royal Amethyst', bg: 'bg-[#0c061a]', accent: 'from-purple-500 to-pink-600', border: 'border-purple-500/50' },
+    { id: 'rose', name: 'Sunset Crimson Rose 🌹', bg: 'bg-[#1a0510]', accent: 'from-rose-500 to-pink-500', border: 'border-rose-500/50' },
+    { id: 'neon', name: 'Matrix Neon Green 🔋', bg: 'bg-[#031c17]', accent: 'from-emerald-400 to-lime-400', border: 'border-emerald-400/50' },
     { id: 'amber', name: 'Sunset Amber', bg: 'bg-[#18040a]', accent: 'from-amber-500 to-rose-600', border: 'border-amber-500/50' },
     { id: 'oled', name: 'OLED Obsidian', bg: 'bg-black', accent: 'from-slate-200 to-slate-400', border: 'border-slate-700' },
     { id: 'slate', name: 'Classic Slate', bg: 'bg-[#0f172a]', accent: 'from-blue-500 to-cyan-500', border: 'border-blue-500/50' }
@@ -68,7 +71,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({ demoMode, setDemoMod
         <div className="rounded-2xl border border-slate-800 bg-slate-900/80 p-5 space-y-4">
           <div className="flex items-center gap-2 font-bold text-sm text-white">
             <Palette className="h-4 w-4 text-cyan-400" />
-            <span>UI Theme Palette (6 Custom Modes)</span>
+            <span>UI Theme Palette (9 Custom Modes)</span>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">

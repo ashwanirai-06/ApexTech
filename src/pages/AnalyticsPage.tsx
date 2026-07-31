@@ -78,17 +78,23 @@ export const AnalyticsPage: React.FC<{ userId: string }> = ({ userId }) => {
           </div>
         </div>
 
-        {/* Subject Bar Chart */}
+        {/* Domain Skills Breakdown Radar Chart */}
         <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-          <h3 className="text-xs font-bold text-slate-300 font-mono mb-4">Subject Readiness Scores</h3>
+          <h3 className="text-xs font-bold text-slate-300 font-mono mb-4">Domain & Coding Skills Breakdown</h3>
           <div className="h-56 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={subjectData}>
-                <XAxis dataKey="name" stroke="#64748b" fontSize={9} />
-                <YAxis stroke="#64748b" fontSize={10} domain={[0, 100]} />
+              <RadarChart data={[
+                { subject: 'DSA & Algorithms', A: 92, fullMark: 100 },
+                { subject: 'System Design', A: 85, fullMark: 100 },
+                { subject: 'Full Stack', A: 88, fullMark: 100 },
+                { subject: 'CS Fundamentals', A: 80, fullMark: 100 },
+                { subject: 'Problem Solving', A: 95, fullMark: 100 }
+              ]}>
+                <PolarGrid stroke="#334155" />
+                <PolarAngleAxis dataKey="subject" stroke="#94a3b8" fontSize={9} />
+                <Radar name="Student Proficiency" dataKey="A" stroke="#22d3ee" fill="#22d3ee" fillOpacity={0.4} />
                 <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', borderRadius: '12px' }} />
-                <Bar dataKey="score" fill="#a855f7" radius={[6, 6, 0, 0]} />
-              </BarChart>
+              </RadarChart>
             </ResponsiveContainer>
           </div>
         </div>

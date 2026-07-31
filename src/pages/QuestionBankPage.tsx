@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import {
   generateAggregatedQuestionBank,
   QuestionItem,
@@ -54,8 +55,8 @@ export const QuestionBankPage: React.FC<QuestionBankPageProps> = ({
   onSelectTopicForPractice
 }) => {
   
-  // Generate/memoize 3200+ questions database
-  const allQuestions = useMemo(() => generateAggregatedQuestionBank(3200), []);
+  // Generate/memoize 5000+ questions database
+  const allQuestions = useMemo(() => generateAggregatedQuestionBank(5000), []);
 
   // Filter States
   const [selectedCategory, setSelectedCategory] = useState<QuestionCategory | 'All'>('All');
@@ -107,7 +108,7 @@ export const QuestionBankPage: React.FC<QuestionBankPageProps> = ({
     { id: 'Behavioral', label: 'Behavioral (STAR)', icon: MessageSquare }
   ];
 
-  const platformsList: (PlatformSource | 'All')[] = ['All', 'LeetCode', 'Striver', 'GFG', 'CodeChef'];
+  const platformsList: (PlatformSource | 'All')[] = ['All', 'LeetCode', 'Striver', 'GFG', 'CodeChef', 'HackerRank', 'InterviewBit', 'CodeStudio'];
   const difficultiesList: (Difficulty | 'All')[] = ['All', 'Easy', 'Medium', 'Hard'];
   const languagesList: CodeLanguage[] = ['C++', 'Python', 'Java'];
 
@@ -219,31 +220,36 @@ export const QuestionBankPage: React.FC<QuestionBankPageProps> = ({
     <div className="space-y-6">
       
       {/* Hero Banner */}
-      <div className="rounded-2xl border border-cyan-500/20 bg-gradient-to-r from-slate-950 via-cyan-950/40 to-indigo-950/50 p-6 sm:p-8 backdrop-blur-xl relative overflow-hidden shadow-2xl">
+      <motion.div
+        initial={{ opacity: 0, y: -20, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.45, ease: 'easeOut' }}
+        className="rounded-2xl border border-cyan-500/20 bg-gradient-to-r from-slate-950 via-cyan-950/40 to-indigo-950/50 p-6 sm:p-8 backdrop-blur-xl relative overflow-hidden shadow-2xl"
+      >
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-500/30 bg-cyan-950/60 text-cyan-300 text-xs font-mono mb-3">
               <Sparkles className="h-3.5 w-3.5 text-cyan-400 animate-pulse" />
-              <span>Universal Question Bank • 3000+ Curated Interview Questions</span>
+              <span>Universal Question Bank • 5000+ Curated Interview Questions</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight font-mono">
-              3000+ Technical Interview Question Bank
+              5,000+ Technical Interview Question Bank
             </h1>
             <p className="mt-2 text-xs sm:text-sm text-slate-300 leading-relaxed max-w-2xl">
-              Master top interview questions aggregated from LeetCode, Striver Sheets, GeeksforGeeks, and CodeChef.
+              Master top interview questions aggregated from LeetCode, HackerRank, InterviewBit, CodeStudio, Striver Sheets, GeeksforGeeks, and CodeChef without duplicates.
               Filter by domain (DSA, System Design, Frontend, Backend, Behavioral), difficulty, topic, and view multi-language solutions in <strong className="text-cyan-300 font-mono">C++, Python & Java</strong>.
             </p>
           </div>
 
           <div className="shrink-0 p-4 rounded-2xl bg-slate-950/90 border border-cyan-500/30 font-mono text-center shadow-xl">
             <span className="text-[10px] text-cyan-400 font-bold uppercase tracking-widest block">Indexed Question Bank</span>
-            <span className="text-3xl font-extrabold text-white mt-0.5 block">3,000+</span>
+            <span className="text-3xl font-extrabold text-white mt-0.5 block">5,000+</span>
             <span className="text-[11px] text-emerald-400 font-semibold mt-1 block flex items-center justify-center gap-1">
               <TrendingUp className="h-3 w-3" /> C++, Python & Java
             </span>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Global Search & Multi-Filter Control Panel */}
       <div className="p-4 sm:p-5 rounded-2xl border border-slate-800 bg-slate-900/90 backdrop-blur-xl space-y-4 shadow-2xl">
@@ -563,8 +569,10 @@ export const QuestionBankPage: React.FC<QuestionBankPageProps> = ({
                 {filteredQuestions.slice(0, visibleLimit).map(q => {
                   const isSelected = q.id === currentQuestion?.id;
                   return (
-                    <button
+                    <motion.button
                       key={q.id}
+                      whileHover={{ scale: 1.01, x: 3 }}
+                      whileTap={{ scale: 0.98 }}
                       onClick={() => {
                         setSelectedQuestionId(q.id);
                         setTestResult(null);
@@ -643,7 +651,7 @@ export const QuestionBankPage: React.FC<QuestionBankPageProps> = ({
                           )}
                         </div>
                       </div>
-                    </button>
+                    </motion.button>
                   );
                 })}
 

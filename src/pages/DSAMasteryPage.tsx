@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'motion/react';
 import { ALL_DSA_SHEETS, DSASheetTopic } from '../data/dsaSheetsData';
 import { generateAggregatedQuestionBank } from '../data/questionBankData';
 import { VideoPlayerModal } from '../components/VideoPlayerModal';
@@ -74,12 +75,17 @@ export const DSAMasteryPage: React.FC<DSAMasteryPageProps> = ({
     <div className="space-y-6">
       
       {/* Page Hero Banner */}
-      <div className="rounded-2xl border border-cyan-500/20 bg-gradient-to-r from-cyan-950/40 via-slate-900 to-indigo-950/40 p-6 sm:p-8 backdrop-blur-xl relative overflow-hidden shadow-2xl">
+      <motion.div
+        initial={{ opacity: 0, y: -20, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.4, ease: 'easeOut' }}
+        className="rounded-2xl border border-cyan-500/20 bg-gradient-to-r from-cyan-950/40 via-slate-900 to-indigo-950/40 p-6 sm:p-8 backdrop-blur-xl relative overflow-hidden shadow-2xl"
+      >
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-500/30 bg-cyan-950/60 text-cyan-300 text-xs font-mono mb-3">
               <Sparkles className="h-3.5 w-3.5 text-cyan-400 animate-pulse" />
-              <span>3000+ Question Master Collection (LeetCode, Striver A2Z & GFG)</span>
+              <span>5000+ Question Master Collection (LeetCode, HackerRank, Striver A2Z & GFG)</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight font-mono">
               DSA Practice Engine & Educator Masterclasses
@@ -91,11 +97,11 @@ export const DSAMasteryPage: React.FC<DSAMasteryPageProps> = ({
 
           <div className="shrink-0 p-4 rounded-2xl bg-slate-950/80 border border-cyan-500/30 font-mono text-center shadow-xl">
             <span className="text-[10px] text-cyan-400 font-bold uppercase tracking-widest block">Question Index</span>
-            <span className="text-2xl font-bold text-white mt-0.5 block">3,000+ Problems</span>
+            <span className="text-2xl font-bold text-white mt-0.5 block">5,000+ Problems</span>
             <span className="text-[11px] text-emerald-400 font-semibold mt-1 block">Verified Optimal C++ Solutions</span>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Sheet Category Tabs */}
       <div className="p-4 rounded-2xl border border-slate-800 bg-slate-900/80 backdrop-blur-xl space-y-3">

@@ -10,7 +10,7 @@ A modern platform for DSA, AI-powered interview preparation, technical learning,
 
 ### 🌐 Live Demo
 
-🚀 **Try ApexTech:**https://apextech-fm82.onrender.com
+🚀 **Try ApexTech:** https://apextech-fm82.onrender.com
 
 </div>
 
@@ -131,11 +131,13 @@ Create a `.env.local` file and add your Gemini API key.
 GEMINI_API_KEY=YOUR_GEMINI_API_KEY
 ```
 
-## Run the Project`
+## Run the Project
 
 Start the development server:
 
+```bash
 npm run dev
+```
 
 After the server starts, open the local URL displayed in your terminal.
 
@@ -164,15 +166,20 @@ This project utilizes Google Gemini to provide intelligent features, including:
 
 ---
 
-# 🤖 AI Integration
+# 👥 Team Contributions
 
-This project utilizes Google Gemini to provide intelligent features, including:
+Built by a four-member team as a collaborative full-stack project, ApexTech combines web development, AI integration, and modern UI design.
 
-* AI-powered code review
-* AI-based viva sessions
-* Personalized recommendations
-* Smart learning assistance
-* Intelligent performance analysis
+### Team & Roles
+
+- **Ashwani Rai** – Project Lead | Full-Stack Development, AI Integration, and Deployment
+- **Abhinav Gupta** – UI Design, Testing, and Documentation
+- **Aditya Gangwar** – Research, Content Management, and Question Bank Development
+- **Abhishek Kumar** – Quality Assurance, Resource Management, and Presentation
+
+Throughout the development process, we leveraged AI tools to accelerate research, debugging, documentation, and productivity while every core decision, from architecture to deployment, was driven by our own planning and execution.
+
+This project taught us how to balance AI-assisted productivity with hands-on problem-solving, a skill that has become increasingly important in today's technology landscape.
 
 ---
 

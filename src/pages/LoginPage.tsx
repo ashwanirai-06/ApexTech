@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Lock, Eye, EyeOff, LogIn, Sparkles, Code2, BookOpen, Cpu, ShieldCheck, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, LogIn, Sparkles, Code2, BookOpen, Cpu, Building2, CheckCircle2, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { HuskyExaminerAvatar } from '../components/HuskyExaminerAvatar';
 import { ParticleBackground } from '../components/ParticleBackground';
@@ -56,10 +56,10 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onGoToRegi
   };
 
   const stats = [
-    { label: 'DSA Questions', value: '3,200+', icon: Code2, desc: 'LeetCode, Striver, GFG' },
+    { label: 'DSA Questions', value: '5,000+', icon: Code2, desc: 'LeetCode, HackerRank, GFG' },
     { label: 'Curated Sheets', value: '71+', icon: BookOpen, desc: 'Striver A2Z, PW, Alpha' },
     { label: 'AI Viva Examiner', value: '24/7', icon: Cpu, desc: 'Voice & Code Feedback' },
-    { label: 'Placement Ready', value: '99.4%', icon: ShieldCheck, desc: 'Student Success Rate' },
+    { label: 'Company-Wise', value: '500+', icon: Building2, desc: 'Google, Amazon, TCS & MAANG' },
   ];
 
   const highlights = [
@@ -96,14 +96,14 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onGoToRegi
 
           {/* Headline */}
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
-            Master CS Engineering & <br className="hidden sm:inline" />
+            Master Engineering & <br className="hidden sm:inline" />
             <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-indigo-400 bg-clip-text text-transparent">
               Tech Placement Interviews
             </span>
           </h1>
 
           <p className="text-sm sm:text-base text-slate-300 max-w-2xl leading-relaxed font-normal">
-            Sign in to access 3,200+ DSA practice problems, Striver & PW curated sheets, real-time code execution, and your personal AI Senior Technical Examiner.
+            Sign in to access 5,000+ DSA practice problems, HackerRank & Striver curated sheets, real-time code execution, and your personal AI Senior Technical Examiner.
           </p>
 
           {/* Large Interactive Husky AI Mascot Section */}
@@ -141,19 +141,19 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onGoToRegi
               return (
                 <motion.div
                   key={idx}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.1 * idx }}
-                  whileHover={{ y: -4, borderColor: 'rgba(6, 182, 212, 0.4)' }}
-                  className="p-3.5 sm:p-4 rounded-2xl border border-slate-800 bg-slate-900/60 backdrop-blur-md shadow-lg transition-all"
+                  initial={{ opacity: 0, y: 25, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ duration: 0.4, delay: 0.08 * idx, type: 'spring', stiffness: 120 }}
+                  whileHover={{ y: -6, scale: 1.02, borderColor: 'rgba(6, 182, 212, 0.6)', boxShadow: '0 10px 25px -5px rgba(6, 182, 212, 0.25)' }}
+                  className="p-3.5 sm:p-4 rounded-2xl border border-slate-800 bg-slate-900/70 backdrop-blur-md shadow-lg transition-all"
                 >
-                  <div className="flex items-center gap-2 mb-1.5">
-                    <div className="p-1.5 rounded-lg bg-cyan-950/80 border border-cyan-500/30 text-cyan-400">
+                  <div className="flex items-center gap-2 mb-1.5 min-w-0">
+                    <div className="p-1.5 rounded-lg bg-cyan-950/80 border border-cyan-500/30 text-cyan-400 shrink-0">
                       <Icon className="h-4 w-4" />
                     </div>
-                    <span className="text-lg sm:text-xl font-bold font-mono text-white tracking-tight">{stat.value}</span>
+                    <span className="text-base sm:text-lg font-bold font-mono text-white tracking-tight truncate">{stat.value}</span>
                   </div>
-                  <div className="text-xs font-bold text-slate-200">{stat.label}</div>
+                  <div className="text-xs font-bold text-slate-200 truncate">{stat.label}</div>
                   <div className="text-[10px] text-slate-400 truncate">{stat.desc}</div>
                 </motion.div>
               );

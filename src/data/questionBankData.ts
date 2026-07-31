@@ -1,5 +1,5 @@
 export type QuestionCategory = 'DSA' | 'System Design' | 'Frontend' | 'Backend' | 'Behavioral';
-export type PlatformSource = 'LeetCode' | 'Striver' | 'GFG' | 'CodeChef';
+export type PlatformSource = 'LeetCode' | 'Striver' | 'GFG' | 'CodeChef' | 'HackerRank' | 'InterviewBit' | 'CodeStudio';
 export type Difficulty = 'Easy' | 'Medium' | 'Hard';
 export type CodeLanguage = 'C++' | 'Python' | 'Java';
 
@@ -730,13 +730,13 @@ public class BehavioralAnswer {
 
 let cachedQuestionBank: QuestionItem[] | null = null;
 
-// Helper function to generate full 3200+ indexed questions dynamically
-export const generateAggregatedQuestionBank = (count: number = 3200): QuestionItem[] => {
+// Helper function to generate full 5000+ indexed unique questions dynamically
+export const generateAggregatedQuestionBank = (count: number = 5000): QuestionItem[] => {
   if (cachedQuestionBank && cachedQuestionBank.length >= count) {
     return cachedQuestionBank;
   }
   const categories: QuestionCategory[] = ['DSA', 'System Design', 'Frontend', 'Backend', 'Behavioral'];
-  const platforms: PlatformSource[] = ['LeetCode', 'Striver', 'GFG', 'CodeChef'];
+  const platforms: PlatformSource[] = ['LeetCode', 'Striver', 'GFG', 'CodeChef', 'HackerRank', 'InterviewBit', 'CodeStudio'];
   const difficulties: Difficulty[] = ['Easy', 'Medium', 'Hard'];
 
   const companyPools = [
@@ -745,7 +745,10 @@ export const generateAggregatedQuestionBank = (count: number = 3200): QuestionIt
     ['Netflix', 'Atlassian', 'Adobe'],
     ['Goldman Sachs', 'JPMorgan', 'Oracle'],
     ['Swiggy', 'Flipkart', 'Zomato'],
-    ['Salesforce', 'PayPal', 'Cisco']
+    ['Salesforce', 'PayPal', 'Cisco'],
+    ['TCS', 'Infosys', 'Wipro'],
+    ['Samsung', 'Intuit', 'Walmart'],
+    ['Paytm', 'Razorpay', 'PhonePe']
   ];
 
   const youtubeVideoIds = [
@@ -844,6 +847,7 @@ export const generateAggregatedQuestionBank = (count: number = 3200): QuestionIt
   ];
 
   const generated: QuestionItem[] = [...FEATURED_QUESTION_BANK];
+  const seenIds = new Set<string>(FEATURED_QUESTION_BANK.map(q => q.id));
 
   const modifiers = [
     'Standard Core Formulation',
@@ -890,10 +894,17 @@ export const generateAggregatedQuestionBank = (count: number = 3200): QuestionIt
     const ytId = youtubeVideoIds[generated.length % youtubeVideoIds.length];
 
     const qNumber = generated.length + 1;
+    const qId = `q-bank-${qNumber}`;
+    if (seenIds.has(qId)) {
+      currentIdx++;
+      continue;
+    }
+    seenIds.add(qId);
+
     const itemTitle = `${chosenPattern.title} - ${modifier} (Q#${qNumber})`;
 
     generated.push({
-      id: `q-bank-${qNumber}`,
+      id: qId,
       title: itemTitle,
       category: chosenCat,
       platform: plat,
@@ -959,7 +970,7 @@ public class Solution_${qNumber} {
       },
       videoQuery: `${chosenPattern.title} ${plat} solution Striver NeetCode`,
       youtubeId: ytId,
-      leetcodeRef: `LeetCode / Problem #${100 + (qNumber % 2500)}`,
+      leetcodeRef: `Problem #${100 + (qNumber % 3500)}`,
       frequencyScore: 70 + (qNumber % 29),
       companyTags: companyTag
     });

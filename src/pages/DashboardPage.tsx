@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { motion } from 'motion/react';
 import { User, AnalyticsSummary } from '../types';
 import { DBService } from '../db/dbService';
 import { VideoPlayerModal } from '../components/VideoPlayerModal';
@@ -62,7 +63,12 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ user, setActiveTab
     <div className="space-y-6">
       
       {/* Welcome Banner */}
-      <div className="relative overflow-hidden rounded-3xl border border-white/5 bg-gradient-to-br from-[#0c0c14] to-[#050508] p-6 sm:p-8 shadow-2xl">
+      <motion.div
+        initial={{ opacity: 0, y: -20, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.5, ease: 'easeOut' }}
+        className="relative overflow-hidden rounded-3xl border border-white/5 bg-gradient-to-br from-[#0c0c14] to-[#050508] p-6 sm:p-8 shadow-2xl"
+      >
         <div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-950/40 px-3 py-1 text-[10px] uppercase font-bold tracking-widest text-cyan-300 mb-2 font-mono">
@@ -78,29 +84,39 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ user, setActiveTab
           </div>
 
           <div className="flex flex-wrap gap-3">
-            <button
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => setActiveTab('dsa')}
-              className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-600 px-5 py-2.5 text-xs font-bold text-slate-950 shadow-lg shadow-cyan-500/20 hover:brightness-110 transition-all font-mono"
+              className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-600 px-5 py-2.5 text-xs font-bold text-slate-950 shadow-lg shadow-cyan-500/20 hover:brightness-110 transition-all font-mono cursor-pointer"
             >
               <Terminal className="h-4 w-4" />
               <span>Open DSA Sheets 🔥</span>
-            </button>
+            </motion.button>
 
-            <button
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => setActiveTab('domains')}
-              className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-xs font-medium text-slate-200 hover:bg-white/10 transition-all font-mono"
+              className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-xs font-medium text-slate-200 hover:bg-white/10 transition-all font-mono cursor-pointer"
             >
               <Compass className="h-4 w-4 text-purple-400" />
               <span>Domain Roadmaps</span>
-            </button>
+            </motion.button>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Metrics Row */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         
-        <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/5 flex flex-col gap-2 transition-all duration-300 hover:scale-[1.03] hover:border-cyan-500/40 hover:bg-slate-900/80 hover:shadow-xl hover:shadow-cyan-500/10">
+        <motion.div
+          initial={{ opacity: 0, y: 20, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.4, delay: 0.05 }}
+          whileHover={{ y: -4, scale: 1.02 }}
+          className="p-5 rounded-2xl bg-white/[0.03] border border-white/5 flex flex-col gap-2 transition-all duration-300 hover:border-cyan-500/40 hover:bg-slate-900/80 hover:shadow-xl hover:shadow-cyan-500/10"
+        >
           <span className="text-[11px] font-bold text-slate-400 font-mono uppercase tracking-tighter flex items-center gap-1.5">
             <Zap className="w-3.5 h-3.5 text-cyan-400" />
             Tech Readiness
@@ -109,9 +125,15 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ user, setActiveTab
             <span className="text-3xl font-serif text-cyan-400">100<span className="text-sm font-sans">%</span></span>
             <span className="text-[10px] text-emerald-400 font-semibold bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-500/30">100% Ready</span>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/5 flex flex-col gap-2 transition-all duration-300 hover:scale-[1.03] hover:border-indigo-500/40 hover:bg-slate-900/80 hover:shadow-xl hover:shadow-indigo-500/10">
+        <motion.div
+          initial={{ opacity: 0, y: 20, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+          whileHover={{ y: -4, scale: 1.02 }}
+          className="p-5 rounded-2xl bg-white/[0.03] border border-white/5 flex flex-col gap-2 transition-all duration-300 hover:border-indigo-500/40 hover:bg-slate-900/80 hover:shadow-xl hover:shadow-indigo-500/10"
+        >
           <span className="text-[11px] font-bold text-slate-400 font-mono uppercase tracking-tighter flex items-center gap-1.5">
             <BarChart3 className="w-3.5 h-3.5 text-indigo-400" />
             Avg Technical Score
@@ -120,11 +142,16 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ user, setActiveTab
             <span className="text-3xl font-serif text-white">{analytics.averageScore || 95}<span className="text-sm font-sans opacity-50">%</span></span>
             <span className="text-[10px] text-indigo-300 font-semibold bg-indigo-950/60 px-2 py-0.5 rounded-full border border-indigo-500/30">Top 1%</span>
           </div>
-        </div>
+        </motion.div>
 
-        <button
+        <motion.button
+          initial={{ opacity: 0, y: 20, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.4, delay: 0.15 }}
+          whileHover={{ y: -4, scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
           onClick={() => setActiveTab('dsa')}
-          className="p-5 rounded-2xl bg-gradient-to-br from-cyan-950/40 to-slate-900 border border-cyan-500/40 hover:border-cyan-500/80 flex flex-col gap-2 text-left cursor-pointer transition-all duration-300 hover:scale-[1.03] hover:shadow-xl hover:shadow-cyan-500/15 group"
+          className="p-5 rounded-2xl bg-gradient-to-br from-cyan-950/40 to-slate-900 border border-cyan-500/40 hover:border-cyan-500/80 flex flex-col gap-2 text-left cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-cyan-500/15 group"
         >
           <div className="flex items-center justify-between">
             <span className="text-[11px] font-bold text-cyan-400 font-mono uppercase tracking-tighter flex items-center gap-1.5">
@@ -143,9 +170,15 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ user, setActiveTab
               <div className="w-1.5 h-3.5 bg-cyan-500/30 rounded-full"></div>
             </div>
           </div>
-        </button>
+        </motion.button>
 
-        <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/5 flex flex-col gap-2 transition-all duration-300 hover:scale-[1.03] hover:border-purple-500/40 hover:bg-slate-900/80 hover:shadow-xl hover:shadow-purple-500/10">
+        <motion.div
+          initial={{ opacity: 0, y: 20, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.4, delay: 0.2 }}
+          whileHover={{ y: -4, scale: 1.02 }}
+          className="p-5 rounded-2xl bg-white/[0.03] border border-white/5 flex flex-col gap-2 transition-all duration-300 hover:border-purple-500/40 hover:bg-slate-900/80 hover:shadow-xl hover:shadow-purple-500/10"
+        >
           <span className="text-[11px] font-bold text-slate-400 font-mono uppercase tracking-tighter flex items-center gap-1.5">
             <Mic className="w-3.5 h-3.5 text-purple-400" />
             Mock Technical Drills
@@ -154,7 +187,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ user, setActiveTab
             <span className="text-3xl font-serif text-white">{analytics.totalVivaSessions}</span>
             <span className="text-[10px] text-purple-300 font-semibold bg-purple-950/60 px-2 py-0.5 rounded-full border border-purple-500/30">MAANG Level</span>
           </div>
-        </div>
+        </motion.div>
 
       </div>
 
