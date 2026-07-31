@@ -728,8 +728,13 @@ public class BehavioralAnswer {
   }
 ];
 
+let cachedQuestionBank: QuestionItem[] | null = null;
+
 // Helper function to generate full 3200+ indexed questions dynamically
 export const generateAggregatedQuestionBank = (count: number = 3200): QuestionItem[] => {
+  if (cachedQuestionBank && cachedQuestionBank.length >= count) {
+    return cachedQuestionBank;
+  }
   const categories: QuestionCategory[] = ['DSA', 'System Design', 'Frontend', 'Backend', 'Behavioral'];
   const platforms: PlatformSource[] = ['LeetCode', 'Striver', 'GFG', 'CodeChef'];
   const difficulties: Difficulty[] = ['Easy', 'Medium', 'Hard'];
@@ -962,5 +967,6 @@ public class Solution_${qNumber} {
     currentIdx++;
   }
 
+  cachedQuestionBank = generated;
   return generated;
 };

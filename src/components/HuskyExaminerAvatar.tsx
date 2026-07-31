@@ -7,6 +7,7 @@ interface HuskyExaminerAvatarProps {
   isClosedEyes?: boolean;
   examinerName?: string;
   className?: string;
+  size?: 'sm' | 'md' | 'lg' | 'xl';
 }
 
 export const HuskyExaminerAvatar: React.FC<HuskyExaminerAvatarProps> = ({
@@ -15,10 +16,18 @@ export const HuskyExaminerAvatar: React.FC<HuskyExaminerAvatarProps> = ({
   isEvaluating,
   isClosedEyes = false,
   examinerName = 'EduCore AI Academic Mentor',
-  className = ''
+  className = '',
+  size = 'lg'
 }) => {
   const [blink, setBlink] = useState(false);
   const [pupilX, setPupilX] = useState(0);
+
+  const sizeClasses = {
+    sm: 'w-24 h-24',
+    md: 'w-36 h-36',
+    lg: 'w-44 h-44 sm:w-52 sm:h-52',
+    xl: 'w-52 h-52 sm:w-60 sm:h-60 lg:w-64 lg:h-64'
+  }[size];
 
   // Random blink interval
   useEffect(() => {
@@ -50,7 +59,7 @@ export const HuskyExaminerAvatar: React.FC<HuskyExaminerAvatarProps> = ({
     <div className={`relative flex flex-col items-center justify-center select-none ${className}`}>
       
       {/* Outer Glowing Holographic Ring */}
-      <div className={`relative w-36 h-36 sm:w-44 sm:h-44 rounded-full flex items-center justify-center p-2 transition-all duration-500 ${
+      <div className={`relative ${sizeClasses} rounded-full flex items-center justify-center p-2 transition-all duration-500 ${
         isSpeaking
           ? 'bg-purple-950/60 border-2 border-purple-500 shadow-[0_0_40px_rgba(168,85,247,0.5)] ring-4 ring-purple-500/20'
           : isListening

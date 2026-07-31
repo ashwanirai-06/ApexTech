@@ -136,7 +136,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ user, setActiveTab
             </span>
           </div>
           <div className="flex items-end justify-between">
-            <span className="text-3xl font-serif text-white">450+ <span className="text-sm font-sans italic opacity-50">Questions</span></span>
+            <span className="text-3xl font-serif text-white">71+ <span className="text-sm font-sans italic opacity-50">Questions</span></span>
             <div className="flex gap-1 mb-1">
               <div className="w-1.5 h-3.5 bg-cyan-500 rounded-full"></div>
               <div className="w-1.5 h-3.5 bg-cyan-500/60 rounded-full"></div>

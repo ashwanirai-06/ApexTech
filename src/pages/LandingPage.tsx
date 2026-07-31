@@ -1,3 +1,5 @@
+
+
 import React from 'react';
 import { InteractiveMascot } from '../components/InteractiveMascot';
 import { Mic, BookOpen, Map, Calendar, Video, Code2, BarChart3, Target, ArrowRight, CheckCircle, Sparkles, Terminal } from 'lucide-react';
@@ -9,7 +11,7 @@ interface LandingPageProps {
 
 export const LandingPage: React.FC<LandingPageProps> = ({ onStart, onLogin }) => {
   const features = [
-    { icon: Terminal, title: 'DSA Practice Sheets', desc: '450+ curated Striver, PW, CodeChef & Alpha questions with test cases and optimal C++ templates.' },
+    { icon: Terminal, title: 'DSA Practice Sheets', desc: '71+ curated Striver, PW, CodeChef & Alpha questions with test cases and optimal C++ templates.' },
     { icon: Video, title: 'Top Educator Masterclasses', desc: 'Direct topic videos from Striver, Gate Smashers, CodeWithHarry, and Love Babbar embedded in-app.' },
     { icon: Map, title: 'Targeted Tech Roadmaps', desc: 'Milestone timelines customized for your target score, exam dates, and daily study hours.' },
     { icon: Code2, title: 'AI Code Reviewer', desc: 'Instant complexity analysis and optimization suggestions for C++, Java, Python, and JavaScript.' },

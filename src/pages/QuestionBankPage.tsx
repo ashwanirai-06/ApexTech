@@ -66,6 +66,12 @@ export const QuestionBankPage: React.FC<QuestionBankPageProps> = ({
 
   const [selectedLanguage, setSelectedLanguage] = useState<CodeLanguage>('C++');
   const [searchQuery, setSearchQuery] = useState('');
+  const [visibleLimit, setVisibleLimit] = useState(50);
+
+  // Reset visible limit whenever filters change
+  useEffect(() => {
+    setVisibleLimit(50);
+  }, [selectedCategory, selectedPlatform, selectedDifficulty, selectedCompany, selectedTopic, searchQuery]);
 
   // Selected Question State
   const [selectedQuestionId, setSelectedQuestionId] = useState<string>(allQuestions[0].id);
@@ -198,6 +204,7 @@ export const QuestionBankPage: React.FC<QuestionBankPageProps> = ({
     setSelectedCategory('All');
     setSelectedPlatform('All');
     setSelectedCompany('All');
+    setVisibleLimit(50);
   };
 
   const hasActiveFilters =
@@ -552,92 +559,103 @@ export const QuestionBankPage: React.FC<QuestionBankPageProps> = ({
                 </button>
               </div>
             ) : (
-              filteredQuestions.map(q => {
-                const isSelected = q.id === currentQuestion?.id;
-                return (
-                  <button
-                    key={q.id}
-                    onClick={() => {
-                      setSelectedQuestionId(q.id);
-                      setTestResult(null);
-                      setShowHints(false);
-                    }}
-                    className={`w-full p-4 rounded-xl border text-left transition-all cursor-pointer ${
-                      isSelected
-                        ? 'border-cyan-500 bg-slate-900 shadow-lg shadow-cyan-500/10 ring-1 ring-cyan-500/40'
-                        : 'border-slate-800/80 bg-slate-900/60 hover:bg-slate-900 hover:border-slate-700'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between mb-1 gap-2">
-                      <div className="flex items-center gap-1.5">
-                        <span className="px-2 py-0.5 rounded-md border border-cyan-500/30 bg-cyan-950/60 text-[9px] font-mono text-cyan-300 font-bold">
-                          {q.platform}
-                        </span>
-                        <span className="px-2 py-0.5 rounded-md border border-slate-700 bg-slate-800 text-[9px] font-mono text-slate-300 font-semibold">
-                          {q.category}
+              <>
+                {filteredQuestions.slice(0, visibleLimit).map(q => {
+                  const isSelected = q.id === currentQuestion?.id;
+                  return (
+                    <button
+                      key={q.id}
+                      onClick={() => {
+                        setSelectedQuestionId(q.id);
+                        setTestResult(null);
+                        setShowHints(false);
+                      }}
+                      className={`w-full p-4 rounded-xl border text-left transition-all cursor-pointer ${
+                        isSelected
+                          ? 'border-cyan-500 bg-slate-900 shadow-lg shadow-cyan-500/10 ring-1 ring-cyan-500/40'
+                          : 'border-slate-800/80 bg-slate-900/60 hover:bg-slate-900 hover:border-slate-700'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between mb-1 gap-2">
+                        <div className="flex items-center gap-1.5">
+                          <span className="px-2 py-0.5 rounded-md border border-cyan-500/30 bg-cyan-950/60 text-[9px] font-mono text-cyan-300 font-bold">
+                            {q.platform}
+                          </span>
+                          <span className="px-2 py-0.5 rounded-md border border-slate-700 bg-slate-800 text-[9px] font-mono text-slate-300 font-semibold">
+                            {q.category}
+                          </span>
+                        </div>
+                        <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full font-semibold shrink-0 ${
+                          q.difficulty === 'Easy' ? 'bg-emerald-950 text-emerald-300 border border-emerald-800' :
+                          q.difficulty === 'Medium' ? 'bg-amber-950 text-amber-300 border border-amber-800' :
+                          'bg-rose-950 text-rose-300 border border-rose-800'
+                        }`}>
+                          {q.difficulty}
                         </span>
                       </div>
-                      <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full font-semibold shrink-0 ${
-                        q.difficulty === 'Easy' ? 'bg-emerald-950 text-emerald-300 border border-emerald-800' :
-                        q.difficulty === 'Medium' ? 'bg-amber-950 text-amber-300 border border-amber-800' :
-                        'bg-rose-950 text-rose-300 border border-rose-800'
-                      }`}>
-                        {q.difficulty}
-                      </span>
-                    </div>
 
-                    <h4 className="text-xs font-bold text-white font-mono mt-1.5">{q.title}</h4>
-                    
-                    {/* Company Tags Badges */}
-                    {q.companyTags && q.companyTags.length > 0 && (
-                      <div className="flex flex-wrap gap-1 mt-1.5">
-                        {q.companyTags.slice(0, 3).map((comp, idx) => (
-                          <span
-                            key={idx}
-                            className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded flex items-center gap-0.5 transition-all ${
-                              selectedCompany.toLowerCase() === comp.toLowerCase()
-                                ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/50'
-                                : 'bg-slate-950 text-slate-400 border border-slate-800'
-                            }`}
+                      <h4 className="text-xs font-bold text-white font-mono mt-1.5">{q.title}</h4>
+                      
+                      {/* Company Tags Badges */}
+                      {q.companyTags && q.companyTags.length > 0 && (
+                        <div className="flex flex-wrap gap-1 mt-1.5">
+                          {q.companyTags.slice(0, 3).map((comp, idx) => (
+                            <span
+                              key={idx}
+                              className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded flex items-center gap-0.5 transition-all ${
+                                selectedCompany.toLowerCase() === comp.toLowerCase()
+                                  ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/50'
+                                  : 'bg-slate-950 text-slate-400 border border-slate-800'
+                              }`}
+                            >
+                              🏢 {comp}
+                            </span>
+                          ))}
+                          {q.companyTags.length > 3 && (
+                            <span className="text-[9px] font-mono text-slate-500">+{q.companyTags.length - 3}</span>
+                          )}
+                        </div>
+                      )}
+
+                      <div className="flex items-center justify-between mt-2 text-[10px] text-slate-400 font-mono gap-1">
+                        <span className="text-slate-400 truncate max-w-[140px]">🏷️ {q.patternOrTag}</span>
+                        <div className="flex items-center gap-1.5 shrink-0">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setPlayingVideo({
+                                title: q.title,
+                                youtubeId: q.youtubeId,
+                                query: q.videoQuery || `${q.title} ${q.platform} solution tutorial`,
+                                educator: q.platform
+                              });
+                            }}
+                            className="px-2 py-0.5 rounded-md bg-rose-950/80 hover:bg-rose-900 text-rose-300 border border-rose-800 text-[10px] font-bold font-mono flex items-center gap-1 transition-all cursor-pointer"
+                            title="Watch Educator Solution Video"
                           >
-                            🏢 {comp}
-                          </span>
-                        ))}
-                        {q.companyTags.length > 3 && (
-                          <span className="text-[9px] font-mono text-slate-500">+{q.companyTags.length - 3}</span>
-                        )}
+                            <Video className="h-3 w-3 text-rose-400" />
+                            <span>Video</span>
+                          </button>
+                          {q.frequencyScore && (
+                            <span className="text-emerald-400 font-bold flex items-center gap-0.5">
+                              <Zap className="h-3 w-3 text-amber-400" /> {q.frequencyScore}%
+                            </span>
+                          )}
+                        </div>
                       </div>
-                    )}
+                    </button>
+                  );
+                })}
 
-                    <div className="flex items-center justify-between mt-2 text-[10px] text-slate-400 font-mono gap-1">
-                      <span className="text-slate-400 truncate max-w-[140px]">🏷️ {q.patternOrTag}</span>
-                      <div className="flex items-center gap-1.5 shrink-0">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setPlayingVideo({
-                              title: q.title,
-                              youtubeId: q.youtubeId,
-                              query: q.videoQuery || `${q.title} ${q.platform} solution tutorial`,
-                              educator: q.platform
-                            });
-                          }}
-                          className="px-2 py-0.5 rounded-md bg-rose-950/80 hover:bg-rose-900 text-rose-300 border border-rose-800 text-[10px] font-bold font-mono flex items-center gap-1 transition-all cursor-pointer"
-                          title="Watch Educator Solution Video"
-                        >
-                          <Video className="h-3 w-3 text-rose-400" />
-                          <span>Video</span>
-                        </button>
-                        {q.frequencyScore && (
-                          <span className="text-emerald-400 font-bold flex items-center gap-0.5">
-                            <Zap className="h-3 w-3 text-amber-400" /> {q.frequencyScore}%
-                          </span>
-                        )}
-                      </div>
-                    </div>
+                {filteredQuestions.length > visibleLimit && (
+                  <button
+                    onClick={() => setVisibleLimit(prev => prev + 50)}
+                    className="w-full py-3 rounded-xl border border-cyan-500/30 bg-cyan-950/40 hover:bg-cyan-900/60 text-cyan-300 text-xs font-mono font-bold transition-all cursor-pointer text-center shadow-lg hover:border-cyan-500/60"
+                  >
+                    Load More Questions (Showing {visibleLimit} of {filteredQuestions.length}) ⚡
                   </button>
-                );
-              })
+                )}
+              </>
             )}
           </div>
         </div>
