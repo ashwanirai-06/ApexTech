@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { ALL_DSA_SHEETS, DSASheetTopic } from '../data/dsaSheetsData';
 import { generateAggregatedQuestionBank } from '../data/questionBankData';
 import { VideoPlayerModal } from '../components/VideoPlayerModal';
+import { getVerifiedVideoForQuestion } from '../utils/videoUtils';
 import { CodePracticeWorkspace } from '../components/CodePracticeWorkspace';
 import { Code, Terminal, Copy, Check, Sparkles, BookOpen, Clock, Play, Video, ExternalLink, Flame, Search, Lightbulb, CheckCircle2, ChevronDown, ChevronUp, Cpu, FileCode2, Layers, Filter } from 'lucide-react';
 
@@ -240,12 +241,15 @@ export const DSAMasteryPage: React.FC<DSAMasteryPageProps> = ({
 
               <div className="flex items-center gap-2 flex-wrap">
                 <button
-                  onClick={() => setPlayingVideo({
-                    title: currentTopic.topicName,
-                    youtubeId: currentTopic.youtubeId,
-                    query: currentTopic.videoQuery,
-                    educator: currentTopic.sheetCategory
-                  })}
+                  onClick={() => {
+                    const vInfo = getVerifiedVideoForQuestion(currentTopic.topicName, 'DSA', currentTopic.sheetCategory);
+                    setPlayingVideo({
+                      title: currentTopic.topicName,
+                      youtubeId: currentTopic.youtubeId || vInfo.youtubeId,
+                      query: currentTopic.videoQuery || vInfo.videoQuery,
+                      educator: currentTopic.sheetCategory
+                    });
+                  }}
                   className="flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-rose-600 to-rose-700 text-white font-bold text-xs hover:brightness-110 transition-all shadow-md shadow-rose-600/20 font-mono cursor-pointer"
                 >
                   <Video className="h-3.5 w-3.5" />
@@ -282,12 +286,15 @@ export const DSAMasteryPage: React.FC<DSAMasteryPageProps> = ({
                 python: currentTopic.codeTemplate,
                 java: currentTopic.codeTemplate
               }}
-              onVideoClick={() => setPlayingVideo({
-                title: currentTopic.topicName,
-                youtubeId: currentTopic.youtubeId,
-                query: currentTopic.videoQuery,
-                educator: currentTopic.sheetCategory
-              })}
+              onVideoClick={() => {
+                const vInfo = getVerifiedVideoForQuestion(currentTopic.topicName, 'DSA', currentTopic.sheetCategory);
+                setPlayingVideo({
+                  title: currentTopic.topicName,
+                  youtubeId: currentTopic.youtubeId || vInfo.youtubeId,
+                  query: currentTopic.videoQuery || vInfo.videoQuery,
+                  educator: currentTopic.sheetCategory
+                });
+              }}
             />
 
           </div>

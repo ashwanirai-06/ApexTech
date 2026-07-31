@@ -9,6 +9,7 @@ import {
   CodeLanguage
 } from '../data/questionBankData';
 import { VideoPlayerModal } from '../components/VideoPlayerModal';
+import { getVerifiedVideoForQuestion } from '../utils/videoUtils';
 import { CodePracticeWorkspace } from '../components/CodePracticeWorkspace';
 import {
   Code,
@@ -631,10 +632,11 @@ export const QuestionBankPage: React.FC<QuestionBankPageProps> = ({
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
+                              const vInfo = getVerifiedVideoForQuestion(q.title, q.category, q.platform);
                               setPlayingVideo({
                                 title: q.title,
-                                youtubeId: q.youtubeId,
-                                query: q.videoQuery || `${q.title} ${q.platform} solution tutorial`,
+                                youtubeId: q.youtubeId || vInfo.youtubeId,
+                                query: q.videoQuery || vInfo.videoQuery,
                                 educator: q.platform
                               });
                             }}
@@ -707,12 +709,15 @@ export const QuestionBankPage: React.FC<QuestionBankPageProps> = ({
               {/* Action Buttons */}
               <div className="flex items-center gap-2 flex-wrap">
                 <button
-                  onClick={() => setPlayingVideo({
-                    title: currentQuestion.title,
-                    youtubeId: currentQuestion.youtubeId,
-                    query: currentQuestion.videoQuery || `${currentQuestion.title} ${currentQuestion.platform} solution`,
-                    educator: currentQuestion.platform
-                  })}
+                  onClick={() => {
+                    const vInfo = getVerifiedVideoForQuestion(currentQuestion.title, currentQuestion.category, currentQuestion.platform);
+                    setPlayingVideo({
+                      title: currentQuestion.title,
+                      youtubeId: currentQuestion.youtubeId || vInfo.youtubeId,
+                      query: currentQuestion.videoQuery || vInfo.videoQuery,
+                      educator: currentQuestion.platform
+                    });
+                  }}
                   className="flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-rose-600 to-rose-700 text-white font-bold text-xs hover:brightness-110 transition-all shadow-md shadow-rose-600/20 font-mono cursor-pointer"
                 >
                   <Video className="h-3.5 w-3.5" />
@@ -739,12 +744,15 @@ export const QuestionBankPage: React.FC<QuestionBankPageProps> = ({
                 hints={currentQuestion.hints}
                 testCases={currentQuestion.testCases}
                 solutions={currentQuestion.solutions}
-                onVideoClick={() => setPlayingVideo({
-                  title: currentQuestion.title,
-                  youtubeId: currentQuestion.youtubeId,
-                  query: currentQuestion.videoQuery || `${currentQuestion.title} ${currentQuestion.platform} solution`,
-                  educator: currentQuestion.platform
-                })}
+                onVideoClick={() => {
+                  const vInfo = getVerifiedVideoForQuestion(currentQuestion.title, currentQuestion.category, currentQuestion.platform);
+                  setPlayingVideo({
+                    title: currentQuestion.title,
+                    youtubeId: currentQuestion.youtubeId || vInfo.youtubeId,
+                    query: currentQuestion.videoQuery || vInfo.videoQuery,
+                    educator: currentQuestion.platform
+                  });
+                }}
               />
             </div>
 

@@ -1,3 +1,5 @@
+import { getVerifiedVideoForQuestion } from '../utils/videoUtils';
+
 export type QuestionCategory = 'DSA' | 'System Design' | 'Frontend' | 'Backend' | 'Behavioral';
 export type PlatformSource = 'LeetCode' | 'Striver' | 'GFG' | 'CodeChef' | 'HackerRank' | 'InterviewBit' | 'CodeStudio';
 export type Difficulty = 'Easy' | 'Medium' | 'Hard';
@@ -902,6 +904,7 @@ export const generateAggregatedQuestionBank = (count: number = 5000): QuestionIt
     seenIds.add(qId);
 
     const itemTitle = `${chosenPattern.title} - ${modifier} (Q#${qNumber})`;
+    const videoInfo = getVerifiedVideoForQuestion(chosenPattern.title, chosenCat, plat);
 
     generated.push({
       id: qId,
@@ -968,8 +971,8 @@ public class Solution_${qNumber} {
     }
 }`
       },
-      videoQuery: `${chosenPattern.title} ${plat} solution Striver NeetCode`,
-      youtubeId: ytId,
+      videoQuery: videoInfo.videoQuery,
+      youtubeId: videoInfo.youtubeId,
       leetcodeRef: `Problem #${100 + (qNumber % 3500)}`,
       frequencyScore: 70 + (qNumber % 29),
       companyTags: companyTag
