@@ -27,102 +27,244 @@ export const getVerifiedVideoForQuestion = (
   const lowerTitle = (title || '').toLowerCase();
   const lowerCat = (category || '').toLowerCase();
 
-  // 1. Array & Two Pointers / 3Sum / Two Sum
-  if (lowerTitle.includes('sum') || lowerTitle.includes('pointer') || lowerTitle.includes('array') || lowerTitle.includes('triplet')) {
-    return {
-      youtubeId: 'UXDSeD9mN-k',
-      videoQuery: `${title} ${platform || ''} Striver NeetCode Two Pointers solution`
-    };
-  }
-  // 2. Binary Search
-  if (lowerTitle.includes('binary search') || lowerTitle.includes('rotated') || lowerTitle.includes('median') || lowerTitle.includes('koko') || lowerTitle.includes('allocation')) {
-    return {
-      youtubeId: 'W9QJ8HaZnac',
-      videoQuery: `${title} ${platform || ''} Striver Binary Search solution`
-    };
-  }
-  // 3. Sliding Window
-  if (lowerTitle.includes('window') || lowerTitle.includes('substring') || lowerTitle.includes('consecutive')) {
-    return {
-      youtubeId: 'cQ1Oz4ck15I',
-      videoQuery: `${title} ${platform || ''} NeetCode Sliding Window solution`
-    };
-  }
-  // 4. Linked List
-  if (lowerTitle.includes('link') || lowerTitle.includes('list') || lowerTitle.includes('node') || lowerTitle.includes('lru') || lowerTitle.includes('lfu')) {
-    return {
-      youtubeId: 'q8g1tD91m-s',
-      videoQuery: `${title} ${platform || ''} Love Babbar Striver Linked List solution`
-    };
-  }
-  // 5. Stack & Queue
-  if (lowerTitle.includes('stack') || lowerTitle.includes('queue') || lowerTitle.includes('histogram') || lowerTitle.includes('parentheses')) {
-    return {
-      youtubeId: 'Du8OIftK3oM',
-      videoQuery: `${title} ${platform || ''} Striver Monotonic Stack solution`
-    };
-  }
-  // 6. Trees & BST
-  if (lowerTitle.includes('tree') || lowerTitle.includes('bst') || lowerTitle.includes('ancestor') || lowerTitle.includes('traversal') || lowerTitle.includes('serialize')) {
-    return {
-      youtubeId: '_ANrF3FJm7I',
-      videoQuery: `${title} ${platform || ''} Striver Tree Traversals solution`
-    };
-  }
-  // 7. Graphs
-  if (lowerTitle.includes('graph') || lowerTitle.includes('island') || lowerTitle.includes('dijkstra') || lowerTitle.includes('topological') || lowerTitle.includes('course') || lowerTitle.includes('ladder')) {
-    return {
-      youtubeId: '73gne8gBv4A',
-      videoQuery: `${title} ${platform || ''} Gate Smashers Striver Graph solution`
-    };
-  }
-  // 8. Dynamic Programming
-  if (lowerTitle.includes('dp') || lowerTitle.includes('knapsack') || lowerTitle.includes('subsequence') || lowerTitle.includes('coin') || lowerTitle.includes('edit distance') || lowerTitle.includes('partition') || lowerTitle.includes('break') || lowerTitle.includes('matrix')) {
-    return {
-      youtubeId: '5o-kdjv720A',
-      videoQuery: `${title} ${platform || ''} Striver NeetCode Dynamic Programming solution`
-    };
-  }
-  // 9. Backtracking
-  if (lowerTitle.includes('queen') || lowerTitle.includes('sudoku') || lowerTitle.includes('combination') || lowerTitle.includes('backtrack')) {
-    return {
-      youtubeId: 'iTwpI45G4TE',
-      videoQuery: `${title} ${platform || ''} Striver Backtracking N-Queens solution`
-    };
-  }
-  // 10. System Design
-  if (lowerCat.includes('system') || lowerTitle.includes('design') || lowerTitle.includes('rate limiter') || lowerTitle.includes('shortener') || lowerTitle.includes('crawler') || lowerTitle.includes('chat') || lowerTitle.includes('notification')) {
+  // --- 1. SYSTEM DESIGN TOPICS (Prioritized when category is System Design or title indicates System Design) ---
+  if (lowerCat.includes('system') || lowerTitle.includes('system design') || lowerTitle.includes('architecture') || lowerTitle.includes('distributed')) {
+    // 1a. Notification & Push Engine / Alerting
+    if (lowerTitle.includes('notification') || lowerTitle.includes('push') || lowerTitle.includes('alert') || lowerTitle.includes('sms')) {
+      return {
+        youtubeId: 'bBTPZ9NdSk8',
+        videoQuery: `${title} System Design ByteByteGo Notification System`
+      };
+    }
+    // 1b. Ride Sharing / Uber / Lyft / Geofencing / Location / Taxi
+    if (lowerTitle.includes('ride') || lowerTitle.includes('uber') || lowerTitle.includes('lyft') || lowerTitle.includes('geofenc') || lowerTitle.includes('location') || lowerTitle.includes('taxi')) {
+      return {
+        youtubeId: 'lsKU38RKQSo',
+        videoQuery: `${title} System Design ByteByteGo Uber Geofencing`
+      };
+    }
+    // 1c. Rate Limiter / Token Bucket / Leaky Bucket
+    if (lowerTitle.includes('rate limit') || lowerTitle.includes('token bucket') || lowerTitle.includes('leaky bucket')) {
+      return {
+        youtubeId: 'FU4WlwfS3G0',
+        videoQuery: `${title} System Design Rate Limiter ByteByteGo`
+      };
+    }
+    // 1d. URL Shortener / TinyURL / Bitly
+    if (lowerTitle.includes('shortener') || lowerTitle.includes('tinyurl') || lowerTitle.includes('bitly')) {
+      return {
+        youtubeId: 'fMZMmG1M6Ew',
+        videoQuery: `${title} System Design TinyURL ByteByteGo`
+      };
+    }
+    // 1e. Web Crawler / Search Indexer
+    if (lowerTitle.includes('crawler') || lowerTitle.includes('indexing') || lowerTitle.includes('search engine')) {
+      return {
+        youtubeId: 'BK3X09mS2Yk',
+        videoQuery: `${title} System Design Web Crawler ByteByteGo`
+      };
+    }
+    // 1f. Chat System / WhatsApp / Messenger / Discord / WebSocket
+    if (lowerTitle.includes('chat') || lowerTitle.includes('whatsapp') || lowerTitle.includes('messenger') || lowerTitle.includes('discord')) {
+      return {
+        youtubeId: 'vvhC64hQzmM',
+        videoQuery: `${title} System Design WhatsApp ByteByteGo`
+      };
+    }
+    // 1g. Distributed Message Queue / Kafka / PubSub / Consumer
+    if (lowerTitle.includes('queue') || lowerTitle.includes('kafka') || lowerTitle.includes('pubsub') || lowerTitle.includes('broker')) {
+      return {
+        youtubeId: 'iJLL-2x30EO',
+        videoQuery: `${title} System Design Distributed Message Queue Kafka Gaurav Sen`
+      };
+    }
+    // 1h. Distributed Cache / Redis / Memcached
+    if (lowerTitle.includes('cache') || lowerTitle.includes('redis') || lowerTitle.includes('memcached')) {
+      return {
+        youtubeId: 'iuqZvajTOyA',
+        videoQuery: `${title} System Design Distributed Cache Redis Gaurav Sen`
+      };
+    }
+    // 1i. Consistent Hashing / Hash Ring
+    if (lowerTitle.includes('consistent hash') || lowerTitle.includes('hash ring')) {
+      return {
+        youtubeId: 'zaRkONvy9y0',
+        videoQuery: `${title} System Design Consistent Hashing Gaurav Sen`
+      };
+    }
+    // 1j. E-Commerce / Food Delivery / Swiggy / Zomato / Order Processing
+    if (lowerTitle.includes('food') || lowerTitle.includes('swiggy') || lowerTitle.includes('zomato') || lowerTitle.includes('e-commerce') || lowerTitle.includes('payment')) {
+      return {
+        youtubeId: 'L72fhMn1azk',
+        videoQuery: `${title} System Design Swiggy Zomato E-Commerce ByteByteGo`
+      };
+    }
+    // 1k. Video Streaming / Netflix / YouTube
+    if (lowerTitle.includes('streaming') || lowerTitle.includes('netflix') || lowerTitle.includes('youtube')) {
+      return {
+        youtubeId: 'jK3eUp4TRh4',
+        videoQuery: `${title} System Design Netflix Video Streaming ByteByteGo`
+      };
+    }
+    // 1l. Key-Value Store / DynamoDB / NoSQL
+    if (lowerTitle.includes('key-value') || lowerTitle.includes('dynamodb') || lowerTitle.includes('nosql')) {
+      return {
+        youtubeId: 'rnZmdmlR-L4',
+        videoQuery: `${title} System Design Key Value Store Gaurav Sen`
+      };
+    }
+    // 1m. Newsfeed / Twitter / Instagram / Social Network
+    if (lowerTitle.includes('newsfeed') || lowerTitle.includes('feed') || lowerTitle.includes('twitter') || lowerTitle.includes('instagram')) {
+      return {
+        youtubeId: 'S23A8I5-pMc',
+        videoQuery: `${title} System Design Twitter News Feed ByteByteGo`
+      };
+    }
+    // 1n. Database Sharding / Replication
+    if (lowerTitle.includes('sharding') || lowerTitle.includes('partition') || lowerTitle.includes('replication')) {
+      return {
+        youtubeId: '5faMjKuB9bc',
+        videoQuery: `${title} System Design Database Sharding Scaling ByteByteGo`
+      };
+    }
+
+    // Default System Design fallback
     return {
       youtubeId: 'FU4WlwfS3G0',
       videoQuery: `${title} System Design ByteByteGo Gaurav Sen`
     };
   }
-  // 11. Frontend
-  if (lowerCat.includes('frontend') || lowerTitle.includes('react') || lowerTitle.includes('debounce') || lowerTitle.includes('dom') || lowerTitle.includes('hook') || lowerTitle.includes('scroll')) {
+
+  // --- 2. FRONTEND TOPICS ---
+  if (lowerCat.includes('frontend') || lowerTitle.includes('react') || lowerTitle.includes('dom') || lowerTitle.includes('frontend')) {
+    if (lowerTitle.includes('debounce') || lowerTitle.includes('throttle') || lowerTitle.includes('event loop')) {
+      return {
+        youtubeId: 'cjIswDCK4pA',
+        videoQuery: `${title} Frontend Interview Akshay Saini Namaste JavaScript`
+      };
+    }
     return {
-      youtubeId: 'cjIswDCK4pA',
-      videoQuery: `${title} Frontend Interview Akshay Saini Namaste JavaScript`
+      youtubeId: 'YPTqKIgVk-k',
+      videoQuery: `${title} Frontend Interview React JS Namaste JavaScript Akshay Saini`
     };
   }
-  // 12. Backend
-  if (lowerCat.includes('backend') || lowerTitle.includes('jwt') || lowerTitle.includes('database') || lowerTitle.includes('kafka') || lowerTitle.includes('api') || lowerTitle.includes('connection')) {
+
+  // --- 3. BACKEND TOPICS ---
+  if (lowerCat.includes('backend') || lowerTitle.includes('backend') || lowerTitle.includes('express') || lowerTitle.includes('api')) {
+    if (lowerTitle.includes('jwt') || lowerTitle.includes('auth') || lowerTitle.includes('token') || lowerTitle.includes('session')) {
+      return {
+        youtubeId: 'mbsmsi7l3r4',
+        videoQuery: `${title} Backend Engineering Node.js JWT Auth Web Dev Simplified`
+      };
+    }
     return {
-      youtubeId: 'mbsmsi7l3r4',
-      videoQuery: `${title} Backend Engineering Node.js Web Dev Simplified`
+      youtubeId: 'dBGUmUQhjaM',
+      videoQuery: `${title} Backend Node.js Database API Design`
     };
   }
-  // 13. Behavioral
-  if (lowerCat.includes('behavioral') || lowerTitle.includes('star') || lowerTitle.includes('leadership') || lowerTitle.includes('outage') || lowerTitle.includes('disagreement')) {
+
+  // --- 4. BEHAVIORAL TOPICS ---
+  if (lowerCat.includes('behavioral') || lowerTitle.includes('behavioral') || lowerTitle.includes('leadership') || lowerTitle.includes('star method')) {
     return {
       youtubeId: 'A4I1J8qYJ1A',
       videoQuery: `${title} Behavioral Interview STAR Method Tech Lead`
     };
   }
 
-  // Fallback default: Striver / NeetCode verified high-quality video
+  // --- 5. DSA TOPICS (Precise matching to avoid accidental substring hits like "consumer" matching "sum") ---
+  
+  // 5a. Two Pointers / 2Sum / 3Sum / 4Sum
+  if (/\b(2sum|3sum|4sum|two sum|three sum|four sum|triplet|two pointer|pair sum)\b/i.test(lowerTitle)) {
+    return {
+      youtubeId: 'UXDSeD9mN-k',
+      videoQuery: `${title} ${platform || ''} Striver NeetCode Two Pointers 3Sum solution`
+    };
+  }
+
+  // 5b. Binary Search / Rotated / Koko / Median / Allocation
+  if (lowerTitle.includes('binary search') || lowerTitle.includes('rotated') || lowerTitle.includes('median') || lowerTitle.includes('koko') || lowerTitle.includes('allocation') || lowerTitle.includes('search in')) {
+    return {
+      youtubeId: 'W9QJ8HaZnac',
+      videoQuery: `${title} ${platform || ''} Striver Binary Search solution`
+    };
+  }
+
+  // 5c. Sliding Window / Substring
+  if (lowerTitle.includes('window') || lowerTitle.includes('substring') || lowerTitle.includes('consecutive') || lowerTitle.includes('anagram')) {
+    return {
+      youtubeId: 'cQ1Oz4ck15I',
+      videoQuery: `${title} ${platform || ''} NeetCode Sliding Window solution`
+    };
+  }
+
+  // 5d. Linked List
+  if (lowerTitle.includes('linked list') || lowerTitle.includes('reverse list') || lowerTitle.includes('lru') || lowerTitle.includes('lfu') || lowerTitle.includes('detect cycle')) {
+    return {
+      youtubeId: 'q8g1tD91m-s',
+      videoQuery: `${title} ${platform || ''} Love Babbar Striver Linked List solution`
+    };
+  }
+
+  // 5e. Stack & Queue
+  if (lowerTitle.includes('stack') || lowerTitle.includes('queue') || lowerTitle.includes('histogram') || lowerTitle.includes('parentheses') || lowerTitle.includes('next greater')) {
+    return {
+      youtubeId: 'Du8OIftK3oM',
+      videoQuery: `${title} ${platform || ''} Striver Monotonic Stack solution`
+    };
+  }
+
+  // 5f. Trees & BST
+  if (lowerTitle.includes('tree') || lowerTitle.includes('bst') || lowerTitle.includes('ancestor') || lowerTitle.includes('traversal') || lowerTitle.includes('serialize') || lowerTitle.includes('binary tree')) {
+    return {
+      youtubeId: '_ANrF3FJm7I',
+      videoQuery: `${title} ${platform || ''} Striver Tree Traversals solution`
+    };
+  }
+
+  // 5g. Graphs
+  if (lowerTitle.includes('graph') || lowerTitle.includes('island') || lowerTitle.includes('dijkstra') || lowerTitle.includes('topological') || lowerTitle.includes('course schedule') || lowerTitle.includes('ladder')) {
+    return {
+      youtubeId: '73gne8gBv4A',
+      videoQuery: `${title} ${platform || ''} Gate Smashers Striver Graph solution`
+    };
+  }
+
+  // 5h. Dynamic Programming / Knapsack
+  if (lowerTitle.includes('dp') || lowerTitle.includes('knapsack') || lowerTitle.includes('subsequence') || lowerTitle.includes('coin') || lowerTitle.includes('edit distance') || lowerTitle.includes('partition') || lowerTitle.includes('matrix chain') || lowerTitle.includes('dynamic programming')) {
+    return {
+      youtubeId: 'nLmhmB6SqcM',
+      videoQuery: `${title} ${platform || ''} Abdul Bari Striver Dynamic Programming 0 1 Knapsack solution`
+    };
+  }
+
+  // 5i. Backtracking
+  if (lowerTitle.includes('queen') || lowerTitle.includes('sudoku') || lowerTitle.includes('combination') || lowerTitle.includes('backtrack') || lowerTitle.includes('n-queen')) {
+    return {
+      youtubeId: 'iTwpI45G4TE',
+      videoQuery: `${title} ${platform || ''} Striver Backtracking N-Queens solution`
+    };
+  }
+
+  // 5j. Greedy
+  if (lowerTitle.includes('greedy') || lowerTitle.includes('interval') || lowerTitle.includes('activity selection') || lowerTitle.includes('job sequencing')) {
+    return {
+      youtubeId: 'HzeK7g8cD0k',
+      videoQuery: `${title} ${platform || ''} Striver Greedy Algorithms solution`
+    };
+  }
+
+  // 5k. Trie / Prefix Tree
+  if (lowerTitle.includes('trie') || lowerTitle.includes('prefix tree')) {
+    return {
+      youtubeId: 'dBGUmUQhjaM',
+      videoQuery: `${title} ${platform || ''} Striver Trie solution`
+    };
+  }
+
+  // Generic fallback: High-quality Striver / NeetCode search query & verified default video
   return {
     youtubeId: 'UXDSeD9mN-k',
-    videoQuery: `${title} ${platform || 'LeetCode'} solution Striver NeetCode`
+    videoQuery: `${title} ${platform || 'LeetCode'} solution Striver NeetCode Babbar`
   };
 };
 
@@ -223,7 +365,7 @@ export const FEATURED_TOPIC_VIDEOS: TopicVideoInfo[] = [
     subjectOrCategory: 'DSA & Placements',
     educator: 'Abdul Bari',
     duration: '52 mins',
-    youtubeId: '5o-kdjv720A',
+    youtubeId: 'nLmhmB6SqcM',
     query: 'Abdul Bari Dynamic Programming Knapsack Greedy',
     description: 'World-renowned whiteboard analysis of 0/1 Knapsack, memoization, tabular space optimization, and algorithm math.',
     tags: ['Dynamic Programming', '0/1 Knapsack', 'Greedy']

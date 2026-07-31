@@ -753,14 +753,6 @@ export const generateAggregatedQuestionBank = (count: number = 5000): QuestionIt
     ['Paytm', 'Razorpay', 'PhonePe']
   ];
 
-  const youtubeVideoIds = [
-    'UXDSeD9mN-k', 'W9QJ8HaZnac', 'cQ1Oz4ck15I', 'q8g1tD91m-s',
-    'Du8OIftK3oM', '_ANrF3FJm7I', 'M3_pSqDzuU4', '5o-kdjv720A',
-    'iTwpI45G4TE', 'YPTqKIgVk-k', 'dBGUmUQhjaM', 'rg7Fvvl3taU',
-    '13gLB6h5iOM', 'Z1N3pL6E72w', '8zKuNo4ay8E', 'i53Gi_K3o7I',
-    'K0Ta65OqQkY', 'zF_S3dJ3e1E', '542M1_S8Cqg', 'aircAruvnKk'
-  ];
-
   const dsaPatterns = [
     { title: 'Two Sum II - Input Array Is Sorted', tag: 'Two Pointers' },
     { title: '3Sum Closest Triplet Sum Optimization', tag: 'Two Pointers' },
@@ -893,7 +885,6 @@ export const generateAggregatedQuestionBank = (count: number = 5000): QuestionIt
     const diff = difficulties[generated.length % difficulties.length];
     const modifier = modifiers[generated.length % modifiers.length];
     const companyTag = companyPools[generated.length % companyPools.length];
-    const ytId = youtubeVideoIds[generated.length % youtubeVideoIds.length];
 
     const qNumber = generated.length + 1;
     const qId = `q-bank-${qNumber}`;
