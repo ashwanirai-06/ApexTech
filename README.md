@@ -10,7 +10,7 @@ A modern platform for DSA, AI-powered interview preparation, technical learning,
 
 ### 🌐 Live Demo
 
-🚀 **Try ApexTech:** https://apextech-fm82.onrender.com
+🚀 **Try ApexTech:** https://apextech-m1zn.onrender.com
 
 </div>
 
