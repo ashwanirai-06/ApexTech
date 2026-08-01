@@ -1,6 +1,7 @@
 import React from 'react';
 import { User } from '../types';
-import { Zap, ShieldAlert, LogOut, Code2 } from 'lucide-react';
+import { Zap, ShieldAlert, LogOut, Code2, Palette } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
 
 interface NavbarProps {
   user: User | null;
@@ -19,24 +20,37 @@ export const Navbar: React.FC<NavbarProps> = ({
   setDemoMode,
   onLogout
 }) => {
+  const { themeConfig } = useTheme();
+
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-white/10 bg-[#050508]/80 backdrop-blur-xl">
+    <header 
+      className={`sticky top-0 z-40 w-full border-b backdrop-blur-xl transition-colors duration-200 ${
+        themeConfig.mode === 'light'
+          ? 'bg-white/90 border-slate-200 text-slate-800'
+          : `${themeConfig.cardBgClass}/90 ${themeConfig.borderClass} text-white`
+      }`}
+      style={{
+        backgroundColor: themeConfig.mode === 'light' ? 'rgba(255, 255, 255, 0.9)' : undefined
+      }}
+    >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         
         {/* Logo and Mobile Brand */}
         <div className="flex items-center gap-3">
           <button 
-            onClick={() => setActiveTab('dashboard')}
-            className="flex items-center gap-2 text-left group transition-all"
+            onClick={() => setActiveTab(user ? 'dashboard' : 'login')}
+            className="flex items-center gap-2 text-left group transition-all cursor-pointer"
           >
-            <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-indigo-600 rounded-lg flex items-center justify-center shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform">
+            <div className={`w-10 h-10 bg-gradient-to-br ${themeConfig.accentGradient} rounded-lg flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform`}>
               <svg viewBox="0 0 24 24" className="w-6 h-6 text-white" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
               </svg>
             </div>
             <div>
-              <div className="flex items-center gap-1.5 font-bold tracking-tight text-white text-xl font-mono">
-                <span>Apex<span className="text-cyan-400">Tech</span></span>
+              <div className="flex items-center gap-1.5 font-bold tracking-tight text-xl font-mono">
+                <span className={themeConfig.mode === 'light' ? 'text-slate-900' : 'text-white'}>
+                  Apex<span className={themeConfig.textAccentClass}>Tech</span>
+                </span>
               </div>
               <p className="text-[10px] text-slate-400 font-sans hidden sm:block">DSA Sheets & Tech Career Engineering</p>
             </div>
@@ -45,8 +59,8 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* User Profile Badge */}
           {user && (
             <div className="hidden md:flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-300">
-              <Code2 className="h-3.5 w-3.5 text-cyan-400" />
-              <span className="font-semibold text-cyan-300 font-mono truncate max-w-[150px]">{user.profile?.targetRole || 'Full Stack'}</span>
+              <Code2 className={`h-3.5 w-3.5 ${themeConfig.textAccentClass}`} />
+              <span className={`font-semibold ${themeConfig.textAccentClass} font-mono truncate max-w-[150px]`}>{user.profile?.targetRole || 'Full Stack'}</span>
             </div>
           )}
         </div>
@@ -54,9 +68,19 @@ export const Navbar: React.FC<NavbarProps> = ({
         {/* Right Badges & Controls */}
         <div className="flex items-center gap-3">
           
+          {/* Theme Quick Switcher Link */}
+          <button
+            onClick={() => setActiveTab('settings-theme')}
+            className={`hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-mono font-bold border transition-all cursor-pointer ${themeConfig.badgeClass}`}
+            title="Change Theme Palette"
+          >
+            <Palette className="h-3.5 w-3.5" />
+            <span>Theme: {themeConfig.name}</span>
+          </button>
+
           {/* AI Readiness Score */}
-          <div className="flex items-center gap-1.5 rounded-xl border border-cyan-500/30 bg-cyan-950/30 px-2.5 py-1 text-xs font-semibold text-cyan-400">
-            <Zap className="h-4 w-4 text-cyan-400 fill-cyan-400" />
+          <div className={`flex items-center gap-1.5 rounded-xl border px-2.5 py-1 text-xs font-semibold ${themeConfig.badgeClass}`}>
+            <Zap className="h-4 w-4 fill-current" />
             <span>100% Tech Ready</span>
           </div>
 
@@ -81,7 +105,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onClick={() => setActiveTab('profile')}
                 className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 p-1.5 text-xs text-white hover:bg-white/10 transition-colors"
               >
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-tr from-cyan-500 to-indigo-500 font-bold text-white text-xs">
+                <div className={`flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-tr ${themeConfig.accentGradient} font-bold text-white text-xs`}>
                   {user.fullName.charAt(0)}
                 </div>
                 <span className="hidden lg:inline-block font-medium pr-1">{user.fullName.split(' ')[0]}</span>

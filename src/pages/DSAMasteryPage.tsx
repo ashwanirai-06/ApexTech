@@ -1,24 +1,46 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { ALL_DSA_SHEETS, DSASheetTopic } from '../data/dsaSheetsData';
-import { generateAggregatedQuestionBank } from '../data/questionBankData';
 import { VideoPlayerModal } from '../components/VideoPlayerModal';
-import { getVerifiedVideoForQuestion } from '../utils/videoUtils';
+import { getVerifiedVideoForQuestion, getExactEducatorVideoForQuestion } from '../utils/videoUtils';
+import { evaluateUserCode } from '../utils/codeEvaluator';
+import { hasOfficialSolution } from '../utils/solutionValidator';
 import { CodePracticeWorkspace } from '../components/CodePracticeWorkspace';
 import { Code, Terminal, Copy, Check, Sparkles, BookOpen, Clock, Play, Video, ExternalLink, Flame, Search, Lightbulb, CheckCircle2, ChevronDown, ChevronUp, Cpu, FileCode2, Layers, Filter } from 'lucide-react';
 
 interface DSAMasteryPageProps {
+  initialFilter?: string;
   onStartVivaForTopic?: (subjectCode: string, topic: string) => void;
   onOpenQuestionBank?: (topic: string) => void;
 }
 
 export const DSAMasteryPage: React.FC<DSAMasteryPageProps> = ({
+    initialFilter,
     onStartVivaForTopic,
     onOpenQuestionBank
 }) => {
-  const [selectedSheetCategory, setSelectedSheetCategory] = useState<'All' | 'Striver A2Z' | 'LeetCode 3000+' | 'GeeksforGeeks SDE' | 'PW College Wallah' | 'CodeChef CP' | 'Apna College Alpha'>('All');
+  const [selectedSheetCategory, setSelectedSheetCategory] = useState<'All' | 'Striver A2Z' | 'LeetCode' | 'GeeksforGeeks SDE' | 'PW College Wallah' | 'CodeChef CP' | 'Apna College Alpha'>('All');
   const [selectedDifficulty, setSelectedDifficulty] = useState<'All' | 'Easy' | 'Medium' | 'Hard'>('All');
   const [selectedPattern, setSelectedPattern] = useState<string>('All');
+
+  React.useEffect(() => {
+    if (initialFilter === 'striver') {
+      setSelectedSheetCategory('Striver A2Z');
+      setSelectedDifficulty('All');
+    } else if (initialFilter === 'beginner') {
+      setSelectedSheetCategory('All');
+      setSelectedDifficulty('Easy');
+    } else if (initialFilter === 'advanced') {
+      setSelectedSheetCategory('All');
+      setSelectedDifficulty('Hard');
+    } else if (initialFilter === 'progress') {
+      setSelectedSheetCategory('LeetCode');
+      setSelectedDifficulty('All');
+    } else {
+      setSelectedSheetCategory('All');
+      setSelectedDifficulty('All');
+    }
+  }, [initialFilter]);
   const [selectedTopicId, setSelectedTopicId] = useState<string>(ALL_DSA_SHEETS[0].id);
   const [searchQuery, setSearchQuery] = useState('');
   const [copied, setCopied] = useState(false);
@@ -29,7 +51,12 @@ export const DSAMasteryPage: React.FC<DSAMasteryPageProps> = ({
   const [testResult, setTestResult] = useState<{ executed: boolean; passed: boolean; message: string; details: any[] } | null>(null);
 
   // Video Modal
-  const [playingVideo, setPlayingVideo] = useState<{ title: string; youtubeId?: string; query: string; educator: string } | null>(null);
+  const [playingVideo, setPlayingVideo] = useState<{
+    title: string;
+    questionObject?: any;
+    educatorVideo: any;
+    initialLanguage?: 'English' | 'Hindi';
+  } | null>(null);
 
   const patterns = ['All', 'Two Pointers', 'Binary Search', 'LinkedList', 'Trees', 'Graphs', 'Dynamic Programming', 'Backtracking', 'Monotonic Stack', 'Greedy', 'Grid Search'];
 
@@ -55,20 +82,15 @@ export const DSAMasteryPage: React.FC<DSAMasteryPageProps> = ({
   };
 
   const handleRunTestCases = () => {
-    setTestResult({
-      executed: true,
-      passed: true,
-      message: 'All Test Cases Executed & Passed Successfully! ✅',
-      details: currentTopic.testCases.map((tc, idx) => ({
-        id: idx + 1,
-        input: tc.input,
-        expected: tc.expectedOutput,
-        actual: tc.expectedOutput,
-        passed: true,
-        runtime: `${Math.floor(Math.random() * 8) + 2}ms`,
-        memory: `${(Math.random() * 2 + 8).toFixed(1)}MB`
-      }))
-    });
+    const evalRes = evaluateUserCode(
+      currentTopic.codeTemplate,
+      'C++',
+      currentTopic.testCases,
+      currentTopic.codeTemplate,
+      currentTopic.topicName,
+      currentTopic.problemStatement
+    );
+    setTestResult(evalRes);
     setActiveRightTab('testcases');
   };
 
@@ -86,19 +108,19 @@ export const DSAMasteryPage: React.FC<DSAMasteryPageProps> = ({
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-500/30 bg-cyan-950/60 text-cyan-300 text-xs font-mono mb-3">
               <Sparkles className="h-3.5 w-3.5 text-cyan-400 animate-pulse" />
-              <span>5000 Question Master Collection (LeetCode, HackerRank, Striver A2Z & GFG)</span>
+              <span>2500+ Question Master Collection (LeetCode, HackerRank, Striver A2Z & GFG)</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight font-mono">
               DSA Practice Engine & Educator Masterclasses
             </h1>
             <p className="mt-2 text-xs sm:text-sm text-slate-300 leading-relaxed max-w-2xl">
-              Solve 3000+ curated Data Structure & Algorithm questions from LeetCode, Striver A2Z Sheet, GeeksforGeeks SDE Sheet, PW College Wallah, CodeChef CP & Apna College Alpha. Includes test case executor, hints & direct educator video tutorials.
+              Solve 2500+ curated Data Structure & Algorithm questions from LeetCode, Striver A2Z Sheet, GeeksforGeeks SDE Sheet, PW College Wallah, CodeChef CP & Apna College Alpha. Includes test case executor, hints & direct educator video tutorials.
             </p>
           </div>
 
           <div className="shrink-0 p-4 rounded-2xl bg-slate-950/80 border border-cyan-500/30 font-mono text-center shadow-xl">
             <span className="text-[10px] text-cyan-400 font-bold uppercase tracking-widest block">Question Index</span>
-            <span className="text-2xl font-bold text-white mt-0.5 block">5,000+ Problems</span>
+            <span className="text-2xl font-bold text-white mt-0.5 block">2,500+ Problems</span>
             <span className="text-[11px] text-emerald-400 font-semibold mt-1 block">Verified Optimal C++ Solutions</span>
           </div>
         </div>
@@ -115,7 +137,7 @@ export const DSAMasteryPage: React.FC<DSAMasteryPageProps> = ({
         </div>
 
         <div className="flex items-center gap-2 overflow-x-auto scrollbar-none pb-1">
-          {(['All', 'Striver A2Z', 'LeetCode 3000+', 'GeeksforGeeks SDE', 'PW College Wallah', 'CodeChef CP', 'Apna College Alpha'] as const).map(sheet => (
+          {(['All', 'Striver A2Z', 'LeetCode', 'GeeksforGeeks SDE', 'PW College Wallah', 'CodeChef CP', 'Apna College Alpha'] as const).map(sheet => (
             <button
               key={sheet}
               onClick={() => setSelectedSheetCategory(sheet)}
@@ -125,7 +147,7 @@ export const DSAMasteryPage: React.FC<DSAMasteryPageProps> = ({
                   : 'border border-slate-800 bg-slate-950/60 text-slate-400 hover:text-white'
               }`}
             >
-              {sheet === 'All' ? '⚡ All 3000+ Sheets' : sheet}
+              {sheet === 'All' ? '⚡ All Sheets' : sheet}
             </button>
           ))}
         </div>
@@ -240,21 +262,47 @@ export const DSAMasteryPage: React.FC<DSAMasteryPageProps> = ({
               </div>
 
               <div className="flex items-center gap-2 flex-wrap">
-                <button
-                  onClick={() => {
-                    const vInfo = getVerifiedVideoForQuestion(currentTopic.topicName, 'DSA', currentTopic.sheetCategory);
-                    setPlayingVideo({
-                      title: currentTopic.topicName,
-                      youtubeId: currentTopic.youtubeId || vInfo.youtubeId,
-                      query: currentTopic.videoQuery || vInfo.videoQuery,
-                      educator: currentTopic.sheetCategory
-                    });
-                  }}
-                  className="flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-rose-600 to-rose-700 text-white font-bold text-xs hover:brightness-110 transition-all shadow-md shadow-rose-600/20 font-mono cursor-pointer"
-                >
-                  <Video className="h-3.5 w-3.5" />
-                  <span>Educator Video Tutorial</span>
-                </button>
+                {hasOfficialSolution(currentTopic) && (
+                  <span className="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-950/80 text-amber-300 border border-amber-800 text-xs font-bold font-mono shadow-md">
+                    <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
+                    <span>Official Solution ✅</span>
+                  </span>
+                )}
+
+                <div className="flex items-center gap-1.5 bg-slate-950 p-1.5 rounded-xl border border-rose-500/30">
+                  <span className="text-xs text-rose-300 font-bold font-mono px-1 flex items-center gap-1">
+                    <Video className="h-3.5 w-3.5 text-rose-400" />
+                    <span>Watch Video Solution:</span>
+                  </span>
+                  <button
+                    onClick={() => {
+                      const vInfo = getExactEducatorVideoForQuestion(currentTopic, 'English');
+                      setPlayingVideo({
+                        title: currentTopic.topicName,
+                        questionObject: currentTopic,
+                        educatorVideo: vInfo,
+                        initialLanguage: 'English'
+                      });
+                    }}
+                    className="px-2.5 py-1 rounded-lg bg-rose-950 hover:bg-rose-900 text-rose-300 border border-rose-800 text-xs font-bold font-mono transition-all cursor-pointer flex items-center gap-1"
+                  >
+                    🇬🇧 English
+                  </button>
+                  <button
+                    onClick={() => {
+                      const vInfo = getExactEducatorVideoForQuestion(currentTopic, 'Hindi');
+                      setPlayingVideo({
+                        title: currentTopic.topicName,
+                        questionObject: currentTopic,
+                        educatorVideo: vInfo,
+                        initialLanguage: 'Hindi'
+                      });
+                    }}
+                    className="px-2.5 py-1 rounded-lg bg-rose-950 hover:bg-rose-900 text-rose-300 border border-rose-800 text-xs font-bold font-mono transition-all cursor-pointer flex items-center gap-1"
+                  >
+                    🇮🇳 Hindi
+                  </button>
+                </div>
 
                 <button
                   onClick={handleRunTestCases}
@@ -264,12 +312,12 @@ export const DSAMasteryPage: React.FC<DSAMasteryPageProps> = ({
                   <span>Run Test Cases</span>
                 </button>
                 <button
-  onClick={() => onOpenQuestionBank?.(currentTopic.topicName)}
-  className="flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-cyan-500 text-slate-950 font-bold text-xs hover:brightness-110 transition-all shadow-md shadow-cyan-500/20 font-mono cursor-pointer"
->
-  <BookOpen className="h-3.5 w-3.5" />
-  <span>Practice Questions</span>
-</button>
+                  onClick={() => onOpenQuestionBank?.(currentTopic.topicName)}
+                  className="flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-cyan-500 text-slate-950 font-bold text-xs hover:brightness-110 transition-all shadow-md shadow-cyan-500/20 font-mono cursor-pointer"
+                >
+                  <BookOpen className="h-3.5 w-3.5" />
+                  <span>Practice Questions</span>
+                </button>
               </div>
             </div>
 
@@ -286,13 +334,14 @@ export const DSAMasteryPage: React.FC<DSAMasteryPageProps> = ({
                 python: currentTopic.codeTemplate,
                 java: currentTopic.codeTemplate
               }}
-              onVideoClick={() => {
-                const vInfo = getVerifiedVideoForQuestion(currentTopic.topicName, 'DSA', currentTopic.sheetCategory);
+              onVideoClick={(lang) => {
+                const targetLang = lang || 'English';
+                const vInfo = getExactEducatorVideoForQuestion(currentTopic, targetLang);
                 setPlayingVideo({
                   title: currentTopic.topicName,
-                  youtubeId: currentTopic.youtubeId || vInfo.youtubeId,
-                  query: currentTopic.videoQuery || vInfo.videoQuery,
-                  educator: currentTopic.sheetCategory
+                  questionObject: currentTopic,
+                  educatorVideo: vInfo,
+                  initialLanguage: targetLang
                 });
               }}
             />
@@ -308,9 +357,9 @@ export const DSAMasteryPage: React.FC<DSAMasteryPageProps> = ({
           isOpen={!!playingVideo}
           onClose={() => setPlayingVideo(null)}
           videoTitle={playingVideo.title}
-          youtubeId={playingVideo.youtubeId}
-          videoQuery={playingVideo.query}
-          educator={playingVideo.educator}
+          questionObject={playingVideo.questionObject}
+          educatorVideo={playingVideo.educatorVideo}
+          initialLanguage={playingVideo.initialLanguage || 'English'}
         />
       )}
 

@@ -5,6 +5,7 @@ import { openTopicVideo } from './utils/videoUtils';
 import { DBService } from './db/dbService';
 import { Navbar } from './components/Navbar';
 import { Sidebar } from './components/Sidebar';
+import { ThemeProvider, useTheme } from './context/ThemeContext';
 
 // Pages
 import { LandingPage } from './pages/LandingPage';
@@ -16,14 +17,24 @@ import { DSAMasteryPage } from './pages/DSAMasteryPage';
 import { StudyPlannerPage } from './pages/StudyPlannerPage';
 import { ResourcesPage } from './pages/ResourcesPage';
 import { CodeReviewerPage } from './pages/CodeReviewerPage';
-import { WeakTopicsPage } from './pages/WeakTopicsPage';
+import { WeakConceptDrillsPage } from './pages/WeakConceptDrillsPage';
+import { HistoryPage } from './pages/HistoryPage';
 import { AnalyticsPage } from './pages/AnalyticsPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { SettingsPage } from './pages/SettingsPage';
 import { RecommendationsPage } from './pages/RecommendationsPage';
 import { QuestionBankPage } from './pages/QuestionBankPage';
+import { AIVivaRoomPage } from './pages/AIVivaRoomPage';
 
 export default function App() {
+  return (
+    <ThemeProvider>
+      <MainAppContent />
+    </ThemeProvider>
+  );
+}
+
+function MainAppContent() {
   const [dbReady, setDbReady] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [activeTab, setActiveTab] = useState<string>('register');
@@ -32,24 +43,17 @@ export default function App() {
   // Cross-page selection state
   const [selectedSubjectCode, setSelectedSubjectCode] = useState<string>('DSA-101');
   const [selectedTopic, setSelectedTopic] = useState<string>('Arrays, Two Pointers & Sliding Window');
-  const [resourceTopic, setResourceTopic] = useState<string>('Data Structures - Trees & Graphs');
+  const [resourceTopic, setResourceTopic] = useState<string>('');
+  const [selectedCompany, setSelectedCompany] = useState<string>('All');
 
-  // Theme State
-  const [currentTheme, setCurrentTheme] = useState<string>(() => {
-    return localStorage.getItem('apextech_theme') || localStorage.getItem('kalamverse_theme') || 'cyan';
-  });
-
-  const handleThemeChange = (newTheme: string) => {
-    setCurrentTheme(newTheme);
-    localStorage.setItem('apextech_theme', newTheme);
-  };
+  // Theme state from Context
+  const { themeConfig, currentThemeId, setTheme } = useTheme();
 
   // Initialize Database and Restore Login Session
   useEffect(() => {
     DBService.init().then(() => {
       setDbReady(true);
       
-      // Auto-restore logged-in session from localStorage
       const savedUser = localStorage.getItem('apextech_user') || localStorage.getItem('kalamverse_user') || localStorage.getItem('vivaai_user');
       if (savedUser) {
         try {
@@ -58,15 +62,22 @@ export default function App() {
           setActiveTab('dashboard');
         } catch (e) {
           console.error('Failed to parse saved session, loading default profile', e);
+          setUser(null);
+          setActiveTab('login');
         }
       } else {
-        // Default Tech & Developer profile
-       
-  setUser(null);
-  setActiveTab('register');
-}
+        setUser(null);
+        setActiveTab('register');
+      }
     });
   }, []);
+
+  // Strict route protection: redirect unauthenticated users attempting to access private routes
+  useEffect(() => {
+    if (dbReady && !user && activeTab !== 'landing' && activeTab !== 'login' && activeTab !== 'register') {
+      setActiveTab('login');
+    }
+  }, [user, activeTab, dbReady]);
 
   const handleLoginSuccess = (userData: User) => {
     setUser(userData);
@@ -85,18 +96,7 @@ export default function App() {
   const handleSelectSubjectForRoadmap = (subjectCode: string, topic?: string) => {
     setSelectedSubjectCode(subjectCode);
     if (topic) setSelectedTopic(topic);
-    setActiveTab('domains');
-  };
-
-  const handleGenerateRoadmapForSubject = (subjectCode: string) => {
-    setSelectedSubjectCode(subjectCode);
-    setActiveTab('domains');
-  };
-
-  const handleSearchVideosForTopic = (topicName: string) => {
-    setResourceTopic(topicName);
-    openTopicVideo(topicName);
-    setActiveTab('resources');
+    setActiveTab('questionbank');
   };
 
   if (!dbReady) {
@@ -110,30 +110,25 @@ export default function App() {
     );
   }
 
-  const bgThemeClass = currentTheme === 'yellow'
-    ? 'bg-[#181402]'
-    : currentTheme === 'emerald'
-    ? 'bg-[#02120b]'
-    : currentTheme === 'purple'
-    ? 'bg-[#0c061a]'
-    : currentTheme === 'rose'
-    ? 'bg-[#1a0510]'
-    : currentTheme === 'neon'
-    ? 'bg-[#031c17]'
-    : currentTheme === 'amber'
-    ? 'bg-[#18040a]'
-    : currentTheme === 'oled'
-    ? 'bg-black'
-    : currentTheme === 'slate'
-    ? 'bg-[#0f172a]'
-    : 'bg-[#020204]';
-
   return (
-    <div className={`min-h-screen ${bgThemeClass} text-slate-300 font-sans selection:bg-cyan-500 selection:text-slate-950 flex flex-col relative overflow-x-hidden transition-colors duration-500`}>
+    <div
+      className={`min-h-screen font-sans selection:bg-cyan-500 selection:text-slate-950 flex flex-col relative overflow-x-hidden transition-colors duration-300 ${
+        themeConfig.mode === 'light' ? 'bg-slate-100 text-slate-900' : 'text-slate-300'
+      }`}
+      style={{
+        backgroundColor: themeConfig.bgHex
+      }}
+    >
       
-      {/* Background Radial Glows */}
-      <div className="fixed -top-[10%] -left-[5%] w-[45%] h-[45%] rounded-full bg-cyan-600/5 blur-[120px] pointer-events-none z-0"></div>
-      <div className="fixed -bottom-[10%] -right-[5%] w-[45%] h-[45%] rounded-full bg-indigo-600/5 blur-[120px] pointer-events-none z-0"></div>
+      {/* Background Radial Glows matching current theme */}
+      <div 
+        className="fixed -top-[10%] -left-[5%] w-[45%] h-[45%] rounded-full blur-[120px] pointer-events-none z-0"
+        style={{ backgroundColor: themeConfig.glowColor || 'rgba(6, 182, 212, 0.15)' }}
+      ></div>
+      <div 
+        className="fixed -bottom-[10%] -right-[5%] w-[45%] h-[45%] rounded-full blur-[120px] pointer-events-none z-0"
+        style={{ backgroundColor: themeConfig.glowColor || 'rgba(99, 102, 241, 0.15)' }}
+      ></div>
 
       {/* Top Navbar */}
       <Navbar
@@ -182,6 +177,10 @@ export default function App() {
                     user={user}
                     setActiveTab={setActiveTab}
                     onSelectSubjectForViva={handleSelectSubjectForRoadmap}
+                    onSelectCompany={(company) => {
+                      setSelectedCompany(company);
+                      setActiveTab('questionbank');
+                    }}
                   />
                 )}
 
@@ -189,16 +188,45 @@ export default function App() {
                   <DomainRoadmapsPage onStartViva={handleSelectSubjectForRoadmap} />
                 )}
 
-                {activeTab === 'questionbank' && (
+                {(activeTab === 'questionbank' ||
+                  activeTab === 'questionbank-company' ||
+                  activeTab === 'questionbank-topic' ||
+                  activeTab === 'questionbank-diff' ||
+                  activeTab === 'saved') && (
                   <QuestionBankPage
                     initialTopic={resourceTopic}
+                    initialCompany={selectedCompany}
                     onSelectTopicForPractice={handleSelectSubjectForRoadmap}
                   />
                 )}
 
-                {activeTab === 'dsa' && (
-                  <DSAMasteryPage onStartVivaForTopic={handleSelectSubjectForRoadmap} />
+                {(activeTab === 'dsa' ||
+                  activeTab === 'dsa-striver' ||
+                  activeTab === 'dsa-beginner' ||
+                  activeTab === 'dsa-advanced' ||
+                  activeTab === 'dsa-progress') && (
+                  <DSAMasteryPage
+                    initialFilter={activeTab.startsWith('dsa-') ? activeTab.replace('dsa-', '') : undefined}
+                    onStartVivaForTopic={handleSelectSubjectForRoadmap}
+                  />
                 )}
+
+                {activeTab.startsWith('domain-') && (
+                  <QuestionBankPage
+                    initialTopic={activeTab.replace('domain-', '')}
+                    onSelectTopicForPractice={handleSelectSubjectForRoadmap}
+                  />
+                )}
+
+                {(activeTab === 'mock-interview' || activeTab === 'mock-interview-viva') && user && (
+                  <AIVivaRoomPage
+                    user={user}
+                    initialSubjectCode={selectedSubjectCode}
+                    initialTopic={selectedTopic}
+                  />
+                )}
+
+                {activeTab === 'history' && <HistoryPage />}
 
                 {activeTab === 'planner' && <StudyPlannerPage />}
 
@@ -208,14 +236,9 @@ export default function App() {
 
                 {activeTab === 'code' && <CodeReviewerPage />}
 
-                {activeTab === 'weaks' && user && (
-                  <WeakTopicsPage
-                    userId={user.id}
-                    onPracticeTopic={handleSelectSubjectForRoadmap}
-                  />
-                )}
+                {activeTab === 'weaks' && <WeakConceptDrillsPage />}
 
-                {activeTab === 'analytics' && user && (
+                {(activeTab === 'analytics' || activeTab === 'analytics-progress' || activeTab === 'analytics-skills') && user && (
                   <AnalyticsPage userId={user.id} />
                 )}
 
@@ -223,14 +246,16 @@ export default function App() {
                   <RecommendationsPage onStartViva={handleSelectSubjectForRoadmap} />
                 )}
 
-                {activeTab === 'profile' && user && <ProfilePage user={user} onLogout={handleLogout} />}
+                {(activeTab === 'profile' || activeTab === 'achievements') && user && (
+                  <ProfilePage user={user} onLogout={handleLogout} />
+                )}
 
-                {activeTab === 'settings' && (
+                {(activeTab === 'settings' || activeTab === 'settings-theme' || activeTab === 'resume') && (
                   <SettingsPage
                     demoMode={demoMode}
                     setDemoMode={setDemoMode}
-                    currentTheme={currentTheme}
-                    onThemeChange={handleThemeChange}
+                    currentTheme={currentThemeId}
+                    onThemeChange={setTheme}
                     onLogout={handleLogout}
                   />
                 )}

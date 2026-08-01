@@ -55,11 +55,11 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onGoToRegi
     }
   };
 
-  const stats = [
-    { label: 'DSA Questions', value: '5,000+', icon: Code2, desc: 'LeetCode, HackerRank, GFG' },
-    { label: 'Curated Sheets', value: '71+', icon: BookOpen, desc: 'Striver A2Z, PW, Alpha' },
-    { label: 'AI Viva Examiner', value: '24/7', icon: Cpu, desc: 'Voice & Code Feedback' },
-    { label: 'Company-Wise', value: '500+', icon: Building2, desc: 'Google, Amazon, TCS & MAANG' },
+  const featureCards = [
+    { icon: '🧠', title: '2000+ DSA Questions', desc: 'Master Coding & Problem Solving', color: 'from-cyan-500/20 to-blue-500/10', border: 'border-cyan-500/40' },
+    { icon: '🎤', title: 'AI Voice Interview', desc: 'Real Interview Simulation', color: 'from-purple-500/20 to-pink-500/10', border: 'border-purple-500/40' },
+    { icon: '🗺️', title: 'Interview Roadmaps', desc: 'Domain-Wise Preparation Paths', color: 'from-emerald-500/20 to-teal-500/10', border: 'border-emerald-500/40' },
+    { icon: '🏢', title: 'Company Preparation', desc: 'Top MNC Interview Patterns', color: 'from-amber-500/20 to-orange-500/10', border: 'border-amber-500/40' },
   ];
 
   const highlights = [
@@ -96,14 +96,14 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onGoToRegi
 
           {/* Headline */}
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
-            Master Engineering & <br className="hidden sm:inline" />
+            Master CS Engineering & <br className="hidden sm:inline" />
             <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-indigo-400 bg-clip-text text-transparent">
               Tech Placement Interviews
             </span>
           </h1>
 
           <p className="text-sm sm:text-base text-slate-300 max-w-2xl leading-relaxed font-normal">
-            Sign in to access 5,000+ DSA practice problems, HackerRank & Striver curated sheets, real-time code execution, and your personal AI Senior Technical Examiner.
+            Sign in to access 2,500+ DSA practice problems, HackerRank & Striver curated sheets, real-time code execution, and your personal AI Senior Technical Examiner.
           </p>
 
           {/* Large Interactive Husky AI Mascot Section */}
@@ -134,30 +134,30 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onGoToRegi
             </div>
           </div>
 
-          {/* Stats Cards Grid (Fills Empty Space Elegantly) */}
-          <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 pt-2">
-            {stats.map((stat, idx) => {
-              const Icon = stat.icon;
-              return (
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, y: 25, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ duration: 0.4, delay: 0.08 * idx, type: 'spring', stiffness: 120 }}
-                  whileHover={{ y: -6, scale: 1.02, borderColor: 'rgba(6, 182, 212, 0.6)', boxShadow: '0 10px 25px -5px rgba(6, 182, 212, 0.25)' }}
-                  className="p-3.5 sm:p-4 rounded-2xl border border-slate-800 bg-slate-900/70 backdrop-blur-md shadow-lg transition-all"
-                >
-                  <div className="flex items-center gap-2 mb-1.5 min-w-0">
-                    <div className="p-1.5 rounded-lg bg-cyan-950/80 border border-cyan-500/30 text-cyan-400 shrink-0">
-                      <Icon className="h-4 w-4" />
-                    </div>
-                    <span className="text-base sm:text-lg font-bold font-mono text-white tracking-tight truncate">{stat.value}</span>
-                  </div>
-                  <div className="text-xs font-bold text-slate-200 truncate">{stat.label}</div>
-                  <div className="text-[10px] text-slate-400 truncate">{stat.desc}</div>
-                </motion.div>
-              );
-            })}
+          {/* AI Platform Feature Cards Grid */}
+          <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
+            {featureCards.map((card, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 25, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.4, delay: 0.08 * idx, type: 'spring', stiffness: 120 }}
+                whileHover={{ y: -5, scale: 1.02, borderColor: 'rgba(6, 182, 212, 0.6)', boxShadow: '0 12px 30px -6px rgba(6, 182, 212, 0.25)' }}
+                className={`p-4 rounded-2xl border ${card.border} bg-gradient-to-br ${card.color} bg-slate-900/80 backdrop-blur-md shadow-xl transition-all flex items-start gap-3.5 group hover:bg-slate-900/95`}
+              >
+                <div className="w-10 h-10 rounded-xl bg-slate-950/90 border border-slate-700/80 flex items-center justify-center text-xl shrink-0 shadow-inner group-hover:scale-110 group-hover:border-cyan-400 transition-transform">
+                  {card.icon}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h4 className="text-sm font-bold text-white font-mono tracking-tight group-hover:text-cyan-300 transition-colors truncate">
+                    {card.title}
+                  </h4>
+                  <p className="text-xs text-slate-300 font-sans leading-relaxed mt-0.5">
+                    {card.desc}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
           </div>
 
           {/* Highlights */}

@@ -1,7 +1,31 @@
 /**
  * Video Helper Utilities for ApexTech Platform
- * Generates exact search query URLs and supports direct YouTube embeds.
+ * Provides strict, verified educator video mappings for interview questions.
+ * Supports exact problem matching, English & Hindi videos, and smart YouTube fallback.
  */
+
+export interface EducatorVideoInfo {
+  title: string;
+  educatorName: string;
+  platform: string;
+  url?: string;
+  videoId?: string;
+  verified: boolean;
+  language: 'English' | 'Hindi';
+  topic?: string;
+  questionId?: string;
+  questionTitle?: string;
+  searchQuery?: string;
+  isFallbackSearch?: boolean;
+}
+
+export interface QuestionVideoMapping {
+  questionId: string;
+  questionTitle: string;
+  aliases?: string[];
+  english?: EducatorVideoInfo;
+  hindi?: EducatorVideoInfo;
+}
 
 export const getYouTubeSearchUrl = (topic: string, subjectCode?: string): string => {
   const query = subjectCode 
@@ -15,257 +39,564 @@ export const openTopicVideo = (topic: string, subjectCode?: string): void => {
   window.open(url, '_blank', 'noopener,noreferrer');
 };
 
+export function isValidEducatorVideo(video?: EducatorVideoInfo | null): boolean {
+  if (!video) return false;
+  if (video.isFallbackSearch) return true; // Valid search fallback object
+  if (!video.verified) return false;
+  if (!video.videoId || typeof video.videoId !== 'string') return false;
+  if (video.videoId.trim().length < 5) return false;
+  return true;
+}
+
 /**
- * Returns a guaranteed working, verified embeddable YouTube video ID and optimized search query
- * based on question title, category, and platform source.
+ * Question-to-Video Mapping Database
+ * Verified English & Hindi educator videos.
+ */
+export const QUESTION_VIDEO_MAPPING_DATABASE: Record<string, QuestionVideoMapping> = {
+  'two-sum': {
+    questionId: 'two-sum',
+    questionTitle: 'Two Sum',
+    aliases: ['2 sum', 'two sum problem', '2sum'],
+    english: {
+      title: 'Two Sum - LeetCode 1 - Python Hash Map Solution',
+      educatorName: 'NeetCode',
+      platform: 'YouTube',
+      url: 'https://www.youtube.com/watch?v=KLlXCFG5TnA',
+      videoId: 'KLlXCFG5TnA',
+      verified: true,
+      language: 'English',
+      topic: 'Arrays & Hashing'
+    },
+    hindi: {
+      title: 'Two Sum Problem | Optimal Hash Map Approach in C++ & Java',
+      educatorName: 'takeUforward (Striver)',
+      platform: 'YouTube',
+      url: 'https://www.youtube.com/watch?v=UXDSeD9mN-k',
+      videoId: 'UXDSeD9mN-k',
+      verified: true,
+      language: 'Hindi',
+      topic: 'Arrays & Hashing'
+    }
+  },
+  '3sum': {
+    questionId: '3sum',
+    questionTitle: '3Sum',
+    aliases: ['three sum', '3 sum', 'triplets with zero sum'],
+    english: {
+      title: '3Sum - LeetCode 15 - Python Two Pointers Approach',
+      educatorName: 'NeetCode',
+      platform: 'YouTube',
+      url: 'https://www.youtube.com/watch?v=jzZsG8n2R9A',
+      videoId: 'jzZsG8n2R9A',
+      verified: true,
+      language: 'English',
+      topic: 'Two Pointers'
+    },
+    hindi: {
+      title: '3 Sum Problem | Find Triplets with Zero Sum',
+      educatorName: 'takeUforward (Striver)',
+      platform: 'YouTube',
+      url: 'https://www.youtube.com/watch?v=onLoX6Nhvmg',
+      videoId: 'onLoX6Nhvmg',
+      verified: true,
+      language: 'Hindi',
+      topic: 'Two Pointers'
+    }
+  },
+  'best-time-to-buy-and-sell-stock': {
+    questionId: 'best-time-to-buy-and-sell-stock',
+    questionTitle: 'Best Time to Buy and Sell Stock',
+    aliases: ['buy and sell stock 1', 'stock buy sell'],
+    english: {
+      title: 'Best Time to Buy and Sell Stock - LeetCode 121',
+      educatorName: 'NeetCode',
+      platform: 'YouTube',
+      url: 'https://www.youtube.com/watch?v=1pkOgXD63yU',
+      videoId: '1pkOgXD63yU',
+      verified: true,
+      language: 'English',
+      topic: 'Arrays'
+    },
+    hindi: {
+      title: 'Stock Buy and Sell - Best Time to Buy and Sell Stock',
+      educatorName: 'takeUforward (Striver)',
+      platform: 'YouTube',
+      url: 'https://www.youtube.com/watch?v=eMSfBgbiEjk',
+      videoId: 'eMSfBgbiEjk',
+      verified: true,
+      language: 'Hindi',
+      topic: 'Arrays'
+    }
+  },
+  'binary-search': {
+    questionId: 'binary-search',
+    questionTitle: 'Binary Search',
+    aliases: ['binary search masterclass', 'bs algorithm'],
+    english: {
+      title: 'Binary Search - LeetCode 704',
+      educatorName: 'NeetCode',
+      platform: 'YouTube',
+      url: 'https://www.youtube.com/watch?v=s4DPM8ct1pI',
+      videoId: 's4DPM8ct1pI',
+      verified: true,
+      language: 'English',
+      topic: 'Binary Search'
+    },
+    hindi: {
+      title: 'Binary Search Complete Explanation & Code',
+      educatorName: 'takeUforward (Striver)',
+      platform: 'YouTube',
+      url: 'https://www.youtube.com/watch?v=MHf6awe89xw',
+      videoId: 'MHf6awe89xw',
+      verified: true,
+      language: 'Hindi',
+      topic: 'Binary Search'
+    }
+  },
+  'search-in-rotated-sorted-array': {
+    questionId: 'search-in-rotated-sorted-array',
+    questionTitle: 'Search in Rotated Sorted Array',
+    aliases: ['rotated sorted array search'],
+    english: {
+      title: 'Search in Rotated Sorted Array - LeetCode 33',
+      educatorName: 'NeetCode',
+      platform: 'YouTube',
+      url: 'https://www.youtube.com/watch?v=U8XENwh8Oy8',
+      videoId: 'U8XENwh8Oy8',
+      verified: true,
+      language: 'English',
+      topic: 'Binary Search'
+    },
+    hindi: {
+      title: 'Search Element in Rotated Sorted Array',
+      educatorName: 'takeUforward (Striver)',
+      platform: 'YouTube',
+      url: 'https://www.youtube.com/watch?v=r3pUJ8U_ac8',
+      videoId: 'r3pUJ8U_ac8',
+      verified: true,
+      language: 'Hindi',
+      topic: 'Binary Search'
+    }
+  },
+  'reverse-linked-list': {
+    questionId: 'reverse-linked-list',
+    questionTitle: 'Reverse Linked List',
+    aliases: ['reverse a linked list', 'reverse list'],
+    english: {
+      title: 'Reverse Linked List - LeetCode 206',
+      educatorName: 'NeetCode',
+      platform: 'YouTube',
+      url: 'https://www.youtube.com/watch?v=G0_I-ZF0S38',
+      videoId: 'G0_I-ZF0S38',
+      verified: true,
+      language: 'English',
+      topic: 'Linked List'
+    },
+    hindi: {
+      title: 'Reverse a Linked List (Iterative & Recursive)',
+      educatorName: 'Love Babbar',
+      platform: 'YouTube',
+      url: 'https://www.youtube.com/watch?v=Hj_RA9p5c08',
+      videoId: 'Hj_RA9p5c08',
+      verified: true,
+      language: 'Hindi',
+      topic: 'Linked List'
+    }
+  },
+  'linked-list-cycle': {
+    questionId: 'linked-list-cycle',
+    questionTitle: 'Linked List Cycle',
+    aliases: ['detect cycle in linked list', 'floyd cycle detection'],
+    english: {
+      title: 'Linked List Cycle - LeetCode 141 - Floyd Fast & Slow Pointer',
+      educatorName: 'NeetCode',
+      platform: 'YouTube',
+      url: 'https://www.youtube.com/watch?v=gBTe7lFR3vc',
+      videoId: 'gBTe7lFR3vc',
+      verified: true,
+      language: 'English',
+      topic: 'Linked List'
+    },
+    hindi: {
+      title: 'Detect Cycle in Linked List (Tortoise & Hare Algorithm)',
+      educatorName: 'takeUforward (Striver)',
+      platform: 'YouTube',
+      url: 'https://www.youtube.com/watch?v=wiOo4DC5GGA',
+      videoId: 'wiOo4DC5GGA',
+      verified: true,
+      language: 'Hindi',
+      topic: 'Linked List'
+    }
+  },
+  'valid-anagram': {
+    questionId: 'valid-anagram',
+    questionTitle: 'Valid Anagram',
+    aliases: ['check anagrams', 'anagram strings'],
+    english: {
+      title: 'Valid Anagram - LeetCode 242',
+      educatorName: 'NeetCode',
+      platform: 'YouTube',
+      url: 'https://www.youtube.com/watch?v=9UtInBqnCgA',
+      videoId: '9UtInBqnCgA',
+      verified: true,
+      language: 'English',
+      topic: 'Strings & Hashing'
+    },
+    hindi: {
+      title: 'Check for Valid Anagrams - C++ & Java Solution',
+      educatorName: 'takeUforward (Striver)',
+      platform: 'YouTube',
+      url: 'https://www.youtube.com/watch?v=3MnyUtD3Ase',
+      videoId: '3MnyUtD3Ase',
+      verified: true,
+      language: 'Hindi',
+      topic: 'Strings'
+    }
+  },
+  'longest-substring-without-repeating-characters': {
+    questionId: 'longest-substring-without-repeating-characters',
+    questionTitle: 'Longest Substring Without Repeating Characters',
+    aliases: ['longest non repeating substring', 'sliding window substring'],
+    english: {
+      title: 'Longest Substring Without Repeating Characters - LeetCode 3',
+      educatorName: 'NeetCode',
+      platform: 'YouTube',
+      url: 'https://www.youtube.com/watch?v=wiGpQwVHdE0',
+      videoId: 'wiGpQwVHdE0',
+      verified: true,
+      language: 'English',
+      topic: 'Sliding Window'
+    },
+    hindi: {
+      title: 'Longest Substring Without Repeating Characters (Sliding Window)',
+      educatorName: 'takeUforward (Striver)',
+      platform: 'YouTube',
+      url: 'https://www.youtube.com/watch?v=qtVh-XEilTg',
+      videoId: 'qtVh-XEilTg',
+      verified: true,
+      language: 'Hindi',
+      topic: 'Sliding Window'
+    }
+  },
+  'container-with-most-water': {
+    questionId: 'container-with-most-water',
+    questionTitle: 'Container With Most Water',
+    aliases: ['most water container', 'two pointers water'],
+    english: {
+      title: 'Container With Most Water - LeetCode 11',
+      educatorName: 'NeetCode',
+      platform: 'YouTube',
+      url: 'https://www.youtube.com/watch?v=UuiTKBwPgAo',
+      videoId: 'UuiTKBwPgAo',
+      verified: true,
+      language: 'English',
+      topic: 'Two Pointers'
+    },
+    hindi: {
+      title: 'Container With Most Water Solution',
+      educatorName: 'takeUforward (Striver)',
+      platform: 'YouTube',
+      url: 'https://www.youtube.com/watch?v=ZHQg1eSp3xM',
+      videoId: 'ZHQg1eSp3xM',
+      verified: true,
+      language: 'Hindi',
+      topic: 'Two Pointers'
+    }
+  },
+  'trapping-rain-water': {
+    questionId: 'trapping-rain-water',
+    questionTitle: 'Trapping Rain Water',
+    aliases: ['rain water trapping', 'trap rain water'],
+    english: {
+      title: 'Trapping Rain Water - LeetCode 42',
+      educatorName: 'NeetCode',
+      platform: 'YouTube',
+      url: 'https://www.youtube.com/watch?v=ZI2z5pq0TqA',
+      videoId: 'ZI2z5pq0TqA',
+      verified: true,
+      language: 'English',
+      topic: 'Two Pointers'
+    },
+    hindi: {
+      title: 'Trapping Rainwater Problem - Optimal Solution',
+      educatorName: 'takeUforward (Striver)',
+      platform: 'YouTube',
+      url: 'https://www.youtube.com/watch?v=m18Hntz4go8',
+      videoId: 'm18Hntz4go8',
+      verified: true,
+      language: 'Hindi',
+      topic: 'Two Pointers'
+    }
+  },
+  'maximum-subarray': {
+    questionId: 'maximum-subarray',
+    questionTitle: 'Maximum Subarray (Kadanes Algorithm)',
+    aliases: ['kadanes algorithm', 'max subarray sum'],
+    english: {
+      title: 'Maximum Subarray - LeetCode 53',
+      educatorName: 'NeetCode',
+      platform: 'YouTube',
+      url: 'https://www.youtube.com/watch?v=5WZl3MMT0Eg',
+      videoId: '5WZl3MMT0Eg',
+      verified: true,
+      language: 'English',
+      topic: 'Dynamic Programming'
+    },
+    hindi: {
+      title: 'Kadanes Algorithm - Maximum Subarray Sum',
+      educatorName: 'takeUforward (Striver)',
+      platform: 'YouTube',
+      url: 'https://www.youtube.com/watch?v=AHZpyENo7k4',
+      videoId: 'AHZpyENo7k4',
+      verified: true,
+      language: 'Hindi',
+      topic: 'Arrays'
+    }
+  },
+  'coin-change': {
+    questionId: 'coin-change',
+    questionTitle: 'Coin Change',
+    aliases: ['minimum coins dp', 'coin change 1'],
+    english: {
+      title: 'Coin Change - LeetCode 322',
+      educatorName: 'NeetCode',
+      platform: 'YouTube',
+      url: 'https://www.youtube.com/watch?v=H9bfqozjoqs',
+      videoId: 'H9bfqozjoqs',
+      verified: true,
+      language: 'English',
+      topic: 'Dynamic Programming'
+    },
+    hindi: {
+      title: 'Coin Change 1 - Minimum Coins to Make Target',
+      educatorName: 'takeUforward (Striver)',
+      platform: 'YouTube',
+      url: 'https://www.youtube.com/watch?v=myPeWb3Y68A',
+      videoId: 'myPeWb3Y68A',
+      verified: true,
+      language: 'Hindi',
+      topic: 'Dynamic Programming'
+    }
+  },
+  'number-of-islands': {
+    questionId: 'number-of-islands',
+    questionTitle: 'Number of Islands',
+    aliases: ['count islands bfs dfs'],
+    english: {
+      title: 'Number of Islands - LeetCode 200',
+      educatorName: 'NeetCode',
+      platform: 'YouTube',
+      url: 'https://www.youtube.com/watch?v=pV2kpPD66nE',
+      videoId: 'pV2kpPD66nE',
+      verified: true,
+      language: 'English',
+      topic: 'Graphs'
+    },
+    hindi: {
+      title: 'Number of Islands - Graph BFS & DFS Traversal',
+      educatorName: 'takeUforward (Striver)',
+      platform: 'YouTube',
+      url: 'https://www.youtube.com/watch?v=muncqlKJ86Q',
+      videoId: 'muncqlKJ86Q',
+      verified: true,
+      language: 'Hindi',
+      topic: 'Graphs'
+    }
+  },
+  'lru-cache': {
+    questionId: 'lru-cache',
+    questionTitle: 'LRU Cache',
+    aliases: ['least recently used cache'],
+    english: {
+      title: 'LRU Cache - LeetCode 146',
+      educatorName: 'NeetCode',
+      platform: 'YouTube',
+      url: 'https://www.youtube.com/watch?v=7ABLItLLEVs',
+      videoId: '7ABLItLLEVs',
+      verified: true,
+      language: 'English',
+      topic: 'Design & Linked List'
+    },
+    hindi: {
+      title: 'LRU Cache Implementation in C++ & Java',
+      educatorName: 'takeUforward (Striver)',
+      platform: 'YouTube',
+      url: 'https://www.youtube.com/watch?v=xDEuM5qa0zg',
+      videoId: 'xDEuM5qa0zg',
+      verified: true,
+      language: 'Hindi',
+      topic: 'Design'
+    }
+  },
+  'climbing-stairs': {
+    questionId: 'climbing-stairs',
+    questionTitle: 'Climbing Stairs',
+    aliases: ['climb stairs dp'],
+    english: {
+      title: 'Climbing Stairs - LeetCode 70',
+      educatorName: 'NeetCode',
+      platform: 'YouTube',
+      url: 'https://www.youtube.com/watch?v=Y0lT9Fck7qI',
+      videoId: 'Y0lT9Fck7qI',
+      verified: true,
+      language: 'English',
+      topic: 'Dynamic Programming'
+    },
+    hindi: {
+      title: 'Climbing Stairs Problem - DP Memoization & Tabulation',
+      educatorName: 'takeUforward (Striver)',
+      platform: 'YouTube',
+      url: 'https://www.youtube.com/watch?v=mLfjzJsN8us',
+      videoId: 'mLfjzJsN8us',
+      verified: true,
+      language: 'Hindi',
+      topic: 'Dynamic Programming'
+    }
+  },
+  'system-rate-limiter': {
+    questionId: 'system-rate-limiter',
+    questionTitle: 'Design an API Rate Limiter',
+    aliases: ['rate limiter', 'token bucket system design'],
+    english: {
+      title: 'API Rate Limiter System Design (Token Bucket)',
+      educatorName: 'ByteByteGo',
+      platform: 'YouTube',
+      url: 'https://www.youtube.com/watch?v=FU4WlwfS3G0',
+      videoId: 'FU4WlwfS3G0',
+      verified: true,
+      language: 'English',
+      topic: 'System Design'
+    },
+    hindi: {
+      title: 'API Rate Limiter Architecture Masterclass',
+      educatorName: 'Gaurav Sen',
+      platform: 'YouTube',
+      url: 'https://www.youtube.com/watch?v=CRGPbCbRpqU',
+      videoId: 'CRGPbCbRpqU',
+      verified: true,
+      language: 'Hindi',
+      topic: 'System Design'
+    }
+  }
+};
+
+function normalizeString(str: string): string {
+  return (str || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+/**
+ * Creates a smart fallback search info for any question when direct video ID is missing.
+ */
+export function getFallbackSearchForQuestion(
+  qTitle: string,
+  language: 'English' | 'Hindi' = 'English'
+): EducatorVideoInfo {
+  const educator = language === 'Hindi' ? 'Striver' : 'NeetCode';
+  const query = `${qTitle} ${educator} ${language} solution`;
+  const url = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
+
+  return {
+    title: `${qTitle} (${language} Educator Explanation)`,
+    educatorName: educator,
+    platform: 'YouTube',
+    url,
+    verified: false,
+    language,
+    questionTitle: qTitle,
+    searchQuery: query,
+    isFallbackSearch: true
+  };
+}
+
+/**
+ * Returns exact educator video for a question matching language preferences.
+ * Returns NULL if no exact video exists for that specific question.
+ */
+export function getExactEducatorVideoForQuestion(
+  questionInput?: any,
+  language: 'English' | 'Hindi' = 'English'
+): EducatorVideoInfo | null {
+  if (!questionInput) return null;
+
+  let qId = '';
+  let qTitle = '';
+
+  if (typeof questionInput === 'string') {
+    qTitle = questionInput;
+  } else if (typeof questionInput === 'object') {
+    if (questionInput.educatorVideo && isValidEducatorVideo(questionInput.educatorVideo)) {
+      if (!language || questionInput.educatorVideo.language === language) {
+        return questionInput.educatorVideo;
+      }
+    }
+    qId = questionInput.id || questionInput.questionId || '';
+    qTitle = questionInput.title || questionInput.topicName || '';
+  }
+
+  const normId = normalizeString(qId);
+  const normTitle = normalizeString(qTitle);
+
+  if (!normTitle && !normId) return null;
+
+  // Search exact question video database
+  for (const key of Object.keys(QUESTION_VIDEO_MAPPING_DATABASE)) {
+    const entry = QUESTION_VIDEO_MAPPING_DATABASE[key];
+    const keyNorm = normalizeString(key);
+    const entryTitleNorm = normalizeString(entry.questionTitle);
+
+    const aliasesNorm = (entry.aliases || []).map(normalizeString);
+
+    const isMatch =
+      (normId && normId === keyNorm) ||
+      (normTitle && normTitle === keyNorm) ||
+      (normTitle && normTitle === entryTitleNorm) ||
+      aliasesNorm.some(alias => alias === normTitle) ||
+      (normTitle.length > 5 && keyNorm.length > 5 && normTitle.includes(keyNorm));
+
+    if (isMatch) {
+      if (language === 'Hindi' && entry.hindi) return entry.hindi;
+      if (language === 'English' && entry.english) return entry.english;
+      return entry.english || entry.hindi || null;
+    }
+  }
+
+  return null;
+}
+
+/**
+ * Guaranteed solution fetcher: checks exact mapped video FIRST, then generates fallback search.
+ */
+export function getVideoSolutionForQuestion(
+  questionInput?: any,
+  language: 'English' | 'Hindi' = 'English'
+): EducatorVideoInfo {
+  const exact = getExactEducatorVideoForQuestion(questionInput, language);
+  if (exact) return exact;
+
+  let title = 'Coding Problem';
+  if (typeof questionInput === 'string') {
+    title = questionInput;
+  } else if (questionInput?.title) {
+    title = questionInput.title;
+  } else if (questionInput?.topicName) {
+    title = questionInput.topicName;
+  }
+
+  return getFallbackSearchForQuestion(title, language);
+}
+
+/**
+ * Backward compatibility wrapper.
  */
 export const getVerifiedVideoForQuestion = (
-  title: string,
-  category?: string,
-  platform?: string
-): { youtubeId: string; videoQuery: string } => {
-  const lowerTitle = (title || '').toLowerCase();
-  const lowerCat = (category || '').toLowerCase();
-
-  // --- 1. SYSTEM DESIGN TOPICS (Prioritized when category is System Design or title indicates System Design) ---
-  if (lowerCat.includes('system') || lowerTitle.includes('system design') || lowerTitle.includes('architecture') || lowerTitle.includes('distributed')) {
-    // 1a. Notification & Push Engine / Alerting
-    if (lowerTitle.includes('notification') || lowerTitle.includes('push') || lowerTitle.includes('alert') || lowerTitle.includes('sms')) {
-      return {
-        youtubeId: 'bBTPZ9NdSk8',
-        videoQuery: `${title} System Design ByteByteGo Notification System`
-      };
-    }
-    // 1b. Ride Sharing / Uber / Lyft / Geofencing / Location / Taxi
-    if (lowerTitle.includes('ride') || lowerTitle.includes('uber') || lowerTitle.includes('lyft') || lowerTitle.includes('geofenc') || lowerTitle.includes('location') || lowerTitle.includes('taxi')) {
-      return {
-        youtubeId: 'lsKU38RKQSo',
-        videoQuery: `${title} System Design ByteByteGo Uber Geofencing`
-      };
-    }
-    // 1c. Rate Limiter / Token Bucket / Leaky Bucket
-    if (lowerTitle.includes('rate limit') || lowerTitle.includes('token bucket') || lowerTitle.includes('leaky bucket')) {
-      return {
-        youtubeId: 'FU4WlwfS3G0',
-        videoQuery: `${title} System Design Rate Limiter ByteByteGo`
-      };
-    }
-    // 1d. URL Shortener / TinyURL / Bitly
-    if (lowerTitle.includes('shortener') || lowerTitle.includes('tinyurl') || lowerTitle.includes('bitly')) {
-      return {
-        youtubeId: 'fMZMmG1M6Ew',
-        videoQuery: `${title} System Design TinyURL ByteByteGo`
-      };
-    }
-    // 1e. Web Crawler / Search Indexer
-    if (lowerTitle.includes('crawler') || lowerTitle.includes('indexing') || lowerTitle.includes('search engine')) {
-      return {
-        youtubeId: 'BK3X09mS2Yk',
-        videoQuery: `${title} System Design Web Crawler ByteByteGo`
-      };
-    }
-    // 1f. Chat System / WhatsApp / Messenger / Discord / WebSocket
-    if (lowerTitle.includes('chat') || lowerTitle.includes('whatsapp') || lowerTitle.includes('messenger') || lowerTitle.includes('discord')) {
-      return {
-        youtubeId: 'vvhC64hQzmM',
-        videoQuery: `${title} System Design WhatsApp ByteByteGo`
-      };
-    }
-    // 1g. Distributed Message Queue / Kafka / PubSub / Consumer
-    if (lowerTitle.includes('queue') || lowerTitle.includes('kafka') || lowerTitle.includes('pubsub') || lowerTitle.includes('broker')) {
-      return {
-        youtubeId: 'iJLL-2x30EO',
-        videoQuery: `${title} System Design Distributed Message Queue Kafka Gaurav Sen`
-      };
-    }
-    // 1h. Distributed Cache / Redis / Memcached
-    if (lowerTitle.includes('cache') || lowerTitle.includes('redis') || lowerTitle.includes('memcached')) {
-      return {
-        youtubeId: 'iuqZvajTOyA',
-        videoQuery: `${title} System Design Distributed Cache Redis Gaurav Sen`
-      };
-    }
-    // 1i. Consistent Hashing / Hash Ring
-    if (lowerTitle.includes('consistent hash') || lowerTitle.includes('hash ring')) {
-      return {
-        youtubeId: 'zaRkONvy9y0',
-        videoQuery: `${title} System Design Consistent Hashing Gaurav Sen`
-      };
-    }
-    // 1j. E-Commerce / Food Delivery / Swiggy / Zomato / Order Processing
-    if (lowerTitle.includes('food') || lowerTitle.includes('swiggy') || lowerTitle.includes('zomato') || lowerTitle.includes('e-commerce') || lowerTitle.includes('payment')) {
-      return {
-        youtubeId: 'L72fhMn1azk',
-        videoQuery: `${title} System Design Swiggy Zomato E-Commerce ByteByteGo`
-      };
-    }
-    // 1k. Video Streaming / Netflix / YouTube
-    if (lowerTitle.includes('streaming') || lowerTitle.includes('netflix') || lowerTitle.includes('youtube')) {
-      return {
-        youtubeId: 'jK3eUp4TRh4',
-        videoQuery: `${title} System Design Netflix Video Streaming ByteByteGo`
-      };
-    }
-    // 1l. Key-Value Store / DynamoDB / NoSQL
-    if (lowerTitle.includes('key-value') || lowerTitle.includes('dynamodb') || lowerTitle.includes('nosql')) {
-      return {
-        youtubeId: 'rnZmdmlR-L4',
-        videoQuery: `${title} System Design Key Value Store Gaurav Sen`
-      };
-    }
-    // 1m. Newsfeed / Twitter / Instagram / Social Network
-    if (lowerTitle.includes('newsfeed') || lowerTitle.includes('feed') || lowerTitle.includes('twitter') || lowerTitle.includes('instagram')) {
-      return {
-        youtubeId: 'S23A8I5-pMc',
-        videoQuery: `${title} System Design Twitter News Feed ByteByteGo`
-      };
-    }
-    // 1n. Database Sharding / Replication
-    if (lowerTitle.includes('sharding') || lowerTitle.includes('partition') || lowerTitle.includes('replication')) {
-      return {
-        youtubeId: '5faMjKuB9bc',
-        videoQuery: `${title} System Design Database Sharding Scaling ByteByteGo`
-      };
-    }
-
-    // Default System Design fallback
-    return {
-      youtubeId: 'FU4WlwfS3G0',
-      videoQuery: `${title} System Design ByteByteGo Gaurav Sen`
-    };
-  }
-
-  // --- 2. FRONTEND TOPICS ---
-  if (lowerCat.includes('frontend') || lowerTitle.includes('react') || lowerTitle.includes('dom') || lowerTitle.includes('frontend')) {
-    if (lowerTitle.includes('debounce') || lowerTitle.includes('throttle') || lowerTitle.includes('event loop')) {
-      return {
-        youtubeId: 'cjIswDCK4pA',
-        videoQuery: `${title} Frontend Interview Akshay Saini Namaste JavaScript`
-      };
-    }
-    return {
-      youtubeId: 'YPTqKIgVk-k',
-      videoQuery: `${title} Frontend Interview React JS Namaste JavaScript Akshay Saini`
-    };
-  }
-
-  // --- 3. BACKEND TOPICS ---
-  if (lowerCat.includes('backend') || lowerTitle.includes('backend') || lowerTitle.includes('express') || lowerTitle.includes('api')) {
-    if (lowerTitle.includes('jwt') || lowerTitle.includes('auth') || lowerTitle.includes('token') || lowerTitle.includes('session')) {
-      return {
-        youtubeId: 'mbsmsi7l3r4',
-        videoQuery: `${title} Backend Engineering Node.js JWT Auth Web Dev Simplified`
-      };
-    }
-    return {
-      youtubeId: 'dBGUmUQhjaM',
-      videoQuery: `${title} Backend Node.js Database API Design`
-    };
-  }
-
-  // --- 4. BEHAVIORAL TOPICS ---
-  if (lowerCat.includes('behavioral') || lowerTitle.includes('behavioral') || lowerTitle.includes('leadership') || lowerTitle.includes('star method')) {
-    return {
-      youtubeId: 'A4I1J8qYJ1A',
-      videoQuery: `${title} Behavioral Interview STAR Method Tech Lead`
-    };
-  }
-
-  // --- 5. DSA TOPICS (Precise matching to avoid accidental substring hits like "consumer" matching "sum") ---
-  
-  // 5a. Two Pointers / 2Sum / 3Sum / 4Sum
-  if (/\b(2sum|3sum|4sum|two sum|three sum|four sum|triplet|two pointer|pair sum)\b/i.test(lowerTitle)) {
-    return {
-      youtubeId: 'UXDSeD9mN-k',
-      videoQuery: `${title} ${platform || ''} Striver NeetCode Two Pointers 3Sum solution`
-    };
-  }
-
-  // 5b. Binary Search / Rotated / Koko / Median / Allocation
-  if (lowerTitle.includes('binary search') || lowerTitle.includes('rotated') || lowerTitle.includes('median') || lowerTitle.includes('koko') || lowerTitle.includes('allocation') || lowerTitle.includes('search in')) {
-    return {
-      youtubeId: 'W9QJ8HaZnac',
-      videoQuery: `${title} ${platform || ''} Striver Binary Search solution`
-    };
-  }
-
-  // 5c. Sliding Window / Substring
-  if (lowerTitle.includes('window') || lowerTitle.includes('substring') || lowerTitle.includes('consecutive') || lowerTitle.includes('anagram')) {
-    return {
-      youtubeId: 'cQ1Oz4ck15I',
-      videoQuery: `${title} ${platform || ''} NeetCode Sliding Window solution`
-    };
-  }
-
-  // 5d. Linked List
-  if (lowerTitle.includes('linked list') || lowerTitle.includes('reverse list') || lowerTitle.includes('lru') || lowerTitle.includes('lfu') || lowerTitle.includes('detect cycle')) {
-    return {
-      youtubeId: 'q8g1tD91m-s',
-      videoQuery: `${title} ${platform || ''} Love Babbar Striver Linked List solution`
-    };
-  }
-
-  // 5e. Stack & Queue
-  if (lowerTitle.includes('stack') || lowerTitle.includes('queue') || lowerTitle.includes('histogram') || lowerTitle.includes('parentheses') || lowerTitle.includes('next greater')) {
-    return {
-      youtubeId: 'Du8OIftK3oM',
-      videoQuery: `${title} ${platform || ''} Striver Monotonic Stack solution`
-    };
-  }
-
-  // 5f. Trees & BST
-  if (lowerTitle.includes('tree') || lowerTitle.includes('bst') || lowerTitle.includes('ancestor') || lowerTitle.includes('traversal') || lowerTitle.includes('serialize') || lowerTitle.includes('binary tree')) {
-    return {
-      youtubeId: '_ANrF3FJm7I',
-      videoQuery: `${title} ${platform || ''} Striver Tree Traversals solution`
-    };
-  }
-
-  // 5g. Graphs
-  if (lowerTitle.includes('graph') || lowerTitle.includes('island') || lowerTitle.includes('dijkstra') || lowerTitle.includes('topological') || lowerTitle.includes('course schedule') || lowerTitle.includes('ladder')) {
-    return {
-      youtubeId: '73gne8gBv4A',
-      videoQuery: `${title} ${platform || ''} Gate Smashers Striver Graph solution`
-    };
-  }
-
-  // 5h. Dynamic Programming / Knapsack
-  if (lowerTitle.includes('dp') || lowerTitle.includes('knapsack') || lowerTitle.includes('subsequence') || lowerTitle.includes('coin') || lowerTitle.includes('edit distance') || lowerTitle.includes('partition') || lowerTitle.includes('matrix chain') || lowerTitle.includes('dynamic programming')) {
-    return {
-      youtubeId: 'nLmhmB6SqcM',
-      videoQuery: `${title} ${platform || ''} Abdul Bari Striver Dynamic Programming 0 1 Knapsack solution`
-    };
-  }
-
-  // 5i. Backtracking
-  if (lowerTitle.includes('queen') || lowerTitle.includes('sudoku') || lowerTitle.includes('combination') || lowerTitle.includes('backtrack') || lowerTitle.includes('n-queen')) {
-    return {
-      youtubeId: 'iTwpI45G4TE',
-      videoQuery: `${title} ${platform || ''} Striver Backtracking N-Queens solution`
-    };
-  }
-
-  // 5j. Greedy
-  if (lowerTitle.includes('greedy') || lowerTitle.includes('interval') || lowerTitle.includes('activity selection') || lowerTitle.includes('job sequencing')) {
-    return {
-      youtubeId: 'HzeK7g8cD0k',
-      videoQuery: `${title} ${platform || ''} Striver Greedy Algorithms solution`
-    };
-  }
-
-  // 5k. Trie / Prefix Tree
-  if (lowerTitle.includes('trie') || lowerTitle.includes('prefix tree')) {
-    return {
-      youtubeId: 'dBGUmUQhjaM',
-      videoQuery: `${title} ${platform || ''} Striver Trie solution`
-    };
-  }
-
-  // Generic fallback: High-quality Striver / NeetCode search query & verified default video
-  return {
-    youtubeId: 'UXDSeD9mN-k',
-    videoQuery: `${title} ${platform || 'LeetCode'} solution Striver NeetCode Babbar`
-  };
+  questionInput?: any,
+  language: 'English' | 'Hindi' = 'English'
+): EducatorVideoInfo | null => {
+  return getExactEducatorVideoForQuestion(questionInput, language);
 };
 
 export interface TopicVideoInfo {
@@ -281,7 +612,6 @@ export interface TopicVideoInfo {
 }
 
 export const FEATURED_TOPIC_VIDEOS: TopicVideoInfo[] = [
-  // --- DSA & ALGORITHMS TOPICS ---
   {
     id: 'tv-1',
     title: 'Arrays & Two Pointers: Two Sum & 3Sum Optimal Masterclass',
@@ -300,436 +630,30 @@ export const FEATURED_TOPIC_VIDEOS: TopicVideoInfo[] = [
     educator: 'takeUforward (Striver)',
     duration: '1 hr 15 mins',
     youtubeId: 'W9QJ8HaZnac',
-    query: 'Striver Binary Search complete takeuforward',
-    description: 'Master binary search on 1D, 2D arrays, Book Allocation, Aggressive Cows, and top product company coding questions.',
-    tags: ['Binary Search', 'Arrays', 'Striver Sheet']
+    query: 'Striver Binary Search complete playlist',
+    description: 'Deep dive into lower bound, upper bound, rotated arrays, and allocation problems.',
+    tags: ['Binary Search', 'Algorithms']
   },
   {
     id: 'tv-3',
-    title: 'Sliding Window Pattern: Fixed & Variable Window Problems',
-    subjectOrCategory: 'DSA & Placements',
-    educator: 'NeetCode',
-    duration: '35 mins',
-    youtubeId: 'cQ1Oz4ck15I',
-    query: 'NeetCode Two Pointers Sliding Window LeetCode 75',
-    description: 'Concise visual walkthrough of sliding window and two-pointer interview patterns with clean Python, C++ and Java code.',
-    tags: ['Sliding Window', 'Strings', 'LeetCode 75']
+    title: 'System Design: API Rate Limiter (Token Bucket Algorithm)',
+    subjectOrCategory: 'System Design',
+    educator: 'ByteByteGo',
+    duration: '14 mins',
+    youtubeId: 'FU4WlwfS3G0',
+    query: 'ByteByteGo Rate Limiter system design',
+    description: 'Learn how tech giants protect microservices using token bucket and sliding window counter algorithms.',
+    tags: ['System Design', 'Rate Limiter', 'ByteByteGo']
   },
   {
     id: 'tv-4',
-    title: 'Linked List Complete Series: Cycle Detection & LRU Cache',
-    subjectOrCategory: 'DSA & Placements',
-    educator: 'Love Babbar',
-    duration: '45 mins',
-    youtubeId: 'q8g1tD91m-s',
-    query: 'Love Babbar Linked List Cycle Detection Reversal C++',
-    description: 'Step-by-step implementation of singly and doubly linked lists, Floyd cycle detection, and memory pointers.',
-    tags: ['Linked List', 'Pointers', 'C++ DSA']
-  },
-  {
-    id: 'tv-5',
-    title: 'Stacks & Queues: Next Greater Element & Monotonic Stack',
-    subjectOrCategory: 'DSA & Placements',
-    educator: 'takeUforward (Striver)',
-    duration: '40 mins',
-    youtubeId: 'Du8OIftK3oM',
-    query: 'Striver Monotonic Stack Next Greater Element',
-    description: 'Master monotonic stack concepts, valid parentheses, sliding window maximum, and min stack design.',
-    tags: ['Stack', 'Monotonic Stack', 'Queues']
-  },
-  {
-    id: 'tv-6',
-    title: 'Binary Trees & BST Masterclass: Traversals, LCA & Diameter',
-    subjectOrCategory: 'DSA & Placements',
-    educator: 'takeUforward (Striver)',
-    duration: '1 hr 10 mins',
-    youtubeId: '_ANrF3FJm7I',
-    query: 'Striver Tree Traversals Inorder Preorder Postorder',
-    description: 'Complete tree traversals (BFS, DFS), Lowest Common Ancestor, tree serialization, and BST property validation.',
-    tags: ['Trees', 'Binary Search Tree', 'BFS/DFS']
-  },
-  {
-    id: 'tv-7',
-    title: 'Graph Algorithms Masterclass: BFS, DFS, Dijkstra & Topological Sort',
-    subjectOrCategory: 'DSA & Placements',
-    educator: 'takeUforward (Striver)',
-    duration: '1 hr 30 mins',
-    youtubeId: 'M3_pSqDzuU4',
-    query: 'Striver Graph Series BFS DFS Dijkstra Kahn Algorithm',
-    description: 'Comprehensive graph masterclass covering adjacency lists, cycle detection, Kahn algorithm, Dijkstra, and Disjoint Set Union (DSU).',
-    tags: ['Graphs', 'Dijkstra', 'Shortest Path']
-  },
-  {
-    id: 'tv-8',
-    title: 'Dynamic Programming & Greedy Algorithms Whiteboard Masterclass',
-    subjectOrCategory: 'DSA & Placements',
-    educator: 'Abdul Bari',
-    duration: '52 mins',
-    youtubeId: 'nLmhmB6SqcM',
-    query: 'Abdul Bari Dynamic Programming Knapsack Greedy',
-    description: 'World-renowned whiteboard analysis of 0/1 Knapsack, memoization, tabular space optimization, and algorithm math.',
-    tags: ['Dynamic Programming', '0/1 Knapsack', 'Greedy']
-  },
-  {
-    id: 'tv-9',
-    title: 'Backtracking & Recursion: N-Queens & Combination Sum',
-    subjectOrCategory: 'DSA & Placements',
-    educator: 'takeUforward (Striver)',
-    duration: '48 mins',
-    youtubeId: 'iTwpI45G4TE',
-    query: 'Striver N Queens Backtracking Recursion',
-    description: 'Master decision trees, recursive stack frames, Sudoku solver, N-Queens, and subset generation algorithms.',
-    tags: ['Recursion', 'Backtracking', 'N-Queens']
-  },
-  {
-    id: 'tv-10',
-    title: 'Heaps & Priority Queues: Kth Largest & Top K Elements',
-    subjectOrCategory: 'DSA & Placements',
-    educator: 'NeetCode',
-    duration: '30 mins',
-    youtubeId: 'YPTqKIgVk-k',
-    query: 'NeetCode Heap Priority Queue Kth Largest Element',
-    description: 'Min-Heap and Max-Heap implementations, heapify process, median from data stream, and priority queue problem patterns.',
-    tags: ['Heaps', 'Priority Queue', 'Top K']
-  },
-  {
-    id: 'tv-11',
-    title: 'Trie Data Structure Complete Masterclass: Prefix Search',
-    subjectOrCategory: 'DSA & Placements',
-    educator: 'takeUforward (Striver)',
-    duration: '38 mins',
-    youtubeId: 'dBGUmUQhjaM',
-    query: 'Striver Trie Data Structure Implement Trie Word Search',
-    description: 'Implement Trie (Prefix Tree), insert, search, startsWith operations, and autocomplete search engine optimization.',
-    tags: ['Trie', 'Prefix Search', 'Strings']
-  },
-
-  // --- FULL STACK & WEB DEVELOPMENT ---
-  {
-    id: 'tv-12',
-    title: 'React.js 18 & Modern Frontend Architecture Full Course',
-    subjectOrCategory: 'Full Stack & Web Dev',
-    educator: 'CodeWithHarry',
-    duration: '2 hrs 30 mins',
-    youtubeId: 'rg7Fvvl3taU',
-    query: 'React js full course in hindi CodeWithHarry',
-    description: 'Modern frontend engineering with React components, useState, useEffect, custom hooks, Context API, and production UI build.',
-    tags: ['React', 'Frontend', 'Web Dev']
-  },
-  {
-    id: 'tv-13',
-    title: 'Node.js, Express & REST API Production Architecture',
-    subjectOrCategory: 'Full Stack & Web Dev',
-    educator: 'Chai aur Code (Hitesh Choudhary)',
-    duration: '1 hr 40 mins',
-    youtubeId: '13gLB6h5iOM',
-    query: 'Chai aur Code Node js Express full backend course',
-    description: 'Production Express backend, REST APIs, MongoDB Mongoose models, JWT authentication, middleware, and clean code architecture.',
-    tags: ['Node.js', 'Express', 'Backend']
-  },
-  {
-    id: 'tv-14',
-    title: 'Next.js 14 App Router, Server Actions & Cloud Deployment',
-    subjectOrCategory: 'Full Stack & Web Dev',
-    educator: 'Piyush Garg',
-    duration: '1 hr 10 mins',
-    youtubeId: 'Z1N3pL6E72w',
-    query: 'Piyush Garg Next.js App Router Docker fullstack',
-    description: 'Server components, API routes, Prisma ORM, Docker containerization, and production deployment on AWS/Vercel Cloud.',
-    tags: ['Next.js', 'Full Stack', 'Web Dev']
-  },
-  {
-    id: 'tv-15',
-    title: 'JavaScript ES6+, Promises & Async/Event Loop Masterclass',
-    subjectOrCategory: 'Full Stack & Web Dev',
-    educator: 'Akshay Saini (Namaste JavaScript)',
-    duration: '45 mins',
-    youtubeId: '8zKuNo4ay8E',
-    query: 'Akshay Saini Namaste JavaScript Event Loop Promises',
-    description: 'In-depth execution context, closures, event loop, call stack, microtask queue, and asynchronous JavaScript interview questions.',
-    tags: ['JavaScript', 'ES6', 'Namaste JS']
-  },
-  {
-    id: 'tv-16',
-    title: 'Tailwind CSS Modern Responsive UI Masterclass',
-    subjectOrCategory: 'Full Stack & Web Dev',
-    educator: 'FreeCodeCamp',
-    duration: '1 hr 20 mins',
-    youtubeId: 'ft30zcMlFao',
-    query: 'Tailwind CSS full course responsive web design',
-    description: 'Build fast, responsive dark-mode tech dashboards using Tailwind utility classes, custom themes, and flexbox/grid layouts.',
-    tags: ['Tailwind CSS', 'UI/UX', 'Frontend']
-  },
-
-  // --- SYSTEM DESIGN & CS CORE ---
-  {
-    id: 'tv-17',
-    title: 'System Design Interview: Distributed Caching & Redis Architecture',
-    subjectOrCategory: 'System Design & CS Core',
-    educator: 'ByteByteGo (Alex Xu)',
-    duration: '15 mins',
-    youtubeId: 'i53Gi_K3o7I',
-    query: 'ByteByteGo System Design Caching Redis Microservices',
-    description: 'Animated architecture explanations for distributed caching strategies, write-through vs write-back, and LRU eviction.',
-    tags: ['System Design', 'Caching', 'Redis']
-  },
-  {
-    id: 'tv-18',
-    title: 'High-Level System Design: Load Balancers & Microservices',
-    subjectOrCategory: 'System Design & CS Core',
-    educator: 'Gaurav Sen',
-    duration: '25 mins',
-    youtubeId: 'K0Ta65OqQkY',
-    query: 'Gaurav Sen System Design Load Balancer Microservices',
-    description: 'Consistent hashing, rate limiters, reverse proxies (Nginx), horizontal scaling, and fault tolerance in large distributed apps.',
-    tags: ['System Design', 'Load Balancers', 'Microservices']
-  },
-  {
-    id: 'tv-19',
-    title: 'Operating Systems: CPU Process Scheduling & Deadlocks',
-    subjectOrCategory: 'System Design & CS Core',
+    title: 'SQL Database Masterclass: Joins, Group By & Subqueries',
+    subjectOrCategory: 'Gate Smashers',
     educator: 'Gate Smashers',
-    duration: '32 mins',
-    youtubeId: 'zF_S3dJ3e1E',
-    query: 'Operating Systems Process Scheduling CPU Gate Smashers',
-    description: 'Gantt chart calculations for CPU scheduling algorithms (FCFS, SJF, Round Robin, Priority) and OS deadlock prevention.',
-    tags: ['Operating Systems', 'Process Scheduling', 'CS Core']
-  },
-  {
-    id: 'tv-20',
-    title: 'Database Management Systems: SQL Normalization & Indexing',
-    subjectOrCategory: 'System Design & CS Core',
-    educator: 'Gate Smashers',
-    duration: '28 mins',
-    youtubeId: '542M1_S8Cqg',
-    query: 'DBMS Normalization 1NF 2NF 3NF BCNF Gate Smashers',
-    description: 'Database design principles, B-Trees, B+ Trees indexing, ACID properties, transactions, and SQL normalization forms (1NF to BCNF).',
-    tags: ['DBMS', 'SQL', 'Indexing']
-  },
-  {
-    id: 'tv-21',
-    title: 'Computer Networks: TCP/IP, HTTP/3 & DNS Resolution',
-    subjectOrCategory: 'System Design & CS Core',
-    educator: 'Knowledge Gate',
-    duration: '35 mins',
-    youtubeId: 'VwN91x5i25g',
-    query: 'Computer Networks TCP IP Model OSI Model Knowledge Gate',
-    description: 'OSI 7-layer model, TCP 3-way handshake, UDP, DNS query lookup process, SSL/TLS handshake, and HTTP protocols.',
-    tags: ['Networks', 'TCP/IP', 'CS Core']
-  },
-
-  // --- AI, MACHINE LEARNING & LLMs ---
-  {
-    id: 'tv-22',
-    title: 'Transformer Neural Networks & Self-Attention Visualized',
-    subjectOrCategory: 'AI & Data Science',
-    educator: 'StatQuest with Josh Starmer',
-    duration: '22 mins',
-    youtubeId: 'aircAruvnKk',
-    query: 'StatQuest Transformer Neural Networks Self Attention',
-    description: 'Clear, intuitive visual breakdown of Self-Attention, Multi-Head Attention, Transformers, and Large Language Models.',
-    tags: ['AI/ML', 'Transformers', 'Deep Learning']
-  },
-  {
-    id: 'tv-23',
-    title: 'Building GPT & Large Language Models from Scratch in PyTorch',
-    subjectOrCategory: 'AI & Data Science',
-    educator: 'Andrej Karpathy',
-    duration: '1 hr 55 mins',
-    youtubeId: 'kCc8FmEb1nY',
-    query: 'Andrej Karpathy Let us build GPT from scratch PyTorch',
-    description: 'Former OpenAI & Tesla AI director explaining character-level language modeling, self-attention, and PyTorch backpropagation.',
-    tags: ['AI/ML', 'GPT', 'PyTorch']
-  },
-  {
-    id: 'tv-24',
-    title: 'Machine Learning Complete Roadmap: Math, Regression & Scikit-Learn',
-    subjectOrCategory: 'AI & Data Science',
-    educator: 'CampusX (Nitish Singh)',
-    duration: '1 hr 15 mins',
-    youtubeId: 'Gv9_4yMHFhI',
-    query: 'CampusX Machine Learning Full Course Linear Regression',
-    description: 'Mathematics for Machine Learning, Linear/Logistic Regression, Decision Trees, Gradient Descent, and Scikit-Learn models.',
-    tags: ['Machine Learning', 'Python', 'Data Science']
-  },
-
-  // --- BEHAVIORAL INTERVIEWS & PLACEMENT MASTERCLASS ---
-  {
-    id: 'tv-25',
-    title: 'Behavioral Interviews: STAR Method & Amazon Leadership Principles',
-    subjectOrCategory: 'Behavioral & Career',
-    educator: 'Dan Croitor',
-    duration: '25 mins',
-    youtubeId: '3U4O4W17L-g',
-    query: 'Amazon Behavioral Interview STAR Method Leadership Principles',
-    description: 'Structure your answers using Situation, Task, Action, Result (STAR) framework for FAANG behavioral and HR rounds.',
-    tags: ['Behavioral', 'STAR Method', 'HR Interview']
-  },
-
-  // --- LLD, DEVOPS, CLOUD & ENTERPRISE ARCHITECTURE ---
-  {
-    id: 'tv-26',
-    title: 'Low-Level System Design (LLD) & SOLID Principles Masterclass',
-    subjectOrCategory: 'System Design & CS Core',
-    educator: 'Gaurav Sen',
     duration: '42 mins',
-    youtubeId: 'v-xOFm_YpSg',
-    query: 'Low Level Design SOLID Principles Design Patterns Gaurav Sen',
-    description: 'Master Single Responsibility, Open-Closed, Factory Pattern, Strategy Pattern, and Parking Lot LLD questions.',
-    tags: ['LLD', 'Design Patterns', 'SOLID']
-  },
-  {
-    id: 'tv-27',
-    title: 'Docker Containers & Kubernetes Deployment Masterclass',
-    subjectOrCategory: 'System Design & CS Core',
-    educator: 'TechWorld with Nana',
-    duration: '1 hr 15 mins',
-    youtubeId: '3c-iBn73dDE',
-    query: 'Docker Kubernetes Tutorial TechWorld with Nana',
-    description: 'Complete hands-on breakdown of Dockerfile, Docker Compose, Kubernetes Pods, Deployments, and Helm charts.',
-    tags: ['Docker', 'Kubernetes', 'DevOps']
-  },
-  {
-    id: 'tv-28',
-    title: 'DevOps & CI/CD Pipeline Automation with GitHub Actions',
-    subjectOrCategory: 'System Design & CS Core',
-    educator: 'TrainWithShubham',
-    duration: '50 mins',
-    youtubeId: 'R8_veQiYBjU',
-    query: 'DevOps CI CD Pipeline GitHub Actions TrainWithShubham',
-    description: 'Build automated build, test, and container deployment workflows to AWS EC2 using GitHub Actions and Bash.',
-    tags: ['DevOps', 'CI/CD', 'GitHub Actions']
-  },
-  {
-    id: 'tv-29',
-    title: 'Java Spring Boot & Microservices Enterprise Architecture',
-    subjectOrCategory: 'Full Stack & Web Dev',
-    educator: 'Telusko (Navin Reddy)',
-    duration: '1 hr 30 mins',
-    youtubeId: 'vtPkZShrvXQ',
-    query: 'Spring Boot Microservices Full Course Telusko',
-    description: 'Build robust REST APIs with Spring Boot 3, Spring Data JPA, Eureka Naming Server, and API Gateway.',
-    tags: ['Java', 'Spring Boot', 'Microservices']
-  },
-  {
-    id: 'tv-30',
-    title: 'C++ STL Complete Masterclass for Competitive Programming',
-    subjectOrCategory: 'DSA & Placements',
-    educator: 'Luv (C++ CP)',
-    duration: '1 hr 05 mins',
-    youtubeId: 'zBhVZzi5RdU',
-    query: 'C++ STL Masterclass Luv Competitive Programming',
-    description: 'Vectors, Pairs, Sets, Maps, Priority Queues, Binary Search lower_bound/upper_bound, and custom iterators.',
-    tags: ['C++', 'STL', 'Competitive Programming']
-  },
-  {
-    id: 'tv-31',
-    title: 'Theory of Automata & Formal Languages (TAFL / TOC) Masterclass',
-    subjectOrCategory: 'System Design & CS Core',
-    educator: 'Gate Smashers',
-    duration: '45 mins',
-    youtubeId: 'XslI8h7cGDs',
-    query: 'Theory of Computation DFA NFA Conversion Gate Smashers',
-    description: 'DFA, NFA construction, Regular Expressions, Arden Theorem, Pumping Lemma, and Turing Machines for exams.',
-    tags: ['Automata', 'TOC', 'AKTU Core']
-  },
-  {
-    id: 'tv-32',
-    title: 'Computer Organization & Architecture (COA) Pipelining',
-    subjectOrCategory: 'System Design & CS Core',
-    educator: 'Neso Academy',
-    duration: '38 mins',
-    youtubeId: '4LqA2lX2X1A',
-    query: 'Computer Architecture Instruction Pipelining Neso Academy',
-    description: 'Instruction cycles, RISC vs CISC, ALU design, Memory Hierarchy, Cache Mapping, and Pipelining hazards.',
-    tags: ['COA', 'Hardware', 'Pipelining']
-  },
-  {
-    id: 'tv-33',
-    title: 'Discrete Mathematics & Graph Theory Foundations',
-    subjectOrCategory: 'System Design & CS Core',
-    educator: 'Knowledge Gate (Sanchit Jain)',
-    duration: '40 mins',
-    youtubeId: 'wgl3Isc8p7U',
-    query: 'Discrete Mathematics Set Theory Relations Logic Knowledge Gate',
-    description: 'Propositional logic, truth tables, equivalence relations, recurrence relations, and graph colorings.',
-    tags: ['Discrete Maths', 'DSTL', 'AKTU Core']
-  },
-  {
-    id: 'tv-34',
-    title: 'Generative AI, LangChain & RAG AI Agent Architecture',
-    subjectOrCategory: 'AI & Data Science',
-    educator: 'Krish Naik',
-    duration: '1 hr 20 mins',
-    youtubeId: 'aywZrzNaKjs',
-    query: 'LangChain RAG Generative AI Project Krish Naik',
-    description: 'Build RAG (Retrieval-Augmented Generation) AI apps using LangChain, Vector Databases (Chroma/FAISS), and LLMs.',
-    tags: ['Generative AI', 'LangChain', 'RAG']
-  },
-  {
-    id: 'tv-35',
-    title: 'System Design: Rate Limiter & Token Bucket Algorithm',
-    subjectOrCategory: 'System Design & CS Core',
-    educator: 'Arpit Bhayani',
-    duration: '22 mins',
-    youtubeId: 'FU4WlwfS3G0',
-    query: 'Arpit Bhayani Rate Limiter System Design Token Bucket',
-    description: 'Deep dive engineering into how Leaky Bucket and Token Bucket rate limiters protect high-traffic microservices.',
-    tags: ['System Design', 'Rate Limiter', 'Backend']
-  },
-  {
-    id: 'tv-36',
-    title: 'Realtime WebSockets & WebRTC Peer-to-Peer Streaming',
-    subjectOrCategory: 'Full Stack & Web Dev',
-    educator: 'Chai aur Code (Hitesh Choudhary)',
-    duration: '45 mins',
-    youtubeId: 'F3A81s5L_sM',
-    query: 'WebSockets Node js Socket io Chai aur Code',
-    description: 'Full duplex bidirectional communication using Socket.io, Express backend, and live client chat/canvas updates.',
-    tags: ['WebSockets', 'Realtime', 'Node.js']
-  },
-  {
-    id: 'tv-37',
-    title: 'Ethical Hacking & Network Penetration Testing in Kali Linux',
-    subjectOrCategory: 'Behavioral & Career',
-    educator: 'Bitten Tech',
-    duration: '55 mins',
-    youtubeId: '3Kq1MIfTWCE',
-    query: 'Cyber Security Ethical Hacking Kali Linux Bitten Tech',
-    description: 'Port scanning with Nmap, packet sniffing with Wireshark, password hash cracking, and web vulnerability analysis.',
-    tags: ['Cyber Security', 'Kali Linux', 'Ethical Hacking']
-  },
-  {
-    id: 'tv-38',
-    title: 'Quantitative Aptitude & Logical Reasoning Placement Masterclass',
-    subjectOrCategory: 'Behavioral & Career',
-    educator: 'Careerride',
-    duration: '40 mins',
-    youtubeId: 'aK_m_3I3s4Q',
-    query: 'Quantitative Aptitude Shortcuts Placement Test Careerride',
-    description: 'Fast mathematical shortcuts for Speed Distance Time, Permutation Combination, Probability, and Data Interpretation.',
-    tags: ['Aptitude', 'Placements', 'Exam Prep']
-  },
-  {
-    id: 'tv-39',
-    title: 'Golang Backend Engineering & High Concurrency Goroutines',
-    subjectOrCategory: 'Full Stack & Web Dev',
-    educator: 'FreeCodeCamp',
-    duration: '1 hr 10 mins',
-    youtubeId: 'YS4e4q9oBaU',
-    query: 'Golang full course backend development Goroutines',
-    description: 'Build fast backend microservices in Go using channels, goroutines, structs, interfaces, and Gin web framework.',
-    tags: ['Golang', 'Concurrency', 'Backend']
-  },
-  {
-    id: 'tv-40',
-    title: 'Resume Building, Off-Campus Placement Strategy & Referral Guide',
-    subjectOrCategory: 'Behavioral & Career',
-    educator: 'takeUforward (Striver)',
-    duration: '30 mins',
-    youtubeId: '1p4o41Y0K5g',
-    query: 'Striver Resume Building Off Campus Placement Referral LinkedIn',
-    description: 'How to format ATS-friendly developer resumes, craft cold emails to tech recruiters, and secure FAANG interview referrals.',
-    tags: ['Resumes', 'Placements', 'Career Strategy']
+    youtubeId: '542M1_S8Cqg',
+    query: 'Gate Smashers SQL Joins subqueries tutorial',
+    description: 'Complete walkthrough of SQL query execution order, complex inner/outer joins, and window functions.',
+    tags: ['SQL', 'DBMS', 'Gate Smashers']
   }
 ];

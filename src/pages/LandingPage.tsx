@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import { InteractiveMascot } from '../components/InteractiveMascot';
 import { Mic, BookOpen, Map, Calendar, Video, Code2, BarChart3, Target, ArrowRight, CheckCircle, Sparkles, Terminal } from 'lucide-react';

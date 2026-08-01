@@ -6,7 +6,7 @@ export interface TestCase {
 
 export interface DSASheetTopic {
   id: string;
-  sheetCategory: 'Striver A2Z' | 'LeetCode 3000+' | 'GeeksforGeeks SDE' | 'PW College Wallah' | 'CodeChef CP' | 'Apna College Alpha';
+  sheetCategory: 'Striver A2Z' | 'LeetCode' | 'GeeksforGeeks SDE' | 'PW College Wallah' | 'CodeChef CP' | 'Apna College Alpha';
   topicName: string;
   pattern: string;
   difficulty: 'Easy' | 'Medium' | 'Hard';
@@ -232,11 +232,11 @@ TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
   },
 
   // -------------------------------------------------------------
-  // LEETCODE 3000+ QUESTION BANK
+  // LEETCODE QUESTION BANK
   // -------------------------------------------------------------
   {
     id: 'lc-42',
-    sheetCategory: 'LeetCode 3000+',
+    sheetCategory: 'LeetCode',
     topicName: 'Trapping Rain Water (Two Pointers / Stack)',
     pattern: 'Two Pointers & Monotonic Stack',
     difficulty: 'Hard',
@@ -285,7 +285,7 @@ int trap(vector<int>& height) {
   },
   {
     id: 'lc-200',
-    sheetCategory: 'LeetCode 3000+',
+    sheetCategory: 'LeetCode',
     topicName: 'Number of Islands (BFS / DFS Graph Traversal)',
     pattern: 'Grid Breadth-First / Depth-First Search',
     difficulty: 'Medium',

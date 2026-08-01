@@ -24,7 +24,7 @@ function createFallbackDatabase(): Database {
     users: [
       {
         id: 'demo-user-1',
-        fullName: 'Ashwani Rai',
+        fullName: 'Ashwani',
         username: 'ashwani_aktu',
         email: 'student@aktu.ac.in',
         passwordHash: 'demo123',

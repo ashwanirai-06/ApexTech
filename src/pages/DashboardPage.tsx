@@ -1,48 +1,47 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
-import { User, AnalyticsSummary } from '../types';
+import { User, AnalyticsSummary, VivaSession } from '../types';
 import { DBService } from '../db/dbService';
-import { VideoPlayerModal } from '../components/VideoPlayerModal';
-import { FEATURED_TOPIC_VIDEOS, TopicVideoInfo } from '../utils/videoUtils';
-import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip } from 'recharts';
+import { useTheme } from '../context/ThemeContext';
 import {
-  Mic,
-  Map,
-  Video,
-  Code2,
-  BarChart3,
-  Flame,
-  Zap,
-  ArrowRight,
-  TrendingUp,
   Sparkles,
   Terminal,
-  Compass,
-  Play,
+  ArrowRight,
+  TrendingUp,
   CheckCircle2,
-  Tv,
   BookOpen,
-  Filter
+  Building2,
+  Clock,
+  Target,
+  Layers,
+  Zap,
+  Award,
+  BarChart3,
+  Play
 } from 'lucide-react';
 
 interface DashboardPageProps {
   user: User;
   setActiveTab: (tab: string) => void;
   onSelectSubjectForViva: (subjectCode: string, topic?: string) => void;
+  onSelectCompany?: (company: string) => void;
 }
 
-export const DashboardPage: React.FC<DashboardPageProps> = ({ user, setActiveTab, onSelectSubjectForViva }) => {
+export const DashboardPage: React.FC<DashboardPageProps> = ({
+  user,
+  setActiveTab,
+  onSelectSubjectForViva,
+  onSelectCompany
+}) => {
+  const { themeConfig } = useTheme();
   const [analytics, setAnalytics] = useState<AnalyticsSummary | null>(null);
-  const [masterclassCategory, setMasterclassCategory] = useState<string>('All');
-  const [playingVideo, setPlayingVideo] = useState<{
-    title: string;
-    youtubeId?: string;
-    query?: string;
-    educator?: string;
-  } | null>(null);
+  const [recentSessions, setRecentSessions] = useState<VivaSession[]>([]);
 
-  const refreshAnalytics = () => {
-    DBService.getAnalytics(user.id).then(setAnalytics);
+  const refreshAnalytics = async () => {
+    const summary = await DBService.getAnalytics(user.id);
+    const sessions = await DBService.getVivaSessionsByUser(user.id);
+    setAnalytics(summary);
+    setRecentSessions(sessions);
   };
 
   useEffect(() => {
@@ -54,452 +53,359 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ user, setActiveTab
   if (!analytics) {
     return (
       <div className="flex h-64 items-center justify-center text-cyan-400">
-        <div className="h-8 w-8 rounded-full border-2 border-cyan-500 border-t-transparent animate-spin" />
+        <div className="h-10 w-10 rounded-full border-3 border-cyan-500 border-t-transparent animate-spin" />
       </div>
     );
   }
 
+  // Greeting behavior: Welcome, User vs Welcome back, User
+  const isNewUser = analytics.totalVivaSessions === 0;
+  const firstName = user.fullName.split(' ')[0] || user.fullName;
+  const greetingText = isNewUser ? `Welcome, ${firstName} 👋` : `Welcome back, ${firstName} 👋`;
+
+  // Calculated metrics
+  const questionsSolved = isNewUser ? 0 : analytics.totalVivaSessions;
+  const accuracyScore = isNewUser ? 0 : Math.round(analytics.averageScore || 0);
+  const weeklyProgress = isNewUser ? 0 : Math.min(100, Math.round(analytics.roadmapProgress || 0));
+
+  // Required Top Companies
+  const topCompanies = [
+    { name: 'Google', icon: '🌐', color: 'border-blue-500/30 bg-blue-950/20 text-blue-300' },
+    { name: 'Amazon', icon: '📦', color: 'border-amber-500/30 bg-amber-950/20 text-amber-300' },
+    { name: 'Meta', icon: '♾️', color: 'border-indigo-500/30 bg-indigo-950/20 text-indigo-300' },
+    { name: 'Microsoft', icon: '💻', color: 'border-cyan-500/30 bg-cyan-950/20 text-cyan-300' },
+    { name: 'Apple', icon: '🍎', color: 'border-slate-500/30 bg-slate-900/40 text-slate-200' },
+    { name: 'Uber', icon: '🚗', color: 'border-emerald-500/30 bg-emerald-950/20 text-emerald-300' },
+    { name: 'Netflix', icon: '🍿', color: 'border-rose-500/30 bg-rose-950/20 text-rose-300' }
+  ];
+
+  const handleCompanyClick = (companyName: string) => {
+    if (onSelectCompany) {
+      onSelectCompany(companyName);
+    } else {
+      setActiveTab('questionbank-company');
+    }
+  };
+
+  const isLight = themeConfig.mode === 'light';
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-10 max-w-7xl mx-auto pb-16 font-sans">
       
-      {/* Welcome Banner */}
+      {/* 1. TOP SECTION: WELCOME BANNER */}
       <motion.div
-        initial={{ opacity: 0, y: -20, scale: 0.98 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.5, ease: 'easeOut' }}
-        className="relative overflow-hidden rounded-3xl border border-white/5 bg-gradient-to-br from-[#0c0c14] to-[#050508] p-6 sm:p-8 shadow-2xl"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35 }}
+        className={`relative overflow-hidden rounded-3xl border p-8 sm:p-10 shadow-xl backdrop-blur-xl transition-all ${
+          isLight
+            ? 'bg-white border-slate-200 text-slate-900'
+            : `${themeConfig.cardBgClass} ${themeConfig.borderClass} text-white`
+        }`}
       >
-        <div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-          <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-950/40 px-3 py-1 text-[10px] uppercase font-bold tracking-widest text-cyan-300 mb-2 font-mono">
-              <Sparkles className="h-3.5 w-3.5 text-cyan-400" />
-              <span>Tech & Placement Preparation Hub</span>
+        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="space-y-3">
+            <div className={`inline-flex items-center gap-2 rounded-full border px-3.5 py-1 text-xs font-mono font-bold ${themeConfig.badgeClass}`}>
+              <Sparkles className="h-4 w-4" />
+              <span>AI Tech Preparation Engine</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
-              Welcome back, {user.fullName} 👋
+            
+            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight font-sans">
+              {greetingText}
             </h1>
-            <p className="mt-1 text-xs sm:text-sm text-slate-400 max-w-xl">
-              Target Role: <span className="text-cyan-400 font-semibold">{user.profile?.targetRole || 'Full Stack Software Engineer'}</span> • {user.email}
+            
+            <p className="text-base text-slate-400 font-medium max-w-xl leading-relaxed">
+              Continue your preparation journey.
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-3">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setActiveTab('dsa')}
-              className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-600 px-5 py-2.5 text-xs font-bold text-slate-950 shadow-lg shadow-cyan-500/20 hover:brightness-110 transition-all font-mono cursor-pointer"
+          <div className="flex flex-wrap items-center gap-4 shrink-0">
+            <button
+              onClick={() => setActiveTab('questionbank')}
+              className={`flex items-center gap-2.5 rounded-2xl px-6 py-3.5 text-sm font-bold transition-all shadow-lg cursor-pointer ${themeConfig.buttonClass}`}
             >
-              <Terminal className="h-4 w-4" />
-              <span>Open DSA Sheets 🔥</span>
-            </motion.button>
-
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setActiveTab('domains')}
-              className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-xs font-medium text-slate-200 hover:bg-white/10 transition-all font-mono cursor-pointer"
-            >
-              <Compass className="h-4 w-4 text-purple-400" />
-              <span>Domain Roadmaps</span>
-            </motion.button>
+              <Terminal className="h-5 w-5" />
+              <span>Browse Questions</span>
+              <ArrowRight className="h-4 w-4" />
+            </button>
           </div>
         </div>
       </motion.div>
 
-      {/* Metrics Row */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        
-        <motion.div
-          initial={{ opacity: 0, y: 20, scale: 0.95 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.4, delay: 0.05 }}
-          whileHover={{ y: -4, scale: 1.02 }}
-          className="p-5 rounded-2xl bg-white/[0.03] border border-white/5 flex flex-col gap-2 transition-all duration-300 hover:border-cyan-500/40 hover:bg-slate-900/80 hover:shadow-xl hover:shadow-cyan-500/10"
-        >
-          <span className="text-[11px] font-bold text-slate-400 font-mono uppercase tracking-tighter flex items-center gap-1.5">
-            <Zap className="w-3.5 h-3.5 text-cyan-400" />
-            Tech Readiness
-          </span>
-          <div className="flex items-end justify-between">
-            <span className="text-3xl font-serif text-cyan-400">100<span className="text-sm font-sans">%</span></span>
-            <span className="text-[10px] text-emerald-400 font-semibold bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-500/30">100% Ready</span>
-          </div>
-        </motion.div>
+      {/* 2. START YOUR PREPARATION SECTION */}
+      <div className="space-y-5">
+        <h2 className={`text-lg font-extrabold tracking-wide uppercase font-mono flex items-center gap-2.5 ${
+          isLight ? 'text-slate-800' : 'text-slate-200'
+        }`}>
+          <Zap className={`h-5 w-5 ${themeConfig.textAccentClass}`} />
+          <span>Start Your Preparation</span>
+        </h2>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20, scale: 0.95 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.4, delay: 0.1 }}
-          whileHover={{ y: -4, scale: 1.02 }}
-          className="p-5 rounded-2xl bg-white/[0.03] border border-white/5 flex flex-col gap-2 transition-all duration-300 hover:border-indigo-500/40 hover:bg-slate-900/80 hover:shadow-xl hover:shadow-indigo-500/10"
-        >
-          <span className="text-[11px] font-bold text-slate-400 font-mono uppercase tracking-tighter flex items-center gap-1.5">
-            <BarChart3 className="w-3.5 h-3.5 text-indigo-400" />
-            Avg Technical Score
-          </span>
-          <div className="flex items-end justify-between">
-            <span className="text-3xl font-serif text-white">{analytics.averageScore || 95}<span className="text-sm font-sans opacity-50">%</span></span>
-            <span className="text-[10px] text-indigo-300 font-semibold bg-indigo-950/60 px-2 py-0.5 rounded-full border border-indigo-500/30">Top 1%</span>
-          </div>
-        </motion.div>
-
-        <motion.button
-          initial={{ opacity: 0, y: 20, scale: 0.95 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.4, delay: 0.15 }}
-          whileHover={{ y: -4, scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          onClick={() => setActiveTab('dsa')}
-          className="p-5 rounded-2xl bg-gradient-to-br from-cyan-950/40 to-slate-900 border border-cyan-500/40 hover:border-cyan-500/80 flex flex-col gap-2 text-left cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-cyan-500/15 group"
-        >
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] font-bold text-cyan-400 font-mono uppercase tracking-tighter flex items-center gap-1.5">
-              <Terminal className="w-3.5 h-3.5 text-cyan-400" />
-              DSA Patterns
-            </span>
-            <span className="text-[10px] bg-cyan-500/20 text-cyan-300 font-mono px-2 py-0.5 rounded-full border border-cyan-500/30 group-hover:bg-cyan-500 group-hover:text-slate-950 transition-colors">
-              Solve Sheets ⚡
-            </span>
-          </div>
-          <div className="flex items-end justify-between">
-            <span className="text-3xl font-serif text-white">71+ <span className="text-sm font-sans italic opacity-50">Questions</span></span>
-            <div className="flex gap-1 mb-1">
-              <div className="w-1.5 h-3.5 bg-cyan-500 rounded-full"></div>
-              <div className="w-1.5 h-3.5 bg-cyan-500/60 rounded-full"></div>
-              <div className="w-1.5 h-3.5 bg-cyan-500/30 rounded-full"></div>
-            </div>
-          </div>
-        </motion.button>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20, scale: 0.95 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.4, delay: 0.2 }}
-          whileHover={{ y: -4, scale: 1.02 }}
-          className="p-5 rounded-2xl bg-white/[0.03] border border-white/5 flex flex-col gap-2 transition-all duration-300 hover:border-purple-500/40 hover:bg-slate-900/80 hover:shadow-xl hover:shadow-purple-500/10"
-        >
-          <span className="text-[11px] font-bold text-slate-400 font-mono uppercase tracking-tighter flex items-center gap-1.5">
-            <Mic className="w-3.5 h-3.5 text-purple-400" />
-            Mock Technical Drills
-          </span>
-          <div className="flex items-end justify-between">
-            <span className="text-3xl font-serif text-white">{analytics.totalVivaSessions}</span>
-            <span className="text-[10px] text-purple-300 font-semibold bg-purple-950/60 px-2 py-0.5 rounded-full border border-purple-500/30">MAANG Level</span>
-          </div>
-        </motion.div>
-
-      </div>
-
-      {/* Action Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
-        {/* Left Column: Launchpad & Trend Chart */}
-        <div className="lg:col-span-7 space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           
-          <div className="p-6 rounded-3xl bg-gradient-to-br from-[#0c0c14] to-[#050508] border border-white/5">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xs font-bold uppercase tracking-widest text-slate-400 font-mono">Tech Career Launchpad</h2>
-              <button onClick={() => setActiveTab('dsa')} className="text-xs text-cyan-400 hover:underline flex items-center gap-1 font-medium">
-                <span>View All DSA Sheets</span>
-                <ArrowRight className="h-3.5 w-3.5" />
-              </button>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              
-              <div
-                onClick={() => setActiveTab('dsa')}
-                className="group cursor-pointer rounded-2xl border border-cyan-500/30 bg-cyan-950/20 p-4 hover:border-cyan-500/60 transition-all"
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-cyan-500/20 text-cyan-300">
-                    <Terminal className="h-4 w-4" />
-                  </div>
-                  <span className="text-[10px] font-bold text-cyan-300 uppercase tracking-wider font-mono bg-cyan-950/80 px-2 py-0.5 rounded-full border border-cyan-500/30">
-                    DSA Sheets
-                  </span>
+          {/* Card 1: DSA Practice */}
+          <div
+            onClick={() => setActiveTab('dsa')}
+            className={`group p-7 rounded-3xl border transition-all cursor-pointer flex flex-col justify-between space-y-4 hover:-translate-y-1 shadow-md ${
+              isLight
+                ? 'bg-white border-slate-200 hover:border-cyan-400'
+                : `${themeConfig.cardBgClass} ${themeConfig.borderClass} hover:border-cyan-500/60`
+            }`}
+          >
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="p-3 rounded-2xl bg-cyan-500/20 text-cyan-300">
+                  <Terminal className="h-6 w-6" />
                 </div>
-                <h3 className="text-xs font-bold text-white group-hover:text-cyan-300 transition-colors">Striver, PW, CodeChef & Apna College</h3>
-                <p className="mt-1 text-[11px] text-slate-400 leading-relaxed">
-                  Optimal patterns & video links.
-                </p>
-              </div>
-
-              <div
-                onClick={() => setActiveTab('domains')}
-                className="group cursor-pointer rounded-2xl border border-purple-500/30 bg-purple-950/20 p-4 hover:border-purple-500/60 transition-all"
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-purple-500/20 text-purple-300">
-                    <Compass className="h-4 w-4" />
-                  </div>
-                  <span className="text-[10px] font-bold text-purple-300 uppercase tracking-wider font-mono bg-purple-950/80 px-2 py-0.5 rounded-full border border-purple-500/30">
-                    Roadmaps
-                  </span>
-                </div>
-                <h3 className="text-xs font-bold text-white group-hover:text-purple-300 transition-colors">Domain Specializations</h3>
-                <p className="mt-1 text-[11px] text-slate-400 leading-relaxed">
-                  Full Stack, AI/ML, DevOps & Cloud roadmaps.
-                </p>
-              </div>
-
-              <div
-                onClick={() => setActiveTab('code')}
-                className="group cursor-pointer rounded-2xl border border-white/5 bg-white/[0.02] p-4 hover:border-white/20 transition-all"
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500/20 text-emerald-300">
-                    <Code2 className="h-4 w-4" />
-                  </div>
-                  <span className="text-[10px] font-bold text-emerald-300 uppercase tracking-wider font-mono bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-500/30">
-                    AI Review
-                  </span>
-                </div>
-                <h3 className="text-xs font-bold text-white group-hover:text-emerald-300 transition-colors">AI Code Auditor</h3>
-                <p className="mt-1 text-[11px] text-slate-400 leading-relaxed">
-                  Detect time complexity & edge cases.
-                </p>
-              </div>
-
-              <div
-                onClick={() => setActiveTab('viva')}
-                className="group cursor-pointer rounded-2xl border border-white/5 bg-white/[0.02] p-4 hover:border-white/20 transition-all"
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-500/20 text-indigo-300">
-                    <Mic className="h-4 w-4" />
-                  </div>
-                  <span className="text-[10px] font-bold text-indigo-300 uppercase tracking-wider font-mono bg-indigo-950/80 px-2 py-0.5 rounded-full border border-indigo-500/30">
-                    Oral Viva
-                  </span>
-                </div>
-                <h3 className="text-xs font-bold text-white group-hover:text-indigo-300 transition-colors">AI Technical Interviewer</h3>
-                <p className="mt-1 text-[11px] text-slate-400 leading-relaxed">
-                  Real-time audio questions & score.
-                </p>
-              </div>
-
-            </div>
-          </div>
-
-          {/* Performance Area Chart */}
-          <div className="p-6 rounded-3xl bg-white/[0.02] border border-white/5">
-            <h3 className="text-xs font-bold text-slate-300 font-mono mb-4 flex items-center gap-2">
-              <TrendingUp className="h-4 w-4 text-cyan-400" />
-              <span>Technical Growth & Score Trend</span>
-            </h3>
-            <div className="h-48 w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={analytics.scoreTrends}>
-                  <defs>
-                    <linearGradient id="scoreGlow" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#22d3ee" stopOpacity={0.4} />
-                      <stop offset="95%" stopColor="#22d3ee" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <XAxis dataKey="date" stroke="#64748b" fontSize={10} tickLine={false} />
-                  <YAxis stroke="#64748b" fontSize={10} domain={[0, 100]} tickLine={false} />
-                  <Tooltip contentStyle={{ backgroundColor: '#050508', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '12px', fontSize: '11px', color: '#f8fafc' }} />
-                  <Area type="monotone" dataKey="score" stroke="#22d3ee" strokeWidth={2.5} fillOpacity={1} fill="url(#scoreGlow)" />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-        </div>
-
-        {/* Right Column: Weak Topics & Video Boost */}
-        <div className="lg:col-span-5 space-y-6">
-          
-          <div className="p-6 rounded-3xl bg-white/[0.02] border border-white/5">
-            <div className="flex items-center gap-2 mb-4">
-              <Sparkles className="w-4 h-4 text-purple-400" />
-              <h2 className="text-xs font-bold text-slate-300 uppercase tracking-widest font-mono">Weak Topics Detected</h2>
-            </div>
-            <div className="space-y-2.5">
-              <div className="flex items-center justify-between p-2.5 rounded-xl bg-white/[0.02] border border-white/5 hover:bg-white/5 transition-colors">
-                <span className="text-xs text-white font-medium">Dynamic Programming: 0/1 Knapsack</span>
-                <span className="text-[10px] text-red-400 bg-red-400/10 border border-red-500/20 px-2 py-0.5 rounded-full font-mono">High Priority</span>
-              </div>
-              <div className="flex items-center justify-between p-2.5 rounded-xl bg-white/[0.02] border border-white/5 hover:bg-white/5 transition-colors">
-                <span className="text-xs text-white font-medium">Graph Traversal (Kahn's Topo Sort)</span>
-                <span className="text-[10px] text-amber-400 bg-amber-400/10 border border-amber-500/20 px-2 py-0.5 rounded-full font-mono font-bold">Medium</span>
-              </div>
-              <div className="flex items-center justify-between p-2.5 rounded-xl bg-white/[0.02] border border-white/5 hover:bg-white/5 transition-colors">
-                <span className="text-xs text-white font-medium">System Design: Rate Limiting & Redis</span>
-                <span className="text-[10px] text-cyan-400 bg-cyan-400/10 border border-cyan-500/20 px-2 py-0.5 rounded-full font-mono">Review</span>
-              </div>
-            </div>
-
-            <button
-              onClick={() => setActiveTab('weaks')}
-              className="mt-4 w-full rounded-xl bg-amber-500/20 border border-amber-500/30 py-2.5 text-xs font-bold text-amber-300 hover:bg-amber-500/30 transition-all font-mono"
-            >
-              Practice Weak Topic Drills
-            </button>
-          </div>
-
-          <div className="p-6 rounded-3xl bg-gradient-to-br from-indigo-900/20 via-slate-900 to-rose-950/20 border border-indigo-500/30 flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between mb-3">
-                <h2 className="text-xs font-bold text-indigo-300 uppercase tracking-widest font-mono flex items-center gap-2">
-                  <Tv className="h-4 w-4 text-rose-400" />
-                  <span>Featured Educator Video Boost</span>
-                </h2>
-                <span className="text-[10px] bg-rose-950 text-rose-300 border border-rose-500/30 px-2 py-0.5 rounded-full font-mono font-bold">
-                  takeUforward
+                <span className="text-xs font-mono font-bold px-3 py-1 rounded-lg bg-cyan-950 text-cyan-300 border border-cyan-800">
+                  SDE Sheet
                 </span>
               </div>
+              <h3 className="text-xl font-bold font-sans text-white group-hover:text-cyan-300 transition-colors">
+                DSA Practice Sheet
+              </h3>
+              <p className="text-sm text-slate-400 leading-relaxed font-sans">
+                Master 180+ topic-wise coding problems covering Arrays, Graphs, DP & Trees.
+              </p>
+            </div>
 
-              <div 
-                onClick={() => setPlayingVideo({
-                  title: "Striver's 3Sum Two Pointers Pattern",
-                  youtubeId: "UXDSeD9mN-k",
-                  query: "Striver 3Sum Two Sum takeuforward",
-                  educator: "takeUforward (Striver)"
-                })}
-                className="flex gap-4 items-center bg-slate-950/80 p-3 rounded-2xl border border-indigo-500/30 hover:border-cyan-400 transition-all cursor-pointer group shadow-lg"
-              >
-                <div className="w-20 h-14 rounded-xl bg-rose-950/80 border border-rose-500/40 flex-shrink-0 relative overflow-hidden flex items-center justify-center group-hover:scale-105 transition-all">
-                  <div className="w-8 h-8 rounded-full bg-rose-600 flex items-center justify-center pl-0.5 shadow-lg group-hover:bg-rose-500">
-                    <Play className="w-4 h-4 text-white fill-white" />
-                  </div>
+            <div className="flex items-center justify-between pt-3 border-t border-slate-800/60 text-xs font-mono font-bold text-cyan-400">
+              <span>Start Solving</span>
+              <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </div>
+
+          {/* Card 2: Question Bank */}
+          <div
+            onClick={() => setActiveTab('questionbank')}
+            className={`group p-7 rounded-3xl border transition-all cursor-pointer flex flex-col justify-between space-y-4 hover:-translate-y-1 shadow-md ${
+              isLight
+                ? 'bg-white border-slate-200 hover:border-purple-400'
+                : `${themeConfig.cardBgClass} ${themeConfig.borderClass} hover:border-purple-500/60`
+            }`}
+          >
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="p-3 rounded-2xl bg-purple-500/20 text-purple-300">
+                  <Layers className="h-6 w-6" />
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-xs font-bold text-white group-hover:text-cyan-300 transition-colors truncate">Striver's 3Sum Two Pointers</p>
-                  <p className="text-[10px] text-slate-400 mb-1">takeUforward • 28:00 mins</p>
-                  <span className="text-[9px] bg-cyan-500/20 text-cyan-300 px-1.5 py-0.5 rounded uppercase font-bold border border-cyan-500/30 font-mono">MAANG Favorite ⚡</span>
+                <span className="text-xs font-mono font-bold px-3 py-1 rounded-lg bg-purple-950 text-purple-300 border border-purple-800">
+                  2000+ Questions
+                </span>
+              </div>
+              <h3 className="text-xl font-bold font-sans text-white group-hover:text-purple-300 transition-colors">
+                Question Bank
+              </h3>
+              <p className="text-sm text-slate-400 leading-relaxed font-sans">
+                Complete solutions with dry runs, complexity analysis & video explanations.
+              </p>
+            </div>
+
+            <div className="flex items-center justify-between pt-3 border-t border-slate-800/60 text-xs font-mono font-bold text-purple-400">
+              <span>Explore Bank</span>
+              <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </div>
+
+          {/* Card 3: AI Technical Viva */}
+          <div
+            onClick={() => setActiveTab('mock-interview')}
+            className={`group p-7 rounded-3xl border transition-all cursor-pointer flex flex-col justify-between space-y-4 hover:-translate-y-1 shadow-md ${
+              isLight
+                ? 'bg-white border-slate-200 hover:border-emerald-400'
+                : `${themeConfig.cardBgClass} ${themeConfig.borderClass} hover:border-emerald-500/60`
+            }`}
+          >
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="p-3 rounded-2xl bg-emerald-500/20 text-emerald-300">
+                  <Sparkles className="h-6 w-6" />
+                </div>
+                <span className="text-xs font-mono font-bold px-3 py-1 rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-800">
+                  Interactive AI
+                </span>
+              </div>
+              <h3 className="text-xl font-bold font-sans text-white group-hover:text-emerald-300 transition-colors">
+                AI Mock Interview
+              </h3>
+              <p className="text-sm text-slate-400 leading-relaxed font-sans">
+                Simulate realistic technical viva interviews with real-time feedback.
+              </p>
+            </div>
+
+            <div className="flex items-center justify-between pt-3 border-t border-slate-800/60 text-xs font-mono font-bold text-emerald-400">
+              <span>Begin Session</span>
+              <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      {/* 3. TOP COMPANIES SECTION */}
+      <div className="space-y-5">
+        <div className="flex items-center justify-between">
+          <h2 className={`text-lg font-extrabold tracking-wide uppercase font-mono flex items-center gap-2.5 ${
+            isLight ? 'text-slate-800' : 'text-slate-200'
+          }`}>
+            <Building2 className={`h-5 w-5 ${themeConfig.textAccentClass}`} />
+            <span>Top Companies</span>
+          </h2>
+          <button
+            onClick={() => setActiveTab('questionbank-company')}
+            className={`text-xs font-mono font-bold ${themeConfig.textAccentClass} hover:underline cursor-pointer`}
+          >
+            View All Companies →
+          </button>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-4">
+          {topCompanies.map(comp => (
+            <button
+              key={comp.name}
+              onClick={() => handleCompanyClick(comp.name)}
+              className={`p-5 rounded-3xl border flex flex-col items-center justify-center gap-2 transition-all cursor-pointer hover:scale-105 shadow-md ${comp.color}`}
+            >
+              <span className="text-3xl">{comp.icon}</span>
+              <span className="text-sm font-extrabold font-mono">{comp.name}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* 4. PROGRESS SECTION */}
+      <div className="space-y-5">
+        <div className="flex items-center justify-between">
+          <h2 className={`text-lg font-extrabold tracking-wide uppercase font-mono flex items-center gap-2.5 ${
+            isLight ? 'text-slate-800' : 'text-slate-200'
+          }`}>
+            <TrendingUp className="h-5 w-5 text-emerald-400" />
+            <span>Progress Section</span>
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          
+          {/* Metrics Grid */}
+          <div className="lg:col-span-7 space-y-6">
+            <div className={`p-8 rounded-3xl border space-y-6 ${
+              isLight
+                ? 'bg-white border-slate-200'
+                : `${themeConfig.cardBgClass} ${themeConfig.borderClass}`
+            }`}>
+              <h3 className="text-base font-extrabold text-white font-mono uppercase tracking-wider flex items-center gap-2">
+                <BarChart3 className="h-5 w-5 text-cyan-400" />
+                <span>Preparation Overview</span>
+              </h3>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                
+                {/* Metric 1: Questions Solved */}
+                <div className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-1">
+                  <span className="text-xs font-mono font-bold text-slate-400 uppercase">Questions Solved</span>
+                  <span className="text-3xl font-extrabold text-white block font-mono">
+                    {questionsSolved}
+                  </span>
+                  <span className="text-[11px] text-slate-500 font-sans block">Verified Solutions</span>
+                </div>
+
+                {/* Metric 2: Accuracy */}
+                <div className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-1">
+                  <span className="text-xs font-mono font-bold text-slate-400 uppercase">Accuracy</span>
+                  <span className={`text-3xl font-extrabold block font-mono ${
+                    accuracyScore > 0 ? 'text-emerald-400' : 'text-slate-400'
+                  }`}>
+                    {accuracyScore}%
+                  </span>
+                  <span className="text-[11px] text-slate-500 font-sans block">Evaluation Average</span>
+                </div>
+
+                {/* Metric 3: Weekly Progress */}
+                <div className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-1">
+                  <span className="text-xs font-mono font-bold text-slate-400 uppercase">Weekly Progress</span>
+                  <span className={`text-3xl font-extrabold block font-mono ${themeConfig.textAccentClass}`}>
+                    {weeklyProgress}%
+                  </span>
+                  <span className="text-[11px] text-slate-500 font-sans block">Roadmap Target</span>
+                </div>
+
+              </div>
+
+              {/* Progress Bar */}
+              <div className="space-y-2 pt-2">
+                <div className="flex justify-between text-xs font-mono">
+                  <span className="text-slate-400">Roadmap Completion</span>
+                  <span className={`font-bold ${themeConfig.textAccentClass}`}>{weeklyProgress}%</span>
+                </div>
+                <div className="w-full h-3.5 rounded-full bg-slate-950 border border-slate-800 overflow-hidden">
+                  <div
+                    className={`h-full rounded-full bg-gradient-to-r ${themeConfig.accentGradient} transition-all duration-500`}
+                    style={{ width: `${Math.max(weeklyProgress, 4)}%` }}
+                  />
                 </div>
               </div>
             </div>
-
-            <div className="mt-4 flex gap-2">
-              <button
-                onClick={() => setPlayingVideo({
-                  title: "Striver's 3Sum Two Pointers Pattern",
-                  youtubeId: "UXDSeD9mN-k",
-                  query: "Striver 3Sum Two Sum takeuforward",
-                  educator: "takeUforward (Striver)"
-                })}
-                className="flex-1 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-[11px] font-bold uppercase tracking-widest shadow-lg shadow-rose-600/30 transition-all font-mono flex items-center justify-center gap-1.5 cursor-pointer"
-              >
-                <Play className="h-3.5 w-3.5 fill-white" />
-                <span>Watch Explanation</span>
-              </button>
-              <button
-                onClick={() => setActiveTab('dsa')}
-                className="py-2.5 px-3 rounded-xl border border-slate-700 bg-slate-800 text-slate-200 text-[11px] font-bold uppercase tracking-widest hover:bg-slate-700 transition-all font-mono"
-              >
-                Solve Sheet
-              </button>
-            </div>
           </div>
 
-        </div>
+          {/* Recently Solved Questions List */}
+          <div className="lg:col-span-5 space-y-6">
+            <div className={`p-8 rounded-3xl border space-y-5 h-full flex flex-col justify-between ${
+              isLight
+                ? 'bg-white border-slate-200'
+                : `${themeConfig.cardBgClass} ${themeConfig.borderClass}`
+            }`}>
+              <h3 className="text-base font-extrabold text-white font-mono uppercase tracking-wider flex items-center gap-2">
+                <Clock className="h-5 w-5 text-purple-400" />
+                <span>Recently Solved Questions</span>
+              </h3>
 
-      </div>
-
-      {/* NEW: TOP YOUTUBE EDUCATOR MASTERCLASSES SECTION */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-slate-900/80 border border-slate-800 space-y-6 shadow-2xl backdrop-blur-xl">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800/80 pb-4">
-          <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-rose-500/30 bg-rose-950/40 px-3 py-1 text-[10px] uppercase font-bold tracking-widest text-rose-300 font-mono mb-1">
-              <Tv className="h-3.5 w-3.5 text-rose-400" />
-              <span>Top Educator YouTube Mapping</span>
-            </div>
-            <h2 className="text-xl font-bold text-white tracking-tight font-mono">
-              DSA & System Design Masterclasses
-            </h2>
-            <p className="text-xs text-slate-400 mt-0.5">
-              Watch curated video explanations mapped directly to technical interview topics by Striver, Love Babbar, Abdul Bari, Gate Smashers & more.
-            </p>
-          </div>
-
-          {/* Filter Pills */}
-          <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none pb-1">
-            {['All', 'DSA & Placements', 'System Design & CS Core', 'Full Stack & Web Dev', 'AI & Data Science'].map(cat => (
-              <button
-                key={cat}
-                onClick={() => setMasterclassCategory(cat)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold whitespace-nowrap transition-all cursor-pointer ${
-                  masterclassCategory === cat
-                    ? 'bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/20'
-                    : 'bg-slate-950 border border-slate-800 text-slate-400 hover:text-white'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Grid of Masterclass Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {FEATURED_TOPIC_VIDEOS
-            .filter(v => masterclassCategory === 'All' || v.subjectOrCategory === masterclassCategory)
-            .map(video => (
-              <div
-                key={video.id}
-                className="p-4 rounded-2xl border border-slate-800 bg-slate-950/80 hover:border-cyan-500/50 transition-all flex flex-col justify-between space-y-3 group"
-              >
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="text-[10px] font-mono font-bold text-cyan-300 bg-cyan-950 border border-cyan-800 px-2 py-0.5 rounded-md truncate max-w-[150px]">
-                      👤 {video.educator}
-                    </span>
-                    <span className="text-[10px] font-mono text-slate-400 bg-slate-900 px-2 py-0.5 rounded-md border border-slate-800 shrink-0">
-                      ⏱️ {video.duration}
-                    </span>
+              {recentSessions.length === 0 ? (
+                <div className="py-8 text-center space-y-3 my-auto">
+                  <div className="w-12 h-12 rounded-2xl bg-slate-900 text-slate-400 border border-slate-800 flex items-center justify-center mx-auto">
+                    <CheckCircle2 className="h-6 w-6 text-slate-500" />
                   </div>
-
-                  <h3 className="text-xs font-bold text-white group-hover:text-cyan-300 transition-colors line-clamp-2 leading-snug font-mono">
-                    {video.title}
-                  </h3>
-
-                  <p className="text-[11px] text-slate-400 line-clamp-2 leading-relaxed">
-                    {video.description}
+                  <h4 className="text-sm font-bold text-white font-mono">No recent sessions yet</h4>
+                  <p className="text-xs text-slate-400 max-w-xs mx-auto leading-relaxed">
+                    Start your preparation journey to see your recently completed questions here.
                   </p>
-                </div>
-
-                <div className="pt-2 border-t border-slate-900 flex items-center justify-between gap-2">
-                  <div className="flex flex-wrap gap-1">
-                    {video.tags.slice(0, 2).map((t, i) => (
-                      <span key={i} className="text-[9px] font-mono text-slate-400 bg-slate-900 px-1.5 py-0.5 rounded">
-                        #{t}
-                      </span>
-                    ))}
-                  </div>
-
                   <button
-                    onClick={() => setPlayingVideo({
-                      title: video.title,
-                      youtubeId: video.youtubeId,
-                      query: video.query,
-                      educator: video.educator
-                    })}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-rose-600/90 hover:bg-rose-500 text-white font-mono text-xs font-bold transition-all shrink-0 cursor-pointer shadow-md shadow-rose-600/20"
+                    onClick={() => setActiveTab('questionbank')}
+                    className={`mt-2 px-5 py-2.5 rounded-xl text-xs font-mono font-bold cursor-pointer ${themeConfig.buttonClass}`}
                   >
-                    <Play className="h-3 w-3 fill-white" />
-                    <span>Watch</span>
+                    Solve Questions Now
                   </button>
                 </div>
-              </div>
-            ))}
+              ) : (
+                <div className="space-y-3">
+                  {recentSessions.slice(0, 4).map(session => (
+                    <div
+                      key={session.id}
+                      className="p-4 rounded-2xl bg-slate-950/80 border border-slate-800/80 flex items-center justify-between gap-3 hover:border-slate-700 transition-colors"
+                    >
+                      <div className="space-y-0.5">
+                        <h4 className="text-sm font-bold text-white font-mono">{session.subjectName}</h4>
+                        <p className="text-xs text-slate-400">{session.topic}</p>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-xs font-mono font-bold text-emerald-400">{session.averageScore}%</span>
+                        <span className="text-[10px] text-slate-500 block font-mono">Completed</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <button
+                onClick={() => setActiveTab('history')}
+                className="w-full py-2.5 text-center text-xs font-mono font-bold text-slate-400 hover:text-white transition-colors border-t border-slate-800/60 pt-4 cursor-pointer"
+              >
+                View Full Practice History →
+              </button>
+            </div>
+          </div>
+
         </div>
       </div>
-
-      {/* Video Modal Player */}
-      {playingVideo && (
-        <VideoPlayerModal
-          isOpen={!!playingVideo}
-          onClose={() => setPlayingVideo(null)}
-          videoTitle={playingVideo.title}
-          youtubeId={playingVideo.youtubeId}
-          videoQuery={playingVideo.query || playingVideo.title}
-          educator={playingVideo.educator || 'Expert Educator'}
-        />
-      )}
 
     </div>
   );
