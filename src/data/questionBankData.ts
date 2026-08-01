@@ -733,7 +733,7 @@ public class BehavioralAnswer {
 let cachedQuestionBank: QuestionItem[] | null = null;
 
 // Helper function to generate full 2000+  indexed unique questions dynamically
-export const generateAggregatedQuestionBank = (count: number = 2000): QuestionItem[] => {
+export const generateAggregatedQuestionBank = (count: number = 2000+): QuestionItem[] => {
   if (cachedQuestionBank && cachedQuestionBank.length >= count) {
     return cachedQuestionBank;
   }

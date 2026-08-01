@@ -228,7 +228,7 @@ export async function getDb(): Promise<Database> {
         const buffer = await res.arrayBuffer();
         const header = new Uint8Array(buffer.slice(0, 4));
         // Check WASM magic bytes: 0x00 ('\0'), 0x61 ('a'), 0x73 ('s'), 0x6d ('m') and length > 2MB
-        if (buffer.byteLength > 2000000 && header.length === 4 && header[0] === 0x00 && header[1] === 0x61 && header[2] === 0x73 && header[3] === 0x6d) {
+        if (buffer.byteLength > 2000+000 && header.length === 4 && header[0] === 0x00 && header[1] === 0x61 && header[2] === 0x73 && header[3] === 0x6d) {
           wasmBinary = buffer;
         }
       }

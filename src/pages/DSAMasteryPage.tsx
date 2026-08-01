@@ -51,7 +51,7 @@ export const DSAMasteryPage: React.FC<DSAMasteryPageProps> = ({
   const handleCopy = () => {
     navigator.clipboard.writeText(currentTopic.codeTemplate);
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    setTimeout(() => setCopied(false), 2000+);
   };
 
   const handleRunTestCases = () => {

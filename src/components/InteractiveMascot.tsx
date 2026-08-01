@@ -23,7 +23,7 @@ export const InteractiveMascot: React.FC<InteractiveMascotProps> = ({
     const interval = setInterval(() => {
       setBlink(true);
       setTimeout(() => setBlink(false), 200);
-    }, 3500 + Math.random() * 2000);
+    }, 3500 + Math.random() * 2000+);
     return () => clearInterval(interval);
   }, []);
 
