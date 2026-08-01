@@ -110,7 +110,7 @@ public class Solution {
   const handleCopySolution = () => {
     navigator.clipboard.writeText(getReferenceSolution());
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000+);
+    setTimeout(() => setCopied(false), 5000+);
   };
 
   const handleLoadSolution = () => {

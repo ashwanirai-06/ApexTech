@@ -37,7 +37,7 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onRegisterSuccess, o
     if (password) {
       navigator.clipboard.writeText(password);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000+);
+      setTimeout(() => setCopied(false), 5000+);
     }
   };
 
