@@ -57,7 +57,7 @@ export const QuestionBankPage: React.FC<QuestionBankPageProps> = ({
 }) => {
   
   // Generate/memoize 5000+ questions database
-  const allQuestions = useMemo(() => generateAggregatedQuestionBank(5000+), []);
+  const allQuestions = useMemo(() => generateAggregatedQuestionBank(5000), []);
 
   // Filter States
   const [selectedCategory, setSelectedCategory] = useState<QuestionCategory | 'All'>('All');
@@ -189,7 +189,7 @@ export const QuestionBankPage: React.FC<QuestionBankPageProps> = ({
   const handleCopyCode = () => {
     navigator.clipboard.writeText(currentCodeSolution);
     setCopied(true);
-    setTimeout(() => setCopied(false), 5000+);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   const handleRunTestCases = () => {
