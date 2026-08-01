@@ -33,13 +33,13 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onRegisterSuccess, o
     setConfirmPassword(result);
   };
 
-  const copyPasswordToClipboard = () => {
-    if (password) {
-      navigator.clipboard.writeText(password);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 5000+);
-    }
-  };
+const copyPasswordToClipboard = () => {
+  if (password) {
+    navigator.clipboard.writeText(password);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 5000);
+  }
+};
 
   const getPasswordStrength = (pass: string) => {
     let score = 0;
