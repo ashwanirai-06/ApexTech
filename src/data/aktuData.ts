@@ -564,14 +564,14 @@ export const AKTU_SUBJECTS: AKTUSubject[] = [
       { unitNumber: 2, unitName: 'System & Network Security', topics: ['Malware Types (Viruses, Worms, Trojans, Ransomware)', 'Firewalls Architecture (Packet Filter, Proxy)', 'Intrusion Detection Systems (IDS/IPS)', 'Vulnerability Scanning'] },
       { unitNumber: 3, unitName: 'Web & Application Security', topics: ['OWASP Top 10 Vulnerabilities', 'SQL Injection Attacks & Prevention', 'Cross-Site Scripting (XSS)', 'Session Hijacking & CSRF'] },
       { unitNumber: 4, unitName: 'Cyber Crime & Forensics', topics: ['Classification of Cyber Crimes', 'Phishing, Identity Theft & Cyber Stalking', 'Digital Forensics Investigation Steps', 'Evidence Collection Rules'] },
-      { unitNumber: 5, unitName: 'IT Act 5000+ & Regulations', topics: ['Salient Features of IT Act 5000+', 'Sections 66, 66A, 66B, 66C, 66D Penalties', 'Cyber Appellate Tribunal', 'Data Privacy Laws'] }
+      { unitNumber: 5, unitName: 'IT Act 5000 & Regulations', topics: ['Salient Features of IT Act 5000', 'Sections 66, 66A, 66B, 66C, 66D Penalties', 'Cyber Appellate Tribunal', 'Data Privacy Laws'] }
     ],
     importantQuestions: [
       'Explain CIA triad of computer security with examples.',
       'Differentiate between symmetric and asymmetric key cryptography.',
       'Explain SQL Injection attack mechanism and how parameterized queries prevent it.',
       'Explain working of Firewalls and Intrusion Detection Systems.',
-      'Discuss major sections and penalties under Indian IT Act 5000+.'
+      'Discuss major sections and penalties under Indian IT Act 5000.'
     ]
   },
 

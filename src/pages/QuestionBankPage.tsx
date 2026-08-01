@@ -56,7 +56,7 @@ export const QuestionBankPage: React.FC<QuestionBankPageProps> = ({
   onSelectTopicForPractice
 }) => {
   
-  // Generate/memoize 5000+ questions database
+  // Generate/memoize 5000 questions database
   const allQuestions = useMemo(() => generateAggregatedQuestionBank(5000), []);
 
   // Filter States
@@ -231,7 +231,7 @@ export const QuestionBankPage: React.FC<QuestionBankPageProps> = ({
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-500/30 bg-cyan-950/60 text-cyan-300 text-xs font-mono mb-3">
               <Sparkles className="h-3.5 w-3.5 text-cyan-400 animate-pulse" />
-              <span>Universal Question Bank • 5000+ Curated Interview Questions</span>
+              <span>Universal Question Bank • 5000 Curated Interview Questions</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight font-mono">
               5,000+ Technical Interview Question Bank

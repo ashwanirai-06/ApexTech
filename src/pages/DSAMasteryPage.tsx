@@ -86,7 +86,7 @@ export const DSAMasteryPage: React.FC<DSAMasteryPageProps> = ({
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-500/30 bg-cyan-950/60 text-cyan-300 text-xs font-mono mb-3">
               <Sparkles className="h-3.5 w-3.5 text-cyan-400 animate-pulse" />
-              <span>5000+ Question Master Collection (LeetCode, HackerRank, Striver A2Z & GFG)</span>
+              <span>5000 Question Master Collection (LeetCode, HackerRank, Striver A2Z & GFG)</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight font-mono">
               DSA Practice Engine & Educator Masterclasses

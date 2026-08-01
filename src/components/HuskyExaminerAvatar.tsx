@@ -34,7 +34,7 @@ export const HuskyExaminerAvatar: React.FC<HuskyExaminerAvatarProps> = ({
     const interval = setInterval(() => {
       setBlink(true);
       setTimeout(() => setBlink(false), 200);
-    }, 2800 + Math.random() * 5000+);
+    }, 2800 + Math.random() * 5000);
     return () => clearInterval(interval);
   }, []);
 
