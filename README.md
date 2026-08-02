@@ -19,53 +19,49 @@ https://apextech-m1zn.onrender.com
 
 # 📖 Overview
 
-ApexTech is an AI-powered learning ecosystem designed to help developers prepare for technical interviews, improve coding skills, and track their learning progress.
+## 📖 Overview
 
-The platform combines structured DSA practice, AI interview simulations, personalized learning paths, technical resources, and performance analytics into one unified experience.
+ApexTech is an AI-powered learning and interview preparation platform designed to help developers improve coding skills, prepare for technical interviews, and track their learning journey.
 
+The platform provides structured DSA practice, AI-powered interview simulations, personalized learning paths, technical resources, and performance analytics in a unified developer ecosystem.
+
+ApexTech focuses on making interview preparation more structured, interactive, and personalized through AI assistance and data-driven learning insights.
 ---
 
-# ✨ Features
+## ✨ Features
 
-## 🔐 User Experience
+### 🔐 User Experience
 
-* 🔐 Secure User Authentication
-* 📊 Personalized Developer Dashboard
-* 👤 Profile Management
-* ⚙️ Custom Settings Management
+- Secure User Authentication
+- Personalized Developer Dashboard
+- Profile Management
+- Custom Learning Preferences
 
----
+### 💻 Learning & Practice
 
-## 💻 Learning & Practice
+- Technical Interview Question Bank
+- Curated DSA Practice Sheets
+- Domain-Based Learning Roadmaps
+- Company-Wise Interview Preparation
+- Topic and Difficulty Based Filtering
+- Technical Learning Resources
 
-* 📚 Technical Interview Question Bank
-* 🧩 Curated DSA Practice Sheets
-* 🛣️ Domain-Based Learning Roadmaps
-* 🏢 Company-Wise Interview Preparation
-* 📂 Topic-Based Learning
-* 🎯 Difficulty-Based Filtering
-* 🎥 Technical Learning Resources
+### 🤖 AI-Powered Features
 
----
+- AI Code Review System
+- AI Technical Interview Simulation
+- English & Hindi Voice Support
+- Educator Video Solutions
+- Official Problem Solutions
+- AI Learning Assistance
+- Personalized Recommendations
 
-## 🤖 AI-Powered Features
+### 📊 Analytics & Progress
 
-* 🧠 AI Code Review System
-* 🎤 AI Technical Interview Simulation
-* 🔊 English & Hindi Voice Support
-* 🎥 Educator Video Solutions
-* 📖 Official Problem Solutions
-* 💡 AI Learning Assistance
-* 🎯 Personalized Recommendations
-
----
-
-## 📊 Analytics & Progress
-
-* 📈 Performance Analytics
-* 🔍 Weak Topic Identification
-* 🚀 Learning Progress Tracking
-* 📊 Activity Monitoring
+- Performance Analytics
+- Weak Topic Identification
+- Learning Progress Tracking
+- Activity Monitoring
 
 ---
 
@@ -161,18 +157,18 @@ After the server starts, open the local development URL shown in your terminal.
 
 ---
 
-# 👥 Team
+## 👥 Team
 
-ApexTech was developed by a four-member team focusing on full-stack development, AI integration, user experience, technical content management, and project execution.
+ApexTech was developed by a four-member team focusing on full-stack development, AI integration, user experience, technical content management, testing, and project execution.
 
-| Name               | Role & Contribution                                                                    |
-| ------------------ | -------------------------------------------------------------------------------------- |
-| **Ashwani Rai**    | Project Lead, Full-Stack Development, AI Integration, Database Management & Deployment |
-| **Abhinav Gupta**  | UI Design, User Experience Improvements, Testing & Documentation                       |
-| **Aditya Gangwar** | Research, Technical Content Management & Question Bank Development                     |
-| **Abhishek Kumar** | Quality Assurance, Resource Management & Project Presentation                          |
+| Name | Role & Contribution |
+|------|---------------------|
+| Ashwani Rai | Project Lead responsible for full-stack development, AI integration, database management, system architecture, and deployment. |
+| Abhinav Gupta | Contributed to UI/UX design improvements, user experience optimization, testing, and documentation. |
+| Aditya Gangwar | Managed technical research, content organization, question bank development, and learning resources. |
+| Abhishek Kumar | Handled quality assurance, resource management, project coordination, and final presentation preparation. |
 
-The team utilized AI tools for research, debugging, and productivity enhancement while maintaining complete control over planning, design decisions, implementation, and project execution.
+The team used AI tools for research, debugging, and productivity improvement while maintaining complete ownership of planning, design decisions, implementation, testing, and deployment.
 
 ---
 
