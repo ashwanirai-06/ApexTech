@@ -12,6 +12,7 @@ import { VideoPlayerModal } from '../components/VideoPlayerModal';
 import { recordHistoryItem } from '../utils/historyService';
 import { getVerifiedVideoForQuestion, getExactEducatorVideoForQuestion } from '../utils/videoUtils';
 import { validateAndFormatSolution, hasOfficialSolution } from '../utils/solutionValidator';
+import { classifyQuestion } from '../utils/questionClassifier';
 import { CodePracticeWorkspace } from '../components/CodePracticeWorkspace';
 import { HtmlCssWorkspace } from '../components/HtmlCssWorkspace';
 import { SqlPlaygroundWorkspace } from '../components/SqlPlaygroundWorkspace';
@@ -987,21 +988,18 @@ export const QuestionBankPage: React.FC<QuestionBankPageProps> = ({
             {/* Dynamic Category-Based Practice Workspace Component */}
             <div id="code-practice-workspace">
               {(() => {
-                const cat = currentQuestion.category;
-                const tag = (currentQuestion.patternOrTag || '').toLowerCase();
-                const title = (currentQuestion.title || '').toLowerCase();
+                const classifiedCategory = classifyQuestion(currentQuestion);
 
-                // 1. HR Behavioral Workspace
-                if (cat === 'HR & Aptitude' && (tag.includes('hr') || tag.includes('behavioral') || title.includes('tell me') || title.includes('describe') || title.includes('why'))) {
+                if (classifiedCategory === 'HR') {
                   return (
                     <HrWorkspace
                       problemTitle={currentQuestion.title}
                       problemDescription={currentQuestion.description}
                       starAnswer={{
-                        situation: currentQuestion.hints?.[0] || 'During a major production feature deployment, our team faced tight timelines.',
-                        task: currentQuestion.hints?.[1] || 'I was tasked with leading system integration and refactoring backend routes.',
-                        action: currentQuestion.hints?.[2] || 'I structured clean API specifications, wrote unit tests, and coordinated deployment.',
-                        result: currentQuestion.inputExample || 'Delivered 100% on schedule with zero production regressions.'
+                        situation: currentQuestion.hints?.[0] || 'During a critical project milestone, our team faced tight timelines and complex dependencies.',
+                        task: currentQuestion.hints?.[1] || 'I was tasked with coordinating developer deliverables and removing technical blockers.',
+                        action: currentQuestion.hints?.[2] || 'I structured clear API contracts, automated unit tests, and facilitated daily syncs.',
+                        result: currentQuestion.inputExample || 'Delivered 100% on schedule with zero production regression bugs.'
                       }}
                       interviewerTips={currentQuestion.hints}
                       sampleAnswer={typeof currentQuestion.solutions === 'string' ? currentQuestion.solutions : currentQuestion.solutions?.cpp}
@@ -1009,8 +1007,7 @@ export const QuestionBankPage: React.FC<QuestionBankPageProps> = ({
                   );
                 }
 
-                // 2. Aptitude Workspace
-                if (cat === 'HR & Aptitude' || tag.includes('aptitude') || tag.includes('math') || tag.includes('logical') || tag.includes('quant') || title.includes('aptitude') || title.includes('reasoning')) {
+                if (classifiedCategory === 'Aptitude') {
                   return (
                     <AptitudeWorkspace
                       problemTitle={currentQuestion.title}
@@ -1022,19 +1019,7 @@ export const QuestionBankPage: React.FC<QuestionBankPageProps> = ({
                   );
                 }
 
-                // 3. System Design Workspace
-                if (cat === 'System Design' || tag.includes('system design') || tag.includes('architecture')) {
-                  return (
-                    <SystemDesignWorkspace
-                      problemTitle={currentQuestion.title}
-                      problemDescription={currentQuestion.description}
-                      explanation={typeof currentQuestion.solutions === 'string' ? currentQuestion.solutions : currentQuestion.solutions?.cpp}
-                    />
-                  );
-                }
-
-                // 4. HTML & CSS Live UI Preview Sandbox Workspace
-                if (tag.includes('html') || tag.includes('css') || tag.includes('flexbox') || tag.includes('grid') || title.includes('html') || title.includes('css')) {
+                if (classifiedCategory === 'HTML') {
                   const htmlSol = validateAndFormatSolution(
                     currentQuestion.solutions,
                     'HTML',
@@ -1044,6 +1029,19 @@ export const QuestionBankPage: React.FC<QuestionBankPageProps> = ({
                     currentQuestion.description
                   ).solutionText;
 
+                  return (
+                    <HtmlCssWorkspace
+                      mode="HTML"
+                      problemTitle={currentQuestion.title}
+                      problemDescription={currentQuestion.description}
+                      initialHtml={currentQuestion.inputExample && currentQuestion.inputExample.includes('<') ? currentQuestion.inputExample : undefined}
+                      solutionHtml={htmlSol}
+                      explanation={currentQuestion.hints?.join('\n')}
+                    />
+                  );
+                }
+
+                if (classifiedCategory === 'CSS') {
                   const cssSol = validateAndFormatSolution(
                     currentQuestion.solutions,
                     'CSS',
@@ -1055,18 +1053,73 @@ export const QuestionBankPage: React.FC<QuestionBankPageProps> = ({
 
                   return (
                     <HtmlCssWorkspace
+                      mode="CSS"
                       problemTitle={currentQuestion.title}
                       problemDescription={currentQuestion.description}
-                      initialHtml={currentQuestion.inputExample && currentQuestion.inputExample.includes('<') ? currentQuestion.inputExample : undefined}
-                      solutionHtml={htmlSol}
+                      initialCss={currentQuestion.inputExample && currentQuestion.inputExample.includes('{') ? currentQuestion.inputExample : undefined}
                       solutionCss={cssSol !== 'Official solution is currently unavailable for this problem.' ? cssSol : undefined}
                       explanation={currentQuestion.hints?.join('\n')}
                     />
                   );
                 }
 
-                // 5. DBMS / SQL Playground Workspace
-                if (tag.includes('sql') || title.includes('sql') || title.includes('query')) {
+                if (classifiedCategory === 'JavaScript') {
+                  const jsSol = validateAndFormatSolution(
+                    currentQuestion.solutions,
+                    'JavaScript',
+                    currentQuestion.title,
+                    currentQuestion.category,
+                    currentQuestion.patternOrTag,
+                    currentQuestion.description
+                  ).solutionText;
+
+                  return (
+                    <DevelopmentWorkspace
+                      mode="JavaScript"
+                      problemTitle={currentQuestion.title}
+                      problemDescription={currentQuestion.description}
+                      codeSnippets={{
+                        jsTs: jsSol
+                      }}
+                      explanation={currentQuestion.hints?.join('\n')}
+                    />
+                  );
+                }
+
+                if (classifiedCategory === 'React') {
+                  const reactSol = validateAndFormatSolution(
+                    currentQuestion.solutions,
+                    'React',
+                    currentQuestion.title,
+                    currentQuestion.category,
+                    currentQuestion.patternOrTag,
+                    currentQuestion.description
+                  ).solutionText;
+
+                  return (
+                    <DevelopmentWorkspace
+                      mode="React"
+                      problemTitle={currentQuestion.title}
+                      problemDescription={currentQuestion.description}
+                      codeSnippets={{
+                        reactNode: reactSol !== 'Official solution is currently unavailable for this problem.' ? reactSol : undefined
+                      }}
+                      explanation={currentQuestion.hints?.join('\n')}
+                    />
+                  );
+                }
+
+                if (classifiedCategory === 'SystemDesign') {
+                  return (
+                    <SystemDesignWorkspace
+                      problemTitle={currentQuestion.title}
+                      problemDescription={currentQuestion.description}
+                      explanation={typeof currentQuestion.solutions === 'string' ? currentQuestion.solutions : currentQuestion.solutions?.cpp}
+                    />
+                  );
+                }
+
+                if (classifiedCategory === 'Database') {
                   const sqlSol = validateAndFormatSolution(
                     currentQuestion.solutions,
                     'SQL',
@@ -1087,8 +1140,7 @@ export const QuestionBankPage: React.FC<QuestionBankPageProps> = ({
                   );
                 }
 
-                // 6. Core CS Subjects (OS, CN, OOPs, DBMS Theory) Workspace
-                if (cat === 'Core CS' || tag.includes('operating') || tag.includes('network') || tag.includes('oops') || tag.includes('dbms')) {
+                if (classifiedCategory === 'CoreCS') {
                   const coreSol = validateAndFormatSolution(
                     currentQuestion.solutions,
                     'CoreCS',
@@ -1109,40 +1161,7 @@ export const QuestionBankPage: React.FC<QuestionBankPageProps> = ({
                   );
                 }
 
-                // 7. Development Workspace
-                if (cat === 'Development' || cat === 'Frontend' || cat === 'Backend') {
-                  const jsSol = validateAndFormatSolution(
-                    currentQuestion.solutions,
-                    'JavaScript',
-                    currentQuestion.title,
-                    currentQuestion.category,
-                    currentQuestion.patternOrTag,
-                    currentQuestion.description
-                  ).solutionText;
-
-                  const reactSol = validateAndFormatSolution(
-                    currentQuestion.solutions,
-                    'React',
-                    currentQuestion.title,
-                    currentQuestion.category,
-                    currentQuestion.patternOrTag,
-                    currentQuestion.description
-                  ).solutionText;
-
-                  return (
-                    <DevelopmentWorkspace
-                      problemTitle={currentQuestion.title}
-                      problemDescription={currentQuestion.description}
-                      codeSnippets={{
-                        jsTs: jsSol,
-                        reactNode: reactSol !== 'Official solution is currently unavailable for this problem.' ? reactSol : jsSol
-                      }}
-                      explanation={currentQuestion.hints?.join('\n')}
-                    />
-                  );
-                }
-
-                // 8. Default DSA & Algorithmic Workspace (C++, Python, Java & Test Engine)
+                // Default DSA & Algorithmic Practice Workspace
                 return (
                   <CodePracticeWorkspace
                     problemTitle={currentQuestion.title}

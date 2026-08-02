@@ -145,7 +145,106 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
   return (
     <div className="space-y-12 max-w-7xl mx-auto pb-20 font-sans">
       
-      {/* 1. WELCOME SECTION WITH VECTOR ILLUSTRATION */}
+      {/* 0. DEDICATED WELCOME SECTION CARD (ABOVE HERO SECTION) */}
+      <motion.div
+        initial={{ opacity: 0, y: -15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        className={`relative overflow-hidden rounded-3xl border p-6 sm:p-8 shadow-2xl backdrop-blur-xl transition-all ${
+          isLight
+            ? 'bg-gradient-to-r from-slate-900 via-slate-900 to-cyan-950 border-slate-800 text-white'
+            : 'bg-gradient-to-r from-slate-950 via-slate-900 to-cyan-950/90 border-slate-800 text-white'
+        }`}
+      >
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+          
+          {/* LEFT SIDE (Cols 1-5): Welcome message, User name, Description, Action buttons */}
+          <div className="lg:col-span-5 space-y-4">
+            <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/40 bg-cyan-950/60 px-3.5 py-1 text-xs font-mono font-bold text-cyan-300">
+              <Sparkles className="h-4 w-4 text-cyan-400 animate-pulse" />
+              <span>Personalized SDE Preparation Portal</span>
+            </div>
+
+            <div>
+              <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight font-sans text-white">
+                {greetingText}
+              </h1>
+              <p className="mt-2 text-sm text-slate-300 leading-relaxed font-sans">
+                Track your learning journey, master top SDE interview patterns, and accelerate your placement preparation.
+              </p>
+            </div>
+
+            {/* Action Buttons: Resume learning & Continue practice */}
+            <div className="flex flex-wrap items-center gap-3 pt-2">
+              <button
+                onClick={() => setActiveTab('dsa')}
+                className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-cyan-500 text-slate-950 font-extrabold text-xs sm:text-sm hover:brightness-110 transition-all shadow-lg shadow-cyan-500/20 font-mono cursor-pointer"
+              >
+                <Play className="h-4 w-4 fill-slate-950" />
+                <span>Resume Learning</span>
+              </button>
+
+              <button
+                onClick={() => setActiveTab('questionbank')}
+                className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-slate-900 text-slate-200 border border-slate-700 font-bold text-xs sm:text-sm hover:bg-slate-800 transition-all font-mono cursor-pointer"
+              >
+                <Zap className="h-4 w-4 text-amber-400" />
+                <span>Continue Practice</span>
+              </button>
+            </div>
+          </div>
+
+          {/* CENTER (Cols 6-8): Top companies & Progress section */}
+          <div className="lg:col-span-4 space-y-4 border-t lg:border-t-0 lg:border-l border-slate-800/80 lg:pl-6 pt-4 lg:pt-0">
+            
+            {/* Top Company List */}
+            <div className="space-y-2">
+              <span className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider block">
+                🏢 Target Top Companies
+              </span>
+              <div className="flex items-center gap-1.5 flex-wrap">
+                {topCompanies.slice(0, 5).map((comp) => (
+                  <button
+                    key={comp.name}
+                    onClick={() => handleCompanyClick(comp.name)}
+                    className="px-2.5 py-1 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-800 text-xs font-mono font-bold text-slate-200 flex items-center gap-1 transition-all cursor-pointer"
+                  >
+                    <span>{comp.icon}</span>
+                    <span>{comp.name}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Quick Progress Section */}
+            <div className="space-y-2 pt-1">
+              <div className="flex items-center justify-between text-xs font-mono font-bold">
+                <span className="text-slate-400">Roadmap Completion</span>
+                <span className="text-emerald-400">{weeklyProgress}%</span>
+              </div>
+              <div className="w-full h-3 rounded-full bg-slate-950 border border-slate-800 overflow-hidden">
+                <div
+                  className="h-full rounded-full bg-gradient-to-r from-cyan-500 to-emerald-400 transition-all duration-500"
+                  style={{ width: `${Math.max(weeklyProgress, 5)}%` }}
+                />
+              </div>
+              <div className="flex items-center justify-between text-[11px] text-slate-400 font-mono">
+                <span>Questions Solved: {questionsSolved}</span>
+                <span>Accuracy: {accuracyScore}%</span>
+              </div>
+            </div>
+
+          </div>
+
+          {/* RIGHT SIDE (Cols 9-12): Developer illustration, Laptop illustration, Soft shadows */}
+          <div className="lg:col-span-3 flex justify-center lg:justify-end">
+            <StudentLaptopIllustration />
+          </div>
+
+        </div>
+      </motion.div>
+
+      {/* 1. HERO SECTION WITH VECTOR ILLUSTRATION */}
       <motion.div
         initial={{ opacity: 0, y: -15 }}
         animate={{ opacity: 1, y: 0 }}

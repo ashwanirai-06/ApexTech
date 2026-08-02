@@ -1,3 +1,5 @@
+import { classifyQuestion } from './questionClassifier';
+
 export interface SolutionValidationResult {
   isValid: boolean;
   solutionText: string;
@@ -42,13 +44,14 @@ export function detectProblemTechnology(
   patternOrTag: string = '',
   description: string = ''
 ): 'HTML' | 'CSS' | 'JavaScript' | 'React' | 'SQL' | 'Java' | 'C++' | 'Python' | 'DSA' {
-  const text = `${title} ${category} ${patternOrTag} ${description}`.toLowerCase();
+  const classified = classifyQuestion({ title, category, patternOrTag, description });
+  if (classified === 'HTML') return 'HTML';
+  if (classified === 'CSS') return 'CSS';
+  if (classified === 'React') return 'React';
+  if (classified === 'JavaScript') return 'JavaScript';
+  if (classified === 'Database') return 'SQL';
 
-  if (text.includes('html') || text.includes('semantic element')) return 'HTML';
-  if (text.includes('css') || text.includes('flexbox') || text.includes('grid') || text.includes('styling')) return 'CSS';
-  if (text.includes('react') || text.includes('jsx') || text.includes('usestate') || text.includes('useeffect')) return 'React';
-  if (text.includes('javascript') || text.includes('es6') || text.includes('closure') || text.includes('debounce')) return 'JavaScript';
-  if (text.includes('sql') || text.includes('select') || text.includes('join') || text.includes('query')) return 'SQL';
+  const text = `${title} ${category} ${patternOrTag} ${description}`.toLowerCase();
   if ((text.includes('java ') || text.includes('java/')) && !text.includes('javascript')) return 'Java';
   if (text.includes('c++') || text.includes('cpp')) return 'C++';
   if (text.includes('python')) return 'Python';
