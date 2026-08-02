@@ -1002,7 +1002,7 @@ export const QuestionBankPage: React.FC<QuestionBankPageProps> = ({
                         result: currentQuestion.inputExample || 'Delivered 100% on schedule with zero production regression bugs.'
                       }}
                       interviewerTips={currentQuestion.hints}
-                      sampleAnswer={typeof currentQuestion.solutions === 'string' ? currentQuestion.solutions : currentQuestion.solutions?.cpp}
+                      sampleAnswer={typeof currentQuestion.solutions === 'string' ? (currentQuestion.solutions as string) : undefined}
                     />
                   );
                 }

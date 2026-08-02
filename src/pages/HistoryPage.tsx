@@ -23,6 +23,7 @@ export const HistoryPage: React.FC = () => {
       clearHistoryItems();
       setHistoryItems([]);
       setSelectedItem(null);
+      setSearchQuery('');
     }
   };
 

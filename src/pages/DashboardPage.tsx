@@ -203,7 +203,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                 🏢 Target Top Companies
               </span>
               <div className="flex items-center gap-1.5 flex-wrap">
-                {topCompanies.slice(0, 5).map((comp) => (
+                {topCompanies.map((comp) => (
                   <button
                     key={comp.name}
                     onClick={() => handleCompanyClick(comp.name)}

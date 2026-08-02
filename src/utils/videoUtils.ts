@@ -4,6 +4,8 @@
  * Supports exact problem matching, English & Hindi videos, and smart YouTube fallback.
  */
 
+import { recordHistoryItem } from './historyService';
+
 export interface EducatorVideoInfo {
   title: string;
   educatorName: string;
@@ -36,6 +38,13 @@ export const getYouTubeSearchUrl = (topic: string, subjectCode?: string): string
 
 export const openTopicVideo = (topic: string, subjectCode?: string): void => {
   const url = getYouTubeSearchUrl(topic, subjectCode);
+  recordHistoryItem({
+    title: topic,
+    category: 'Video Tutorial',
+    actionType: 'video',
+    englishAnswer: `Opened video search tutorial for: ${topic}`,
+    hindiExplanation: `वीडियो ट्यूटोरियल खोला गया: ${topic}`
+  });
   window.open(url, '_blank', 'noopener,noreferrer');
 };
 

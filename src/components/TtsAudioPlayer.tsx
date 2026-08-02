@@ -43,7 +43,12 @@ export const TtsAudioPlayer: React.FC<TtsAudioPlayerProps> = ({
     return rawText
       .replace(/###/g, '')
       .replace(/\*\*/g, '')
-      .replace(/```[\s\S]*?```/g, 'Code snippet omitted for speech synthesis.')
+      .replace(/```[\s\S]*?```/g, 'Code snippet omitted for spoken explanation.')
+      .replace(/class Solution[\s\S]*?\{/g, 'Solution logic: ')
+      .replace(/vector<.*?>/g, 'array list')
+      .replace(/#include\s+<.*?>/g, '')
+      .replace(/std::/g, '')
+      .replace(/public:|private:|protected:/g, '')
       .replace(/`/g, '')
       .replace(/#/g, '')
       .replace(/- /g, '')

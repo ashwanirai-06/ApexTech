@@ -60,5 +60,6 @@ export function recordHistoryItem(item: Omit<HistoryItem, 'id' | 'timestamp'>) {
 
 export function clearHistoryItems() {
   localStorage.removeItem(STORAGE_KEY);
+  sessionStorage.removeItem(STORAGE_KEY);
   window.dispatchEvent(new Event('apextech_history_updated'));
 }

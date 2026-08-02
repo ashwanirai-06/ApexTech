@@ -160,6 +160,118 @@ div.container #nav ul.menu li.active a {
     };
   }
 
+  // Display Questions
+  if (lowerTitle.includes('display') || lowerTitle.includes('block') || lowerTitle.includes('inline')) {
+    return {
+      propertyExplanation: `The display CSS property specifies the inner and outer display types of an element, determining whether it renders as a block-level container, an inline element, or layout engines like flex, grid, or none.`,
+      syntax: `/* CSS Display Syntax */
+.element {
+  display: block | inline | inline-block | flex | grid | none | contents;
+}`,
+      example: `/* Inline-Block Horizontal Navigation Menu */
+.nav-item {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  margin-right: 0.5rem;
+  background: #1e293b;
+  border-radius: 6px;
+}`,
+      browserBehavior: `display: none completely removes the element from the accessibility tree and visual rendering without reserving space, unlike visibility: hidden. display: contents replaces the element with its children in the DOM box tree.`,
+      commonMistakes: [
+        `Setting width or height on an inline element (display: inline ignores width, height, and top/bottom margins).`,
+        `Confusing display: none with visibility: hidden (visibility: hidden hides the element visually but still reserves layout space).`,
+        `Not accounting for whitespace gaps between display: inline-block elements caused by HTML formatting.`
+      ]
+    };
+  }
+
+  // Overflow Questions
+  if (lowerTitle.includes('overflow') || lowerTitle.includes('scroll') || lowerTitle.includes('clip')) {
+    return {
+      propertyExplanation: `The overflow property dictates how content that exceeds its container bounds is handled along X and Y axes, controlling scrollbar visibility, clipping, and auto-scrolling containers.`,
+      syntax: `/* CSS Overflow Syntax */
+.scrollable-box {
+  overflow: visible | hidden | scroll | auto | clip;
+  overflow-x: auto;
+  overflow-y: scroll;
+}`,
+      example: `/* Custom Scrollable Card Body */
+.card-body {
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 1rem;
+  border: 1px solid #334155;
+  border-radius: 8px;
+}`,
+      browserBehavior: `overflow: auto dynamically displays scrollbars only when content exceeds container bounds, whereas overflow: scroll forces scrollbars to display regardless of overflow state. Setting overflow: hidden creates a new block formatting context (BFC).`,
+      commonMistakes: [
+        `Setting overflow: hidden on a container that houses absolute elements with negative offsets, causing unwanted clipping.`,
+        `Forgetting to specify max-height or height when attempting to make a container scrollable.`,
+        `Not styling custom scrollbars (-webkit-scrollbar / scrollbar-width) for modern dark mode interfaces.`
+      ]
+    };
+  }
+
+  // Margin & Padding Questions
+  if (lowerTitle.includes('margin') || lowerTitle.includes('padding')) {
+    return {
+      propertyExplanation: `Margin creates clear space OUTSIDE an element's border, while Padding creates clear space INSIDE an element's border between content and outer border.`,
+      syntax: `/* Margin & Padding Shorthand */
+.box {
+  margin: 10px 20px 10px 20px; /* Top Right Bottom Left */
+  padding: 1rem 2rem;           /* Vertical Horizontal */
+}`,
+      example: `/* Auto Margins for Horizontal Centering */
+.container {
+  width: 80%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2rem;
+}`,
+      browserBehavior: `Vertical margins of adjacent block elements collapse into a single margin (Margin Collapse). Margins on inline elements apply only horizontally (left and right), not vertically. Padding never collapses.`,
+      commonMistakes: [
+        `Trying to use margin: auto on an element without a specified width or max-width.`,
+        `Expecting padding to shrink when content overflows instead of expanding the total box size under content-box.`,
+        `Forgetting that negative margins move elements closer or overlap them, whereas negative padding is invalid.`
+      ]
+    };
+  }
+
+  // Animation & Transform Questions
+  if (lowerTitle.includes('animation') || lowerTitle.includes('transform') || lowerTitle.includes('transition') || lowerTitle.includes('keyframes')) {
+    return {
+      propertyExplanation: `CSS Animations & Transforms modify the coordinate space, scale, rotation, and state of DOM elements without triggering expensive layout reflows, using GPU-accelerated compositing.`,
+      syntax: `/* CSS Keyframe Animation Syntax */
+@keyframes pulseGlow {
+  0% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.8; }
+}
+
+.animated-btn {
+  animation: pulseGlow 2s infinite ease-in-out;
+  transform-origin: center;
+}`,
+      example: `/* GPU Accelerated Card Hover Transition */
+.interactive-card {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+  will-change: transform;
+}
+
+.interactive-card:hover {
+  transform: translateY(-6px) rotate(0.5deg);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+}`,
+      browserBehavior: `Properties like transform and opacity execute on the GPU compositor thread, bypassing Layout and Paint recalculations. This guarantees 60fps smooth animations compared to animating top, left, or margin.`,
+      commonMistakes: [
+        `Animating expensive layout properties like width, height, top, left, or margin-top instead of transform: translate() and scale().`,
+        `Forgetting to set will-change: transform on heavily animated elements for GPU hardware acceleration.`,
+        `Not respecting user prefers-reduced-motion media queries for web accessibility compliance.`
+      ]
+    };
+  }
+
   // Positioning & Z-Index
   if (lowerTitle.includes('position') || lowerTitle.includes('z-index') || lowerTitle.includes('sticky') || lowerTitle.includes('absolute')) {
     return {
