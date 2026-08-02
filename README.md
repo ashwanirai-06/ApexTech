@@ -6,12 +6,11 @@
 
 ### AI-Powered Learning and Interview Preparation Platform
 
-A modern platform for DSA practice, AI-powered interviews, technical learning, roadmaps, and developer growth analytics.
+An intelligent developer growth ecosystem that combines DSA practice, AI-powered interview simulations, personalized learning paths, technical resources, and progress tracking to help developers prepare smarter for technical careers.
 
 ### 🌐 Live Demo
 
-🚀 **Try ApexTech:**
-https://apextech-m1zn.onrender.com
+🚀 **Try ApexTech:** https://apextech-m1zn.onrender.com
 
 </div>
 
@@ -19,49 +18,101 @@ https://apextech-m1zn.onrender.com
 
 # 📖 Overview
 
-## 📖 Overview
-
 ApexTech is an AI-powered learning and interview preparation platform designed to help developers improve coding skills, prepare for technical interviews, and track their learning journey.
 
-The platform provides structured DSA practice, AI-powered interview simulations, personalized learning paths, technical resources, and performance analytics in a unified developer ecosystem.
+The platform provides structured DSA practice, AI-assisted interview preparation, domain-based learning roadmaps, technical resources, and performance insights in a unified developer ecosystem.
 
-ApexTech focuses on making interview preparation more structured, interactive, and personalized through AI assistance and data-driven learning insights.
+ApexTech combines artificial intelligence, structured learning, and progress tracking to create a more personalized and interactive interview preparation experience.
+
 ---
 
-## ✨ Features
+# 🎯 Problem & Solution
 
-### 🔐 User Experience
+## Problem
 
-- Secure User Authentication
-- Personalized Developer Dashboard
-- Profile Management
-- Custom Learning Preferences
+Many developers struggle during technical interview preparation because of:
 
-### 💻 Learning & Practice
+* Lack of structured learning paths
+* Difficulty finding relevant practice questions
+* Limited personalized feedback
+* No proper progress tracking
+* Difficulty identifying weak areas
 
-- Technical Interview Question Bank
-- Curated DSA Practice Sheets
-- Domain-Based Learning Roadmaps
-- Company-Wise Interview Preparation
-- Topic and Difficulty Based Filtering
-- Technical Learning Resources
+## Solution
 
-### 🤖 AI-Powered Features
+ApexTech provides a complete developer preparation ecosystem with:
 
-- AI Code Review System
-- AI Technical Interview Simulation
-- English & Hindi Voice Support
-- Educator Video Solutions
-- Official Problem Solutions
-- AI Learning Assistance
-- Personalized Recommendations
+* Structured DSA and technical practice
+* AI-powered interview simulations
+* Domain-wise learning roadmaps
+* Progress tracking
+* AI-assisted learning support
+* Technical resources in one platform
 
-### 📊 Analytics & Progress
+---
 
-- Performance Analytics
-- Weak Topic Identification
-- Learning Progress Tracking
-- Activity Monitoring
+# ✨ Features
+
+## 🔐 User Experience
+
+* Secure User Authentication
+* Personalized Developer Dashboard
+* Profile Management
+* Custom Learning Preferences
+
+---
+
+## 💻 Learning & Practice
+
+* Technical Interview Question Bank
+* Curated DSA Practice Sheets
+* Domain-Based Learning Roadmaps
+* Company-Wise Interview Preparation
+* Topic and Difficulty Based Filtering
+* Technical Learning Resources
+
+---
+
+## 🤖 AI-Powered Features
+
+Powered by Google Gemini API:
+
+* AI Code Review Assistance
+* AI Technical Interview Simulation
+* English & Hindi Voice Support
+* Educator Video Solutions
+* Official Problem Solutions
+* AI Learning Assistance
+
+---
+
+## 📊 Analytics & Progress
+
+* Learning Progress Tracking
+* Performance Insights
+* Weak Topic Identification
+* Activity Monitoring
+
+---
+
+# 🏗️ Application Architecture
+
+```
+                         User
+                          |
+                          |
+              React + TypeScript Frontend
+                          |
+                          |
+               Node.js + Express Backend
+                          |
+          --------------------------------
+          |                              |
+   Google Gemini API              SQL.js Database
+          |
+          |
+ AI Interview + Learning Assistance
+```
 
 ---
 
@@ -85,7 +136,7 @@ ApexTech focuses on making interview preparation more structured, interactive, a
 
 # 📂 Project Structure
 
-```text
+```
 ApexTech
 │
 ├── assets/
@@ -122,6 +173,7 @@ Make sure you have installed:
 
 * Node.js
 * npm
+* Git
 
 ---
 
@@ -157,16 +209,29 @@ After the server starts, open the local development URL shown in your terminal.
 
 ---
 
-## 👥 Team
+# 🚀 Future Enhancements
+
+Planned improvements:
+
+* Advanced AI recommendation engine
+* Real-time mock interview system
+* Cloud database migration
+* Mobile application support
+* Community learning features
+* AI-based career guidance system
+
+---
+
+# 👥 Team
 
 ApexTech was developed by a four-member team focusing on full-stack development, AI integration, user experience, technical content management, testing, and project execution.
 
-| Name | Role & Contribution |
-|------|---------------------|
-| Ashwani Rai | Project Lead responsible for full-stack development, AI integration, database management, system architecture, and deployment. |
-| Abhinav Gupta | Contributed to UI/UX design improvements, user experience optimization, testing, and documentation. |
-| Aditya Gangwar | Managed technical research, content organization, question bank development, and learning resources. |
-| Abhishek Kumar | Handled quality assurance, resource management, project coordination, and final presentation preparation. |
+| Name               | Role & Contribution                                                                                                                                    |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Ashwani Rai**    | Project Lead responsible for full-stack development, AI integration, database management, system architecture, feature implementation, and deployment. |
+| **Abhinav Gupta**  | Contributed to UI/UX improvements, user experience optimization, testing, and documentation.                                                           |
+| **Aditya Gangwar** | Managed technical research, question bank development, content organization, and learning resources.                                                   |
+| **Abhishek Kumar** | Handled quality assurance, resource management, project coordination, and final presentation preparation.                                              |
 
 The team used AI tools for research, debugging, and productivity improvement while maintaining complete ownership of planning, design decisions, implementation, testing, and deployment.
 
@@ -190,7 +255,6 @@ Your support helps us continue improving the platform.
 
 <div align="center">
 
-### 🚀 Learn. Practice. Improve.
-
+## 🚀 Learn. Practice. Improve.
 
 </div>
