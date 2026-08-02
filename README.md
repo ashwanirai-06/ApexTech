@@ -190,6 +190,7 @@ Your support helps us continue improving the platform.
 
 <div align="center">
 
-### 🚀 Learn. Practice. Improve. Crack Interviews.
+### 🚀 Learn. Practice. Improve.
+
 
 </div>
