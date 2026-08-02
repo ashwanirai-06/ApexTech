@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Play, Pause, Volume2, RotateCcw, Sparkles, CheckCircle2, Globe, AlertCircle } from 'lucide-react';
+import { recordHistoryItem } from '../utils/historyService';
 
 export interface TtsAudioPlayerProps {
   englishText: string;
@@ -116,6 +117,16 @@ export const TtsAudioPlayer: React.FC<TtsAudioPlayerProps> = ({
 
       utteranceRef.current = utterance;
       setSelectedLanguage(langToPlay);
+      
+      // Record user listening to audio history item
+      recordHistoryItem({
+        title: title || 'Audio Solution Response',
+        category: 'Audio Readout',
+        actionType: 'audio',
+        englishAnswer: englishText,
+        hindiExplanation: hindiText
+      });
+
       window.speechSynthesis.speak(utterance);
       setIsPlaying(true);
       setIsPaused(false);

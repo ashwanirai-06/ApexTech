@@ -1,70 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { History, Search, Trash2, Calendar, Volume2, Sparkles, Filter, ExternalLink } from 'lucide-react';
 import { TtsAudioPlayer } from '../components/TtsAudioPlayer';
-
-export interface HistoryItem {
-  id: string;
-  title: string;
-  category: string;
-  timestamp: string;
-  score?: number;
-  englishAnswer: string;
-  hindiExplanation: string;
-}
+import { getHistoryItems, clearHistoryItems, HistoryItem } from '../utils/historyService';
 
 export const HistoryPage: React.FC = () => {
   const [historyItems, setHistoryItems] = useState<HistoryItem[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedItem, setSelectedItem] = useState<HistoryItem | null>(null);
 
+  const reloadHistory = () => {
+    setHistoryItems(getHistoryItems());
+  };
+
   useEffect(() => {
-    // Load from localStorage or seed initial realistic history
-    const saved = localStorage.getItem('apextech_history_log');
-    if (saved) {
-      try {
-        setHistoryItems(JSON.parse(saved));
-      } catch (e) {
-        // Fallback
-      }
-    } else {
-      const initialHistory: HistoryItem[] = [
-        {
-          id: 'hist-1',
-          title: 'Design a Distributed Key-Value Store (DynamoDB Architecture)',
-          category: 'System Design',
-          timestamp: 'Today, 10:45 AM',
-          score: 92,
-          englishAnswer: '### Professional Engineering Solution\n1. Use consistent hashing for partitioning keys across nodes.\n2. Implement vector clocks for eventual consistency and multi-master replication.',
-          hindiExplanation: '### 🎯 हिन्दी सरलीकृत विवरण\n1. डेटा को नोड्स में बाँटने के लिए consistent hashing का उपयोग करें।\n2. डेटा सिंक्रोनाइज़ेशन के लिए Vector Clocks का उपयोग करें।'
-        },
-        {
-          id: 'hist-2',
-          title: 'LRU Cache Implementation using Doubly Linked List & Hash Map',
-          category: 'DSA',
-          timestamp: 'Yesterday, 04:20 PM',
-          score: 88,
-          englishAnswer: '### Professional Engineering Solution\nMaintain a HashMap for O(1) lookup and a Doubly Linked List to maintain access ordering. Move accessed nodes to the head.',
-          hindiExplanation: '### 🎯 हिन्दी सरलीकृत विवरण\nHash Map से O(1) टाइम में डेटा खोजें और Doubly Linked List की मदद से सबसे पुरानी नोड (LRU) को डिलीट करें।'
-        },
-        {
-          id: 'hist-3',
-          title: 'Operating System Virtual Memory & Page Fault Handling',
-          category: 'Core Subjects',
-          timestamp: '2 days ago',
-          score: 95,
-          englishAnswer: '### Professional Engineering Solution\nVirtual memory uses paging to map logical addresses to physical RAM frames. When a page is absent, the OS triggers a Page Fault interrupt.',
-          hindiExplanation: '### 🎯 हिन्दी सरलीकृत विवरण\nवर्चुअल मेमोरी (Virtual Memory) RAM की कमी को पूरा करने के लिए सेकेंडरी स्टोरेज (Disk) का उपयोग करती है।'
-        }
-      ];
-      setHistoryItems(initialHistory);
-      localStorage.setItem('apextech_history_log', JSON.stringify(initialHistory));
-    }
+    reloadHistory();
+    window.addEventListener('apextech_history_updated', reloadHistory);
+    return () => window.removeEventListener('apextech_history_updated', reloadHistory);
   }, []);
 
   const handleClearHistory = () => {
     if (confirm('Clear all local interview history logs?')) {
+      clearHistoryItems();
       setHistoryItems([]);
-      localStorage.removeItem('apextech_history_log');
       setSelectedItem(null);
     }
   };

@@ -139,40 +139,49 @@ export const DomainRoadmapsPage: React.FC<DomainRoadmapsPageProps> = ({ onStartV
         ))}
       </div>
 
-      {/* Domain Selection Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {/* Domain Selection Grid - 2 Cards per row on Desktop/Tablet, 1 on Mobile */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
         {filteredDomains.map(domain => {
           const isSelected = domain.id === selectedDomain.id;
+          const bullets = domain.description.split('. ').filter(Boolean);
+
           return (
             <button
               key={domain.id}
               onClick={() => setSelectedDomainId(domain.id)}
-              className={`p-5 rounded-2xl border text-left transition-all relative overflow-hidden flex flex-col justify-between ${
+              className={`p-6 sm:p-8 rounded-2xl border text-left transition-all relative overflow-hidden flex flex-col justify-between space-y-5 ${
                 isSelected
-                  ? 'border-cyan-500 bg-slate-900 shadow-xl shadow-cyan-500/10 ring-1 ring-cyan-500/50'
-                  : 'border-slate-800 bg-slate-900/60 hover:border-slate-700 hover:bg-slate-900'
+                  ? 'border-cyan-500 bg-slate-900 shadow-2xl shadow-cyan-500/15 ring-2 ring-cyan-500/50'
+                  : 'border-slate-800 bg-slate-900/70 hover:border-slate-700 hover:bg-slate-900'
               }`}
             >
-              <div>
-                <div className="flex items-center justify-between mb-3">
-                  <div className="p-2.5 rounded-xl border border-slate-800 bg-slate-950">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="p-3 rounded-2xl border border-slate-800 bg-slate-950 shadow-md">
                     {getDomainIcon(domain.iconName)}
                   </div>
-                  <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-full border border-slate-700 bg-slate-800 text-slate-300">
+                  <span className="text-xs font-mono px-3 py-1 rounded-full border border-slate-700 bg-slate-800 text-slate-300 font-semibold">
                     {domain.category}
                   </span>
                 </div>
-                <h3 className="text-base font-bold text-white font-mono">{domain.domainName}</h3>
-                <p className="mt-1.5 text-xs text-slate-400 line-clamp-2 leading-relaxed">
-                  {domain.description}
-                </p>
+
+                <div>
+                  <h3 className="text-lg sm:text-xl font-bold text-white font-mono">{domain.domainName}</h3>
+                  <ul className="mt-3 text-xs sm:text-sm text-slate-300 space-y-2 list-disc list-inside leading-relaxed">
+                    {bullets.map((bullet, idx) => (
+                      <li key={idx} className="text-slate-300">
+                        {bullet.endsWith('.') ? bullet : `${bullet}.`}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
 
-              <div className="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs">
-                <span className="text-emerald-400 font-mono font-medium">{domain.averageSalaryPackage}</span>
-                <span className="text-cyan-400 flex items-center gap-1 font-semibold">
-                  <span>Explore</span>
-                  <ArrowRight className="h-3.5 w-3.5" />
+              <div className="pt-4 border-t border-slate-800 flex items-center justify-between text-xs sm:text-sm">
+                <span className="text-emerald-400 font-mono font-bold">{domain.averageSalaryPackage}</span>
+                <span className="text-cyan-400 flex items-center gap-1.5 font-bold">
+                  <span>Explore Roadmap</span>
+                  <ArrowRight className="h-4 w-4" />
                 </span>
               </div>
             </button>

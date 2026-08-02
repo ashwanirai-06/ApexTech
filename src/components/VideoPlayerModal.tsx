@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { X, Youtube, ExternalLink, Sparkles, CheckCircle2, FileCode2, Code, Languages, Search, Play } from 'lucide-react';
 import { EducatorVideoInfo, isValidEducatorVideo, getVideoSolutionForQuestion } from '../utils/videoUtils';
+import { recordHistoryItem } from '../utils/historyService';
 
 interface VideoPlayerModalProps {
   isOpen: boolean;
@@ -29,6 +30,18 @@ export const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
   useEffect(() => {
     setSelectedLanguage(initialLanguage);
   }, [initialLanguage, videoTitle]);
+
+  useEffect(() => {
+    if (isOpen && videoTitle) {
+      recordHistoryItem({
+        title: videoTitle,
+        category: questionObject?.category || 'Video Solution',
+        actionType: 'video',
+        englishAnswer: `Watched ${selectedLanguage} Video Solution for ${videoTitle}`,
+        hindiExplanation: `${videoTitle} का वीडियो समाधान देखा।`
+      });
+    }
+  }, [isOpen, videoTitle]);
 
   useEffect(() => {
     const targetQ = questionObject || videoTitle;

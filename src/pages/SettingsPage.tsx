@@ -154,56 +154,18 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({ demoMode, setDemoMod
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 font-bold text-sm text-cyan-400">
               <SlidersHorizontal className="h-5 w-5 text-cyan-400" />
-              <span>Sidebar Customization Engine (Live Controls)</span>
+              <span>Sidebar Display Controls</span>
             </div>
             <div className="flex items-center gap-2 text-xs text-slate-400">
               <Sparkles className="h-3.5 w-3.5 text-amber-400" />
-              <span>Independent Sidebar Styling</span>
+              <span>Adaptive App Theme Syncing</span>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-            {/* Sidebar Background Style */}
-            <div className="space-y-2">
-              <label className="text-slate-300 font-bold block">1. Sidebar Background Color</label>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                {SIDEBAR_BG_OPTIONS.map((opt) => (
-                  <button
-                    key={opt.id}
-                    onClick={() => setBgStyle(opt.id)}
-                    className={`p-2.5 rounded-xl border text-left flex items-center justify-between transition-all cursor-pointer ${opt.bgClass} ${
-                      bgStyle === opt.id ? 'border-cyan-500 ring-2 ring-cyan-500/30 font-bold text-white' : 'border-slate-800 text-slate-400 hover:border-slate-700'
-                    }`}
-                  >
-                    <span>{opt.label}</span>
-                    {bgStyle === opt.id && <Check className="h-3.5 w-3.5 text-cyan-400" />}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Sidebar Accent Color */}
-            <div className="space-y-2">
-              <label className="text-slate-300 font-bold block">2. Sidebar Accent & Active Indicator</label>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                {ACCENT_OPTIONS.map((opt) => (
-                  <button
-                    key={opt.id}
-                    onClick={() => setAccentColor(opt.id)}
-                    className={`p-2.5 rounded-xl border text-left flex items-center gap-2 transition-all cursor-pointer bg-slate-900 ${
-                      accentColor === opt.id ? 'border-cyan-500 ring-2 ring-cyan-500/30 font-bold text-white' : 'border-slate-800 text-slate-400 hover:border-slate-700'
-                    }`}
-                  >
-                    <span className={`h-3 w-3 rounded-full ${opt.colorClass}`} />
-                    <span className="truncate">{opt.label}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
             {/* Sidebar Width */}
             <div className="space-y-2">
-              <label className="text-slate-300 font-bold block">3. Sidebar Width Preset</label>
+              <label className="text-slate-300 font-bold block">1. Sidebar Width Preset</label>
               <div className="flex items-center gap-2">
                 {[
                   { id: 'compact', label: 'Compact (56)' },
@@ -225,7 +187,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({ demoMode, setDemoMod
 
             {/* Collapse & Mode Toggle */}
             <div className="space-y-2">
-              <label className="text-slate-300 font-bold block">4. Mode & Display State</label>
+              <label className="text-slate-300 font-bold block">2. Mode & Display State</label>
               <div className="flex items-center gap-2">
                 <button
                   onClick={toggleCollapse}

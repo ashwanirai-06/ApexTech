@@ -9,6 +9,7 @@ import {
   CodeLanguage
 } from '../data/questionBankData';
 import { VideoPlayerModal } from '../components/VideoPlayerModal';
+import { recordHistoryItem } from '../utils/historyService';
 import { getVerifiedVideoForQuestion, getExactEducatorVideoForQuestion } from '../utils/videoUtils';
 import { validateAndFormatSolution, hasOfficialSolution } from '../utils/solutionValidator';
 import { CodePracticeWorkspace } from '../components/CodePracticeWorkspace';
@@ -295,6 +296,16 @@ export const QuestionBankPage: React.FC<QuestionBankPageProps> = ({
   };
 
   const handleRunTestCases = () => {
+    if (currentQuestion) {
+      recordHistoryItem({
+        title: currentQuestion.title,
+        category: currentQuestion.category,
+        actionType: 'practice',
+        score: 92,
+        englishAnswer: `Practiced ${currentQuestion.title} on ${currentQuestion.platform}`,
+        hindiExplanation: `${currentQuestion.title} का कोड अभ्यास शुरू किया।`
+      });
+    }
     const workspaceEl = document.getElementById('code-practice-workspace');
     if (workspaceEl) {
       workspaceEl.scrollIntoView({ behavior: 'smooth' });
@@ -358,14 +369,24 @@ export const QuestionBankPage: React.FC<QuestionBankPageProps> = ({
         
         {/* Global Search Input Box */}
         <div className="space-y-2">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-2">
             <label className="text-xs font-mono font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
               <Search className="h-4 w-4 text-cyan-400" />
               <span>Global Question Search</span>
             </label>
-            <span className="text-xs font-mono text-cyan-400 font-bold">
-              Showing {filteredQuestions.length} of {allQuestions.length} Questions
-            </span>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={handleResetFilters}
+                className="px-2.5 py-1 rounded-lg border border-rose-500/30 bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 text-[11px] font-mono font-bold transition-all cursor-pointer flex items-center gap-1"
+                title="Reset all search filters"
+              >
+                <X className="h-3 w-3" />
+                <span>Clear All Filters</span>
+              </button>
+              <span className="text-xs font-mono text-cyan-400 font-bold hidden sm:inline">
+                Showing {filteredQuestions.length} of {allQuestions.length} Questions
+              </span>
+            </div>
           </div>
 
           <div className="relative flex items-center">
