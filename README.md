@@ -69,20 +69,6 @@ The platform combines structured DSA practice, AI interview simulations, persona
 
 ---
 
-# 🤖 AI Integration
-
-ApexTech integrates Google Gemini AI to provide intelligent learning and interview assistance.
-
-Features include:
-
-* AI-powered interview assistance
-* Code analysis and explanations
-* Personalized learning recommendations
-* Smart feedback generation
-* Performance-based insights
-
----
-
 # 🛠️ Tech Stack
 
 | Category        | Technology              |
