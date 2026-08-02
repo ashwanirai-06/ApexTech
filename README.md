@@ -6,7 +6,7 @@
 
 ### AI-Powered Learning and Interview Preparation Platform
 
-A modern platform for DSA, AI-powered interview preparation, technical learning, roadmaps, and performance analytics.
+A modern platform for DSA practice, AI-powered interviews, technical learning, roadmaps, and developer growth analytics.
 
 ### 🌐 Live Demo
 
@@ -18,9 +18,9 @@ A modern platform for DSA, AI-powered interview preparation, technical learning,
 
 # 📖 Overview
 
-ApexTech is a centralized platform designed to simplify technical learning, DSA practice, interview preparation, and career development.
+ApexTech is an AI-powered learning ecosystem designed to help developers prepare for technical interviews, improve coding skills, and track their learning progress.
 
-It combines AI-powered tools, structured learning roadmaps, performance analytics, and technical resources into a single ecosystem to help developers improve their skills and prepare for real-world opportunities.
+The platform combines structured DSA practice, AI interview simulations, personalized learning paths, technical resources, and performance analytics into one unified experience.
 
 ---
 
@@ -28,44 +28,44 @@ It combines AI-powered tools, structured learning roadmaps, performance analytic
 
 ## 🔐 User Experience
 
-- 🔐 User Authentication
-
+- 🔐 Secure User Authentication
 - 📊 Personalized Developer Dashboard
+- 👤 Profile Management
+- ⚙️ Custom Settings Management
 
-- 👤 Developer Profile Management
-
-- ⚙️ Settings Management
-
+---
 
 ## 💻 Learning & Practice
 
 - 📚 Technical Interview Question Bank
-
-- 🧩 Curated DSA Sheets
-
+- 🧩 Curated DSA Practice Sheets
 - 🛣️ Domain-Based Learning Roadmaps
-
+- 🏢 Company-Wise Interview Preparation
+- 📂 Topic-Based Learning
+- 🎯 Difficulty-Based Filtering
 - 🎥 Technical Learning Resources
 
+---
 
 ## 🤖 AI-Powered Features
 
-- 🧠 AI Code Reviewer
+- 🧠 AI Code Review System
+- 🎤 AI Technical Interview Simulation
+- 🔊 English & Hindi Voice Support
+- 🎥 Educator Video Solutions
+- 📖 Official Problem Solutions
+- 💡 AI Learning Assistance
+- 🎯 Personalized Recommendations
 
-- 🎤 AI Technical Interviewer
+---
 
-- 💡 Smart Learning Assistance
-
-- 🎯 Personalized Learning Recommendations
-
-
-## 📊 Analytics & Growth
+## 📊 Analytics & Progress
 
 - 📈 Performance Analytics
-
-- 🔍 Weak Topic Analysis
-
+- 🔍 Weak Topic Identification
 - 🚀 Learning Progress Tracking
+- 📊 Activity Monitoring
+
 ---
 
 # 🛠️ Tech Stack
@@ -77,6 +77,10 @@ It combines AI-powered tools, structured learning roadmaps, performance analytic
 | Backend | Node.js, Express.js |
 | AI Integration | Google Gemini API |
 | Database | SQL.js |
+| Charts | Recharts |
+| Animation | Motion |
+| Icons | Lucide React |
+| Authentication | bcryptjs |
 | Deployment | Render |
 | Version Control | Git & GitHub |
 
@@ -90,107 +94,68 @@ ApexTech
 ├── assets/
 ├── src/
 │   ├── components/
-│   ├── pages/
+│   ├── context/
 │   ├── data/
 │   ├── db/
+│   ├── pages/
+│   ├── types/
 │   ├── utils/
 │   ├── App.tsx
+│   ├── index.css
 │   └── main.tsx
 │
 ├── .env.example
+├── .gitignore
+├── index.html
+├── metadata.json
 ├── package.json
 ├── server.ts
-├── vite.config.ts
-└── README.md
-```
+├── tsconfig.json
+└── vite.config.ts
 
----
+🚀 Getting Started
+Prerequisites
 
-# 🚀 Getting Started
+Make sure you have installed:
 
-## Prerequisites
-
-- Node.js
-- npm
-
-## Installation
-
-```bash
+Node.js
+npm
+Installation
 git clone https://github.com/ashwanirai-06/ApexTech.git
 
 cd ApexTech
 
 npm install
-```
+Environment Variables
 
-## Environment Variables
+Create a .env.local file in the root directory:
 
-Create a `.env.local` file and add your Gemini API key.
-
-```env
 GEMINI_API_KEY=YOUR_GEMINI_API_KEY
-```
-
-## Run the Project
-
-Start the development server:
-
-```bash
+Run the Project
 npm run dev
-```
 
-After the server starts, open the local URL displayed in your terminal.
+After the server starts, open the local development URL shown in your terminal.
 
----
+👥 Team
 
-# 🤖 AI Integration
+ApexTech was developed by a four-member team focusing on full-stack development, AI integration, user experience, and technical content management.
 
-This project utilizes Google Gemini to provide intelligent features, including:
+Name	Role & Contribution
+Ashwani Rai	Project Lead, Full-Stack Development, AI Integration, Database Management & Deployment
+Abhinav Gupta	UI Design, User Experience Improvements, Testing & Documentation
+Aditya Gangwar	Research, Technical Content Management & Question Bank Development
+Abhishek Kumar	Quality Assurance, Resource Management & Project Presentation
 
-* AI-powered code review
-* AI-based viva sessions
-* Personalized recommendations
-* Smart learning assistance
-* Intelligent performance analysis
+The team utilized AI tools for research, debugging, and productivity enhancement while maintaining complete control over planning, design decisions, implementation, and project execution.
 
----
+🤝 Contributions
 
-# 👨‍💻 Team Members
-
-| Name           | Role                                                             |
-| -------------- | ---------------------------------------------------------------- |
-| Ashwani Rai    | Project Lead, Full-Stack Development, AI Integration, Deployment |
-| Abhinav Gupta  | UI Design, Testing, Documentation                                |
-| Aditya Gangwar | Research, Content Management, Question Bank Management           |
-| Abhishek Kumar | Quality Assurance, Resource Management, Presentation             |
-
----
-
-# 👥 Team Contributions
-
-Built by a four-member team as a collaborative full-stack project, ApexTech combines web development, AI integration, and modern UI design.
-
-### Team & Roles
-
-- **Ashwani Rai** – Project Lead | Full-Stack Development, AI Integration, and Deployment
-- **Abhinav Gupta** – UI Design, Testing, and Documentation
-- **Aditya Gangwar** – Research, Content Management, and Question Bank Development
-- **Abhishek Kumar** – Quality Assurance, Resource Management, and Presentation
-
-Throughout the development process, we leveraged AI tools to accelerate research, debugging, documentation, and productivity while every core decision, from architecture to deployment, was driven by our own planning and execution.
-
-This project taught us how to balance AI-assisted productivity with hands-on problem-solving, a skill that has become increasingly important in today's technology landscape.
-
----
-
-# 🤝 Contributions
-
-Contributions, suggestions, and feedback are always welcome.
+Contributions, suggestions, and feedback are welcome.
 
 Feel free to fork the repository and submit a pull request.
 
----
+⭐ Support
 
-# ⭐ Support
+If you find ApexTech useful, consider giving the repository a star ⭐
 
-If you found this project helpful, consider giving it a star.
+Your support helps us continue improving the platform.
