@@ -9,7 +9,9 @@ export const HistoryPage: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState<HistoryItem | null>(null);
 
   const reloadHistory = () => {
-    setHistoryItems(getHistoryItems());
+    const items = getHistoryItems();
+    console.log('[HistoryPage] UI re-render / reloadHistory called, count:', items.length);
+    setHistoryItems(items);
   };
 
   useEffect(() => {
@@ -19,12 +21,12 @@ export const HistoryPage: React.FC = () => {
   }, []);
 
   const handleClearHistory = () => {
-    if (confirm('Clear all local interview history logs?')) {
-      clearHistoryItems();
-      setHistoryItems([]);
-      setSelectedItem(null);
-      setSearchQuery('');
-    }
+    console.log('[HistoryPage] Clear History button clicked');
+    clearHistoryItems();
+    setHistoryItems([]);
+    setSelectedItem(null);
+    setSearchQuery('');
+    console.log('[HistoryPage] State reset complete. UI re-rendered.');
   };
 
   const filteredItems = historyItems.filter((item) =>
@@ -39,7 +41,7 @@ export const HistoryPage: React.FC = () => {
         <div>
           <h1 className="text-xl font-bold text-white flex items-center gap-2">
             <History className="h-5 w-5 text-cyan-400" />
-            <span>Practice & AI Response History</span>
+            <span>History ({historyItems.length})</span>
           </h1>
           <p className="text-xs text-slate-400 mt-1">
             Revisit previously solved questions, listen to audio summaries, and track your interview evolution.
@@ -103,7 +105,9 @@ export const HistoryPage: React.FC = () => {
         {filteredItems.length === 0 && (
           <div className="col-span-full p-8 rounded-2xl border border-slate-800 bg-slate-950 text-center space-y-2">
             <History className="h-8 w-8 text-slate-600 mx-auto" />
-            <p className="text-xs text-slate-400">No practice history matching your filter.</p>
+            <p className="text-xs text-slate-400">
+              {historyItems.length === 0 ? 'No history available.' : 'No practice history matching your filter.'}
+            </p>
           </div>
         )}
       </div>

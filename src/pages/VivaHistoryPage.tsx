@@ -12,12 +12,10 @@ export const VivaHistoryPage: React.FC<{ userId: string }> = ({ userId }) => {
   }, [userId]);
 
   const handleClearHistory = async () => {
-    if (window.confirm('Are you sure you want to clear all past viva transcripts and history?')) {
-      setClearing(true);
-      await DBService.clearVivaHistory(userId);
-      setHistory([]);
-      setClearing(false);
-    }
+    setClearing(true);
+    await DBService.clearVivaHistory(userId);
+    setHistory([]);
+    setClearing(false);
   };
 
   return (
