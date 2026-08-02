@@ -10,7 +10,8 @@ A modern platform for DSA practice, AI-powered interviews, technical learning, r
 
 ### 🌐 Live Demo
 
-🚀 **Try ApexTech:** https://apextech-m1zn.onrender.com
+🚀 **Try ApexTech:**
+https://apextech-m1zn.onrender.com
 
 </div>
 
@@ -28,61 +29,75 @@ The platform combines structured DSA practice, AI interview simulations, persona
 
 ## 🔐 User Experience
 
-- 🔐 Secure User Authentication
-- 📊 Personalized Developer Dashboard
-- 👤 Profile Management
-- ⚙️ Custom Settings Management
+* 🔐 Secure User Authentication
+* 📊 Personalized Developer Dashboard
+* 👤 Profile Management
+* ⚙️ Custom Settings Management
 
 ---
 
 ## 💻 Learning & Practice
 
-- 📚 Technical Interview Question Bank
-- 🧩 Curated DSA Practice Sheets
-- 🛣️ Domain-Based Learning Roadmaps
-- 🏢 Company-Wise Interview Preparation
-- 📂 Topic-Based Learning
-- 🎯 Difficulty-Based Filtering
-- 🎥 Technical Learning Resources
+* 📚 Technical Interview Question Bank
+* 🧩 Curated DSA Practice Sheets
+* 🛣️ Domain-Based Learning Roadmaps
+* 🏢 Company-Wise Interview Preparation
+* 📂 Topic-Based Learning
+* 🎯 Difficulty-Based Filtering
+* 🎥 Technical Learning Resources
 
 ---
 
 ## 🤖 AI-Powered Features
 
-- 🧠 AI Code Review System
-- 🎤 AI Technical Interview Simulation
-- 🔊 English & Hindi Voice Support
-- 🎥 Educator Video Solutions
-- 📖 Official Problem Solutions
-- 💡 AI Learning Assistance
-- 🎯 Personalized Recommendations
+* 🧠 AI Code Review System
+* 🎤 AI Technical Interview Simulation
+* 🔊 English & Hindi Voice Support
+* 🎥 Educator Video Solutions
+* 📖 Official Problem Solutions
+* 💡 AI Learning Assistance
+* 🎯 Personalized Recommendations
 
 ---
 
 ## 📊 Analytics & Progress
 
-- 📈 Performance Analytics
-- 🔍 Weak Topic Identification
-- 🚀 Learning Progress Tracking
-- 📊 Activity Monitoring
+* 📈 Performance Analytics
+* 🔍 Weak Topic Identification
+* 🚀 Learning Progress Tracking
+* 📊 Activity Monitoring
+
+---
+
+# 🤖 AI Integration
+
+ApexTech integrates Google Gemini AI to provide intelligent learning and interview assistance.
+
+Features include:
+
+* AI-powered interview assistance
+* Code analysis and explanations
+* Personalized learning recommendations
+* Smart feedback generation
+* Performance-based insights
 
 ---
 
 # 🛠️ Tech Stack
 
-| Category | Technology |
-|----------|------------|
-| Frontend | React, TypeScript, Vite |
-| Styling | Tailwind CSS |
-| Backend | Node.js, Express.js |
-| AI Integration | Google Gemini API |
-| Database | SQL.js |
-| Charts | Recharts |
-| Animation | Motion |
-| Icons | Lucide React |
-| Authentication | bcryptjs |
-| Deployment | Render |
-| Version Control | Git & GitHub |
+| Category        | Technology              |
+| --------------- | ----------------------- |
+| Frontend        | React, TypeScript, Vite |
+| Styling         | Tailwind CSS            |
+| Backend         | Node.js, Express.js     |
+| AI Integration  | Google Gemini API       |
+| Database        | SQL.js                  |
+| Charts          | Recharts                |
+| Animation       | Motion                  |
+| Icons           | Lucide React            |
+| Authentication  | bcryptjs                |
+| Deployment      | Render                  |
+| Version Control | Git & GitHub            |
 
 ---
 
@@ -92,6 +107,7 @@ The platform combines structured DSA practice, AI interview simulations, persona
 ApexTech
 │
 ├── assets/
+│
 ├── src/
 │   ├── components/
 │   ├── context/
@@ -112,50 +128,86 @@ ApexTech
 ├── server.ts
 ├── tsconfig.json
 └── vite.config.ts
+```
 
-🚀 Getting Started
-Prerequisites
+---
+
+# 🚀 Getting Started
+
+## Prerequisites
 
 Make sure you have installed:
 
-Node.js
-npm
-Installation
+* Node.js
+* npm
+
+---
+
+## Installation
+
+```bash
 git clone https://github.com/ashwanirai-06/ApexTech.git
 
 cd ApexTech
 
 npm install
-Environment Variables
+```
 
-Create a .env.local file in the root directory:
+---
 
+## Environment Variables
+
+Create a `.env.local` file in the root directory:
+
+```env
 GEMINI_API_KEY=YOUR_GEMINI_API_KEY
-Run the Project
+```
+
+---
+
+## Run the Project
+
+```bash
 npm run dev
+```
 
 After the server starts, open the local development URL shown in your terminal.
 
-👥 Team
+---
 
-ApexTech was developed by a four-member team focusing on full-stack development, AI integration, user experience, and technical content management.
+# 👥 Team
 
-Name	Role & Contribution
-Ashwani Rai	Project Lead, Full-Stack Development, AI Integration, Database Management & Deployment
-Abhinav Gupta	UI Design, User Experience Improvements, Testing & Documentation
-Aditya Gangwar	Research, Technical Content Management & Question Bank Development
-Abhishek Kumar	Quality Assurance, Resource Management & Project Presentation
+ApexTech was developed by a four-member team focusing on full-stack development, AI integration, user experience, technical content management, and project execution.
+
+| Name               | Role & Contribution                                                                    |
+| ------------------ | -------------------------------------------------------------------------------------- |
+| **Ashwani Rai**    | Project Lead, Full-Stack Development, AI Integration, Database Management & Deployment |
+| **Abhinav Gupta**  | UI Design, User Experience Improvements, Testing & Documentation                       |
+| **Aditya Gangwar** | Research, Technical Content Management & Question Bank Development                     |
+| **Abhishek Kumar** | Quality Assurance, Resource Management & Project Presentation                          |
 
 The team utilized AI tools for research, debugging, and productivity enhancement while maintaining complete control over planning, design decisions, implementation, and project execution.
 
-🤝 Contributions
+---
+
+# 🤝 Contributions
 
 Contributions, suggestions, and feedback are welcome.
 
 Feel free to fork the repository and submit a pull request.
 
-⭐ Support
+---
+
+# ⭐ Support
 
 If you find ApexTech useful, consider giving the repository a star ⭐
 
 Your support helps us continue improving the platform.
+
+---
+
+<div align="center">
+
+### 🚀 Learn. Practice. Improve. Crack Interviews.
+
+</div>
