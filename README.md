@@ -95,27 +95,6 @@ Powered by Google Gemini API:
 
 ---
 
-# 🏗️ Application Architecture
-
-```
-                         User
-                          |
-                          |
-              React + TypeScript Frontend
-                          |
-                          |
-               Node.js + Express Backend
-                          |
-          --------------------------------
-          |                              |
-   Google Gemini API              SQL.js Database
-          |
-          |
- AI Interview + Learning Assistance
-```
-
----
-
 # 🛠️ Tech Stack
 
 | Category        | Technology              |
